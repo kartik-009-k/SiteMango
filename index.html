@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiteMango</title>
+
+<style>
+:root {
+  --accent: #9cff2e;
+  --bg: #0d1117;
+  --panel: #161b22;
+  --text: #e6edf3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Subtle Grid Background */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10%;
+}
+
+h1 {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.typing {
+  font-size: 1.5rem;
+  border-right: 2px solid var(--accent);
+  width: fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Control Panel */
+.panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--panel);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(156,255,46,0.2);
+  width: 220px;
+}
+
+.panel p {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.status {
+  color: var(--accent);
+}
+
+/* Button */
+.btn {
+  margin-top: 30px;
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: black;
+  box-shadow: 0 0 15px var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+  <p>Server Status: <span class="status">ONLINE</span></p>
+  <p>Performance: <span class="status">OPTIMIZED</span></p>
+  <p>Build Mode: <span class="status">ACTIVE</span></p>
+</div>
+
+<div class="hero">
+  <h1>Initializing SiteMango...</h1>
+  <div class="typing" id="typing"></div>
+  <button class="btn">Launch Your Project</button>
+</div>
+
+<script>
+const textArray = [
+  "We build fast.",
+  "We build clean.",
+  "We build to convert.",
+  "Welcome to the Control Panel."
+];
+
+let index = 0;
+let charIndex = 0;
+const typingElement = document.getElementById("typing");
+
+function type() {
+  if (charIndex < textArray[index].length) {
+    typingElement.textContent += textArray[index].charAt(charIndex);
+    charIndex++;
+    setTimeout(type, 60);
+  } else {
+    setTimeout(erase, 1500);
+  }
+}
+
+function erase() {
+  if (charIndex > 0) {
+    typingElement.textContent = textArray[index].substring(0, charIndex - 1);
+    charIndex--;
+    setTimeout(erase, 40);
+  } else {
+    index = (index + 1) % textArray.length;
+    setTimeout(type, 400);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  type();
+});
+</script>
+
+</body>
+  </html>
