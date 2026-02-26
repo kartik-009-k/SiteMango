@@ -8,8 +8,11 @@
 <style>
 :root {
   --accent: #9cff2e;
-  --bg: #0d1117;
-  --panel: #161b22;
+  --bg: #0b0f14;
+  --layer1: #0f141b;
+  --layer2: #121821;
+  --layer3: #151c26;
+  --layer4: #18202b;
   --text: #e6edf3;
 }
 
@@ -17,16 +20,38 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-  scroll-behavior: smooth;
+  font-family: 'Courier New', monospace;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+  overflow-x: hidden;
 }
 
-/* Subtle Grid Background */
+/* Neon Scroll Progress */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: var(--accent);
+  box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent);
+  z-index: 200;
+}
+
+/* Sticky Header */
+header {
+  position: fixed;
+  top: 10px;
+  left: 8%;
+  font-size: 1.2rem;
+  color: var(--accent);
+  z-index: 150;
+}
+
+/* Background Grid Parallax */
 body::before {
   content: "";
   position: fixed;
@@ -35,38 +60,211 @@ body::before {
   background-image:
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-size: 50px 50px;
   z-index: -1;
+  transform: translateY(0);
 }
 
-/* NAV */
-nav {
-  position: fixed;
-  width: 100%;
-  padding: 15px 10%;
-  background: rgba(13,17,23,0.9);
-  display: flex;
-  justify-content: space-between;
-  backdrop-filter: blur(10px);
-}
-
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 0.9rem;
-}
-
-nav a:hover {
-  color: var(--accent);
-}
-
-/* HERO */
-.hero {
+/* Layer Sections */
+.section {
+  position: sticky;
+  top: 0;
   height: 100vh;
+  padding: 120px 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: transform 0.5s ease;
+}
+
+.layer1 { background: var(--layer1); }
+.layer2 { background: var(--layer2); }
+.layer3 { background: var(--layer3); }
+.layer4 { background: var(--layer4); }
+
+h1 {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--accent);
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: rgba(255,255,255,0.03);
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1 1 250px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: 0.4s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(156,255,46,0.25);
+}
+
+/* Pricing */
+.price {
+  font-size: 1.4rem;
+  margin-top: 10px;
+}
+
+.old {
+  text-decoration: line-through;
+  opacity: 0.4;
+  margin-right: 8px;
+}
+
+/* Console */
+.console {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  min-height: 80px;
+}
+
+/* Form */
+form {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+input, textarea {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.04);
+  border: none;
+  color: var(--text);
+  border-radius: 4px;
+}
+
+textarea {
+  height: 100px;
+  resize: none;
+}
+
+.btn {
+  padding: 10px;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: black;
+}
+</style>
+</head>
+
+<body>
+
+<div id="progress"></div>
+<header>SiteMango // Control Interface</header>
+
+<div class="section layer1">
+  <h1>Initializing SiteMango...</h1>
+  <div class="console" id="console"></div>
+</div>
+
+<div class="section layer2">
+  <h2>Why Choose Us</h2>
+  <div class="cards">
+    <div class="card">Performance Optimized Builds</div>
+    <div class="card">Conversion Driven Strategy</div>
+    <div class="card">Future-Ready Architecture</div>
+  </div>
+</div>
+
+<div class="section layer3">
+  <h2>Pricing (INR)</h2>
+  <div class="cards">
+    <div class="card">
+      Static Website
+      <div class="price"><span class="old">₹3000</span> ₹2500</div>
+    </div>
+    <div class="card">
+      Static + Forms
+      <div class="price"><span class="old">₹3500</span> ₹3000</div>
+    </div>
+    <div class="card">
+      Advanced Backend Systems
+      <div class="price">Higher Packages</div>
+    </div>
+  </div>
+</div>
+
+<div class="section layer4">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Describe your project..." required></textarea>
+    <button class="btn">Send Message</button>
+  </form>
+</div>
+
+<script>
+// Scroll Progress
+window.addEventListener("scroll", () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (scrollTop / scrollHeight) * 100;
+  document.getElementById("progress").style.width = scrolled + "%";
+
+  // Parallax grid
+  document.body.style.setProperty("--grid-shift", scrollTop * 0.2 + "px");
+});
+
+// Section Scaling
+const sections = document.querySelectorAll(".section");
+window.addEventListener("scroll", () => {
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    const scale = 1 - Math.abs(rect.top) / window.innerHeight * 0.1;
+    section.style.transform = `scale(${scale})`;
+  });
+});
+
+// Console Log Animation
+const lines = [
+  "Boot sequence initiated...",
+  "Loading modules...",
+  "Optimizing performance...",
+  "System status: READY.",
+  "Awaiting deployment..."
+];
+
+let i = 0;
+const consoleEl = document.getElementById("console");
+
+function typeLine() {
+  if (i < lines.length) {
+    consoleEl.innerHTML += lines[i] + "<br>";
+    i++;
+    setTimeout(typeLine, 800);
+  }
+}
+
+typeLine();
+</script>
+
+</body>
+</html>  justify-content: center;
   padding: 0 10%;
 }
 
