@@ -8,11 +8,8 @@
 <style>
 :root{
   --accent:#9cff2e;
-  --bg:#06080a;
-  --l1:#0b1114;
-  --l2:#0f1518;
-  --l3:#131a1e;
-  --l4:#161f24;
+  --bg:#070a0d;
+  --section:#0f1418;
   --text:#e8f0f2;
 }
 
@@ -20,179 +17,143 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:"Courier New",monospace;
+  font-family:"Courier New", monospace;
+}
+
+html{
   scroll-behavior:smooth;
 }
 
-html,body{
-  height:100%;
+body{
   background:var(--bg);
   color:var(--text);
+  line-height:1.7;
+  letter-spacing:.3px;
   overflow-x:hidden;
-  scroll-snap-type:y mandatory;
 }
 
-/* Neon Progress Bar */
+/* Neon top progress */
 #progress{
   position:fixed;
-  top:0;
-  left:0;
-  height:4px;
-  width:0%;
+  top:0;left:0;
+  height:3px;width:0%;
   background:var(--accent);
-  box-shadow:0 0 20px var(--accent);
+  box-shadow:0 0 15px var(--accent);
   z-index:1000;
-}
-
-/* Side Dots Navigation */
-.nav-dots{
-  position:fixed;
-  right:25px;
-  top:50%;
-  transform:translateY(-50%);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  z-index:999;
-}
-
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.2);
-  cursor:pointer;
-  transition:.3s;
-}
-
-.dot.active{
-  background:var(--accent);
-  box-shadow:0 0 12px var(--accent);
 }
 
 /* Header */
 header{
   position:fixed;
-  top:16px;
+  top:20px;
   left:8%;
-  color:var(--accent);
   font-size:1.2rem;
+  color:var(--accent);
   z-index:999;
 }
 
 /* Sections */
-.section{
-  min-height:150vh;
-  padding:120px 8%;
+section{
+  min-height:100vh;
+  padding:160px 10% 120px;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  align-items:flex-start;
-  scroll-snap-align:start;
-  transition:transform .6s ease, filter .6s ease;
+  opacity:0;
+  transform:translateY(60px);
+  transition:all .8s ease;
 }
 
-.layer1{background:var(--l1);}
-.layer2{background:var(--l2);}
-.layer3{background:var(--l3);}
-.layer4{background:var(--l4);}
+section.visible{
+  opacity:1;
+  transform:translateY(0);
+}
 
 h1{
-  font-size:2.6rem;
+  font-size:2.8rem;
+  margin-bottom:25px;
   color:var(--accent);
-  margin-bottom:20px;
 }
 
 p{
   max-width:700px;
-  line-height:1.6;
+  margin-bottom:25px;
   opacity:.85;
-  margin-bottom:20px;
 }
 
+/* Hero typing */
 .typing{
-  font-size:1.2rem;
+  font-size:1.3rem;
   border-right:2px solid var(--accent);
   white-space:nowrap;
   overflow:hidden;
   width:fit-content;
 }
 
-/* Glass Cards */
+/* Glass cards */
 .cards{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+  margin-top:40px;
 }
 
 .card{
-  backdrop-filter:blur(10px);
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  padding:20px;
+  padding:30px;
   border-radius:14px;
-  flex:1 1 250px;
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.08);
   transition:.3s;
 }
 
 .card:hover{
   transform:translateY(-8px);
-  box-shadow:0 0 30px rgba(156,255,46,0.4);
+  box-shadow:0 0 35px rgba(156,255,46,.35);
 }
 
-/* Counter */
+/* Counters */
 .counter{
-  font-size:1.8rem;
+  font-size:2rem;
   color:var(--accent);
-  margin-top:10px;
+  margin-top:12px;
 }
 
-/* Graph */
+/* Chart */
 canvas{
-  margin-top:20px;
-  background:rgba(0,0,0,0.3);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:10px;
+  margin-top:40px;
+  border-radius:12px;
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.12);
 }
 
-/* Cursor Glow */
-.cursor{
-  position:fixed;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:var(--accent);
-  pointer-events:none;
-  opacity:.4;
-  transform:translate(-50%,-50%);
-  mix-blend-mode:screen;
-  z-index:2000;
-}
-
-/* Form */
+/* Contact */
 form{
-  max-width:400px;
+  max-width:480px;
   display:flex;
   flex-direction:column;
+  gap:18px;
+  margin-top:30px;
 }
 
 input,textarea{
-  margin-bottom:12px;
-  padding:10px;
-  background:rgba(255,255,255,0.06);
+  padding:14px;
+  border-radius:8px;
   border:none;
+  background:rgba(255,255,255,.06);
   color:var(--text);
-  border-radius:6px;
 }
 
-textarea{height:100px;resize:none;}
+textarea{height:130px;resize:none;}
 
 button{
-  padding:10px;
+  padding:14px;
+  border-radius:8px;
   border:2px solid var(--accent);
   background:transparent;
   color:var(--accent);
   cursor:pointer;
+  transition:.3s;
 }
 
 button:hover{
@@ -205,30 +166,24 @@ button:hover{
 <body>
 
 <div id="progress"></div>
-<div class="cursor" id="cursor"></div>
 <header>SiteMango</header>
 
-<div class="nav-dots">
-  <div class="dot active"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-</div>
-
-<section class="section layer1">
+<!-- HERO -->
+<section>
   <h1>SiteMango</h1>
   <div class="typing" id="typing"></div>
   <p>
-    We engineer clean, performance-driven websites that convert visitors into clients.
-    Affordable builds without compromising quality.
+    We build clean, performance-driven websites designed to convert.
+    No inflated agency pricing. No bloated code. Just intelligent execution.
   </p>
 </section>
 
-<section class="section layer2">
+<!-- IMPACT -->
+<section>
   <h1>Impact & Growth</h1>
   <p>
-    A website is not decoration. It is infrastructure.
-    Speed, structure, and UI clarity directly influence trust and revenue.
+    A website is infrastructure for trust and revenue. Speed, clarity,
+    and UX structure directly influence user confidence and conversions.
   </p>
   <div class="cards">
     <div class="card">
@@ -246,18 +201,21 @@ button:hover{
   </div>
 </section>
 
-<section class="section layer3">
+<!-- AFFORDABILITY -->
+<section>
   <h1>Affordability Comparison</h1>
   <p>
-    Typical agencies charge inflated prices. We remove overhead and deliver smarter builds.
+    Typical builds cost significantly more due to overhead and inefficiencies.
+    We deliver similar or better performance at lean startup pricing.
   </p>
-  <canvas id="priceChart" width="600" height="300"></canvas>
+  <canvas id="priceChart" width="700" height="350"></canvas>
 </section>
 
-<section class="section layer4">
+<!-- CONTACT -->
+<section>
   <h1>Contact</h1>
   <p>
-    Tell us your vision. We’ll respond with a clean strategy and transparent pricing.
+    Tell us your vision. We’ll respond with a practical roadmap and transparent pricing.
   </p>
   <form onsubmit="event.preventDefault(); alert('Demo submission');">
     <input type="text" placeholder="Your Name" required>
@@ -268,54 +226,40 @@ button:hover{
 </section>
 
 <script>
-// Scroll Progress + Section Blur
-const sections=document.querySelectorAll(".section");
-const dots=document.querySelectorAll(".dot");
+// Smooth reveal
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
 
+// Scroll progress
 window.addEventListener("scroll",()=>{
   const st=document.documentElement.scrollTop;
   const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
   document.getElementById("progress").style.width=(st/sh*100)+"%";
-
-  sections.forEach((sec,i)=>{
-    const rect=sec.getBoundingClientRect();
-    const visible=Math.abs(rect.top)<window.innerHeight/2;
-    sec.style.filter=visible?"blur(0px)":"blur(2px)";
-    dots[i].classList.toggle("active",visible);
-  });
 });
 
-// Dot navigation
-dots.forEach((dot,i)=>{
-  dot.addEventListener("click",()=>{
-    sections[i].scrollIntoView({behavior:"smooth"});
-  });
-});
-
-// Typing Animation
+// Typing animation
 const texts=["We build fast.","We build clean.","We build to convert.","Affordable. Scalable. Powerful."];
 let i=0,j=0;
 const el=document.getElementById("typing");
-function type(){ if(j<texts[i].length){ el.textContent+=texts[i][j++]; setTimeout(type,60);} else setTimeout(erase,1500);}
-function erase(){ if(j>0){ el.textContent=texts[i].substring(0,--j); setTimeout(erase,40);} else{ i=(i+1)%texts.length; setTimeout(type,400);}}
+function type(){if(j<texts[i].length){el.textContent+=texts[i][j++];setTimeout(type,60);}else setTimeout(erase,1500);}
+function erase(){if(j>0){el.textContent=texts[i].substring(0,--j);setTimeout(erase,40);}else{i=(i+1)%texts.length;setTimeout(type,400);}}
 type();
-
-// Cursor Glow
-document.addEventListener("mousemove",e=>{
-  const c=document.getElementById("cursor");
-  c.style.left=e.clientX+"px";
-  c.style.top=e.clientY+"px";
-});
 
 // Counters
 document.querySelectorAll(".counter").forEach(counter=>{
   let target=+counter.dataset.target;
   let count=0;
-  let step=target/100;
   function update(){
-    if(count<target){count+=step;counter.textContent=Math.floor(count);requestAnimationFrame(update);}
+    count+=target/100;
+    if(count<target){counter.textContent=Math.floor(count);requestAnimationFrame(update);}
     else counter.textContent=target;
-  } update();
+  }update();
 });
 
 // Graph
@@ -324,18 +268,18 @@ const ctx=canvas.getContext("2d");
 const our=[2500,3000];
 const market=[4500,5200];
 function draw(){
-  ctx.clearRect(0,0,600,300);
+  ctx.clearRect(0,0,700,350);
   for(let i=0;i<2;i++){
-    let x=150+i*200;
-    let scale=0.05;
+    let x=200+i*250;
+    let scale=0.06;
     ctx.fillStyle="#9cff2e";
-    ctx.fillRect(x,300-our[i]*scale,60,our[i]*scale);
+    ctx.fillRect(x,350-our[i]*scale,70,our[i]*scale);
     ctx.fillStyle="#ff4d4d";
-    ctx.fillRect(x+80,300-market[i]*scale,60,market[i]*scale);
+    ctx.fillRect(x+100,350-market[i]*scale,70,market[i]*scale);
   }
 }
 draw();
 </script>
 
 </body>
-  </html>
+</html>
