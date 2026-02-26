@@ -121,6 +121,11 @@ p{
 
 /* Chart */
 canvas{
+  <p style="margin-top:20px; opacity:.7;">
+On average, SiteMango builds are 
+<strong id="avgPercent"></strong>% more affordable 
+than typical small agency pricing.
+</p>
   margin-top:40px;
   border-radius:12px;
   background:rgba(0,0,0,.4);
@@ -267,8 +272,22 @@ const canvas=document.getElementById("priceChart");
 const ctx=canvas.getContext("2d");
 const our=[2500,3000];
 const market=[4500,5200];
+const percentages = our.map((price, i) => {
+  return Math.round((1 - price / market[i]) * 100);
+  const avg = Math.round(
+  percentages.reduce((a,b)=>a+b,0) / percentages.length
+);
+
+document.getElementById("avgPercent").textContent = avg;
+});
 function draw(){
   ctx.clearRect(0,0,700,350);
+  ctx.lineWidth = 1;
+ctx.strokeStyle = "rgba(255,255,255,0.1)";
+ctx.beginPath();
+ctx.moveTo(0, 350);
+ctx.lineTo(700, 350);
+ctx.stroke();
   for(let i=0;i<2;i++){
     let x=200+i*250;
     let scale=0.06;
@@ -276,6 +295,9 @@ function draw(){
     ctx.fillRect(x,350-our[i]*scale,70,our[i]*scale);
     ctx.fillStyle="#ff4d4d";
     ctx.fillRect(x+100,350-market[i]*scale,70,market[i]*scale);
+    ctx.fillStyle = "#9cff2e";
+ctx.font = "16px Courier New";
+ctx.fillText("-" + percentages[i] + "%", x, 350 - market[i] * scale - 15); 
   }
 }
 draw();
