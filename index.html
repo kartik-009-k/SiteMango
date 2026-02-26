@@ -17,13 +17,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Courier New', monospace;
+  font-family: 'Segoe UI', sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
 }
 
 /* Subtle Grid Background */
@@ -32,58 +32,58 @@ body::before {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   z-index: -1;
 }
 
-/* Hero Section */
+/* NAV */
+nav {
+  position: fixed;
+  width: 100%;
+  padding: 15px 10%;
+  background: rgba(13,17,23,0.9);
+  display: flex;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 0.9rem;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+/* HERO */
 .hero {
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 10%;
+  padding: 0 10%;
 }
 
-h1 {
+.hero h1 {
   font-size: 3rem;
   color: var(--accent);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .typing {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   border-right: 2px solid var(--accent);
-  width: fit-content;
   white-space: nowrap;
   overflow: hidden;
+  width: fit-content;
 }
 
-/* Control Panel */
-.panel {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: var(--panel);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(156,255,46,0.2);
-  width: 220px;
-}
-
-.panel p {
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-}
-
-.status {
-  color: var(--accent);
-}
-
-/* Button */
 .btn {
   margin-top: 30px;
   padding: 12px 24px;
@@ -97,31 +97,142 @@ h1 {
 .btn:hover {
   background: var(--accent);
   color: black;
-  box-shadow: 0 0 15px var(--accent);
+  box-shadow: 0 0 20px var(--accent);
+}
+
+/* SECTIONS */
+section {
+  padding: 100px 10%;
+  min-height: 100vh;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--accent);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--panel);
+  padding: 25px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(156,255,46,0.2);
+}
+
+/* FORM */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+input, textarea {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  background: var(--panel);
+  color: var(--text);
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.8rem;
+  opacity: 0.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="panel">
-  <p>Server Status: <span class="status">ONLINE</span></p>
-  <p>Performance: <span class="status">OPTIMIZED</span></p>
-  <p>Build Mode: <span class="status">ACTIVE</span></p>
-</div>
+<nav>
+  <div><strong>SiteMango</strong></div>
+  <div>
+    <a href="#why">Why Us</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
 
-<div class="hero">
+<section class="hero">
   <h1>Initializing SiteMango...</h1>
   <div class="typing" id="typing"></div>
-  <button class="btn">Launch Your Project</button>
-</div>
+  <a href="#contact"><button class="btn">Launch Your Project</button></a>
+</section>
+
+<section id="why">
+  <div class="section-title">Why Choose Us</div>
+  <div class="cards">
+    <div class="card">
+      <h3>Performance First</h3>
+      <p>Optimized builds focused on speed and clean architecture.</p>
+    </div>
+    <div class="card">
+      <h3>Conversion Focused</h3>
+      <p>We design with business growth and measurable impact in mind.</p>
+    </div>
+    <div class="card">
+      <h3>Scalable Solutions</h3>
+      <p>From landing pages to full platforms — built to evolve.</p>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-title">Our Services</div>
+  <div class="cards">
+    <div class="card">
+      <h3>Website Development</h3>
+      <p>Modern responsive websites for startups and businesses.</p>
+    </div>
+    <div class="card">
+      <h3>E-Commerce Solutions</h3>
+      <p>Secure and scalable online store development.</p>
+    </div>
+    <div class="card">
+      <h3>Maintenance & Optimization</h3>
+      <p>Continuous improvements to keep your site competitive.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-title">Contact Us</div>
+  <form>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Tell us about your project..." required></textarea>
+    <button type="submit" class="btn">Send Message</button>
+  </form>
+</section>
+
+<footer>
+  © 2026 SiteMango. All rights reserved.
+</footer>
 
 <script>
 const textArray = [
   "We build fast.",
   "We build clean.",
   "We build to convert.",
-  "Welcome to the Control Panel."
+  "Your growth starts here."
 ];
 
 let index = 0;
@@ -149,10 +260,8 @@ function erase() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  type();
-});
+document.addEventListener("DOMContentLoaded", type);
 </script>
 
 </body>
-  </html>
+</html>
