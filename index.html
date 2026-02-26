@@ -1,548 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SiteMango — Control Interface</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiteMango</title>
+
 <style>
 :root{
   --accent:#9cff2e;
-  --bg:#07090b;
-  --l1:#0c1114;
+  --bg:#06080a;
+  --l1:#0b1114;
   --l2:#0f1518;
-  --l3:#121819;
-  --l4:#151c1e;
+  --l3:#131a1e;
+  --l4:#161f24;
   --text:#e8f0f2;
-  --muted: rgba(232,240,242,0.6);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family: "Courier New", monospace;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
 }
 
-/* neon progress */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Courier New",monospace;
+  scroll-behavior:smooth;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  scroll-snap-type:y mandatory;
+}
+
+/* Neon Progress Bar */
 #progress{
-  position:fixed;top:0;left:0;height:4px;width:0;
-  background:linear-gradient(90deg,var(--accent), #62ff7a);
-  box-shadow:0 0 12px var(--accent),0 0 24px rgba(156,255,46,0.08);
+  position:fixed;
+  top:0;
+  left:0;
+  height:4px;
+  width:0%;
+  background:var(--accent);
+  box-shadow:0 0 20px var(--accent);
+  z-index:1000;
+}
+
+/* Side Dots Navigation */
+.nav-dots{
+  position:fixed;
+  right:25px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
   z-index:999;
 }
 
-/* header */
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  cursor:pointer;
+  transition:.3s;
+}
+
+.dot.active{
+  background:var(--accent);
+  box-shadow:0 0 12px var(--accent);
+}
+
+/* Header */
 header{
-  position:fixed;top:12px;left:8%;
-  z-index:500;font-size:1.1rem;color:var(--accent);
-  background: rgba(7,9,11,0.45); padding:10px 14px;border-radius:6px;
-  backdrop-filter: blur(6px);
+  position:fixed;
+  top:16px;
+  left:8%;
+  color:var(--accent);
+  font-size:1.2rem;
+  z-index:999;
 }
 
-/* background grid parallax */
-body::before{
-  content:"";position:fixed;inset:0;z-index:-2;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size:48px 48px;
-  transform:translateY(0);
-  transition:transform .2s linear;
-}
-
-/* section base (stacking) */
+/* Sections */
 .section{
-  position:sticky; top:0; height:100vh; padding:110px 8%;
-  display:flex;flex-direction:column;justify-content:center;
-  transition: transform .6s cubic-bezier(.12,.9,.2,1), filter .5s;
-  will-change: transform;
-  border-top: 1px solid rgba(255,255,255,0.02);
+  min-height:150vh;
+  padding:120px 8%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  scroll-snap-align:start;
+  transition:transform .6s ease, filter .6s ease;
 }
 
-/* layered colors */
-.layer1{background:linear-gradient(180deg,var(--l1), rgba(12,17,18,0.45))}
-.layer2{background:linear-gradient(180deg,var(--l2), rgba(14,20,22,0.45))}
-.layer3{background:linear-gradient(180deg,var(--l3), rgba(16,22,24,0.45))}
-.layer4{background:linear-gradient(180deg,var(--l4), rgba(18,24,26,0.45))}
+.layer1{background:var(--l1);}
+.layer2{background:var(--l2);}
+.layer3{background:var(--l3);}
+.layer4{background:var(--l4);}
 
-/* hero */
-.hero-h1{font-size:2.6rem;color:var(--accent);margin-bottom:12px;letter-spacing:0.6px}
-.hero-sub{font-size:1.05rem;color:var(--muted);max-width:860px;line-height:1.6}
-.hero-cta{margin-top:22px;padding:10px 16px;border:2px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;border-radius:6px}
-.hero-cta:hover{background:var(--accent);color:#05110b;box-shadow:0 0 18px rgba(156,255,46,0.18)}
-
-/* cards grid & small components */
-.row{display:flex;gap:18px;flex-wrap:wrap}
-.card{background:rgba(255,255,255,0.02);padding:18px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);min-width:220px;flex:1 1 260px}
-.title{color:var(--accent);font-size:1.6rem;margin-bottom:12px}
-.lead{color:var(--muted);font-size:0.95rem; margin-bottom:10px}
-
-/* pricing & affordability */
-.pricing-card{display:flex;flex-direction:column;gap:8px}
-.price-big{font-size:1.4rem;color:var(--text)}
-.old{opacity:0.45;text-decoration:line-through;margin-right:8px;color:var(--muted)}
-.small-muted{font-size:0.85rem;color:var(--muted)}
-
-/* interactive chart container */
-.chart-wrap{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
-.chart{background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
-.chart svg{display:block}
-
-/* info panel */
-.info{
-  background:rgba(0,0,0,0.18);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);
-  min-width:220px;color:var(--muted)
+h1{
+  font-size:2.6rem;
+  color:var(--accent);
+  margin-bottom:20px;
 }
 
-/* insights charts */
-.insight-list{display:flex;gap:14px;flex-wrap:wrap}
-.stat{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;min-width:180px;text-align:center}
-.stat .num{font-size:1.5rem;color:var(--accent)}
+p{
+  max-width:700px;
+  line-height:1.6;
+  opacity:.85;
+  margin-bottom:20px;
+}
 
-/* contact form */
-.form{max-width:480px;display:flex;flex-direction:column;gap:10px}
-.input, textarea{background:rgba(255,255,255,0.03);border: none;padding:10px;border-radius:6px;color:var(--text);outline:none}
-textarea{height:110px;resize:none}
-.submit{padding:10px;border-radius:6px;border:2px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
-.submit:hover{background:var(--accent);color:#05110b}
+.typing{
+  font-size:1.2rem;
+  border-right:2px solid var(--accent);
+  white-space:nowrap;
+  overflow:hidden;
+  width:fit-content;
+}
 
-/* footer */
-footer{padding:28px 8%;text-align:center;color:var(--muted);font-size:0.9rem}
+/* Glass Cards */
+.cards{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
 
-/* small responsive */
-@media (max-width:800px){
-  .hero-h1{font-size:1.8rem}
-  header{left:6%;font-size:1rem}
+.card{
+  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:20px;
+  border-radius:14px;
+  flex:1 1 250px;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 0 30px rgba(156,255,46,0.4);
+}
+
+/* Counter */
+.counter{
+  font-size:1.8rem;
+  color:var(--accent);
+  margin-top:10px;
+}
+
+/* Graph */
+canvas{
+  margin-top:20px;
+  background:rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:10px;
+}
+
+/* Cursor Glow */
+.cursor{
+  position:fixed;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:var(--accent);
+  pointer-events:none;
+  opacity:.4;
+  transform:translate(-50%,-50%);
+  mix-blend-mode:screen;
+  z-index:2000;
+}
+
+/* Form */
+form{
+  max-width:400px;
+  display:flex;
+  flex-direction:column;
+}
+
+input,textarea{
+  margin-bottom:12px;
+  padding:10px;
+  background:rgba(255,255,255,0.06);
+  border:none;
+  color:var(--text);
+  border-radius:6px;
+}
+
+textarea{height:100px;resize:none;}
+
+button{
+  padding:10px;
+  border:2px solid var(--accent);
+  background:transparent;
+  color:var(--accent);
+  cursor:pointer;
+}
+
+button:hover{
+  background:var(--accent);
+  color:black;
 }
 </style>
 </head>
+
 <body>
 
-<div id="progress" aria-hidden="true"></div>
-<header>SiteMango // Control Interface</header>
+<div id="progress"></div>
+<div class="cursor" id="cursor"></div>
+<header>SiteMango</header>
 
-<!-- LAYER 1: HERO -->
+<div class="nav-dots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
 <section class="section layer1">
-  <div>
-    <div class="hero-h1">SiteMango — Websites that work like a product</div>
-    <div class="hero-sub">
-      We design fast, clean, conversion-focused websites that cost much less than typical agency builds — we keep quality high and budgets sane.
-      Scroll to compare pricing, see affordability, and explore data-driven insights.
-    </div>
-    <div style="margin-top:18px">
-      <button class="hero-cta" onclick="document.getElementById('pricing-section').scrollIntoView({behavior:'smooth'})">See Pricing & Comparison</button>
-    </div>
-
-    <div style="margin-top:20px;font-size:0.9rem;color:var(--muted)">
-      <em>System console:</em>
-      <div id="console" style="margin-top:8px;min-height:64px;font-size:0.88rem;opacity:0.9"></div>
-    </div>
-  </div>
+  <h1>SiteMango</h1>
+  <div class="typing" id="typing"></div>
+  <p>
+    We engineer clean, performance-driven websites that convert visitors into clients.
+    Affordable builds without compromising quality.
+  </p>
 </section>
 
-<!-- LAYER 2: WHY & IMPORTANCE -->
 <section class="section layer2">
-  <div>
-    <div class="title">Why websites matter — short & sharp</div>
-    <div class="lead">A website is your single canonical place for credibility, discoverability, and conversions. Below are illustrative insights showing typical impact and priorities a business should care about.</div>
-
-    <div style="height:18px"></div>
-
-    <div class="insight-list">
-      <div class="stat">
-        <div class="num">~82%</div>
-        <div class="small-muted">Illustrative: users check websites for credibility</div>
-      </div>
-      <div class="stat">
-        <div class="num">~45%</div>
-        <div class="small-muted">Illustrative: conversion lift with optimized design</div>
-      </div>
-      <div class="stat">
-        <div class="num">~60%</div>
-        <div class="small-muted">Illustrative: users expect mobile-friendly sites</div>
-      </div>
+  <h1>Impact & Growth</h1>
+  <p>
+    A website is not decoration. It is infrastructure.
+    Speed, structure, and UI clarity directly influence trust and revenue.
+  </p>
+  <div class="cards">
+    <div class="card">
+      Conversion Lift
+      <div class="counter" data-target="45">0</div>%
     </div>
-
-    <div style="margin-top:20px" class="lead">Below: an illustrative line chart showing hypothetical conversion improvements from basic → optimized → conversion-focused designs.</div>
-
-    <div style="margin-top:14px" class="chart-wrap">
-      <div class="chart" id="lineChartWrap" aria-hidden="true">
-        <!-- inline SVG line chart -->
-        <svg id="lineChart" width="420" height="160" viewBox="0 0 420 160"></svg>
-      </div>
-
-      <div class="info">
-        <strong>Note</strong>
-        <div style="height:8px"></div>
-        These charts are illustrative examples to help sell the idea. Replace with live metrics as you run projects.
-      </div>
+    <div class="card">
+      Credibility Increase
+      <div class="counter" data-target="82">0</div>%
+    </div>
+    <div class="card">
+      Mobile Optimization Impact
+      <div class="counter" data-target="60">0</div>%
     </div>
   </div>
 </section>
 
-<!-- LAYER 3: PRICING + COMPARISON -->
-<section class="section layer3" id="pricing-section">
-  <div>
-    <div class="title">Affordability & Market Comparison</div>
-    <div class="lead">We compare SiteMango pricing vs typical small agency or freelancer market averages. Click bars to toggle dataset view. Click a bar to reveal percent difference.</div>
-
-    <div style="height:18px"></div>
-
-    <div class="chart-wrap">
-
-      <!-- interactive bar chart (SVG) -->
-      <div class="chart" id="barChartWrap" style="padding:14px">
-        <svg id="barChart" width="520" height="260" viewBox="0 0 520 260" role="img" aria-label="Pricing comparison chart"></svg>
-        <div style="margin-top:8px;font-size:0.85rem;color:var(--muted)">Toggle dataset: <button id="toggleBtn" class="hero-cta" style="padding:6px 10px;font-size:0.85rem">Show Others</button></div>
-      </div>
-
-      <!-- info & details -->
-      <div class="info">
-        <div style="font-weight:600;margin-bottom:8px">Selected:</div>
-        <div id="selectedInfo" style="font-size:0.95rem;color:var(--text)">Click a bar to view details.</div>
-        <div style="height:12px"></div>
-        <div style="font-weight:600;margin-bottom:6px">Summary</div>
-        <div id="summaryText" class="small-muted">We show side-by-side comparisons and percentage cheaper calculations below the chart.</div>
-      </div>
-    </div>
-
-    <div style="height:18px"></div>
-
-    <!-- affordability numeric summary -->
-    <div class="row" style="margin-top:12px">
-      <div class="card pricing-card">
-        <div class="small-muted">Static Website</div>
-        <div class="price-big"><span class="old">₹3000</span> <strong>₹2500</strong></div>
-        <div class="small-muted">Typical market: <span id="marketStatic">₹4500</span></div>
-        <div style="height:6px"></div>
-        <div id="pctStatic" class="small-muted">You are ~44% cheaper vs market (illustrative)</div>
-      </div>
-
-      <div class="card pricing-card">
-        <div class="small-muted">Static + Form</div>
-        <div class="price-big"><span class="old">₹3500</span> <strong>₹3000</strong></div>
-        <div class="small-muted">Typical market: <span id="marketForm">₹5200</span></div>
-        <div style="height:6px"></div>
-        <div id="pctForm" class="small-muted">You are ~42% cheaper vs market (illustrative)</div>
-      </div>
-
-      <div class="card pricing-card">
-        <div class="small-muted">Advanced Backend</div>
-        <div class="price-big"><strong>Custom / Higher</strong></div>
-        <div class="small-muted">Typical market: ₹20,000+</div>
-        <div style="height:6px"></div>
-        <div id="pctBackend" class="small-muted">Custom quotes — we tend to be more cost-efficient on early-stage builds.</div>
-      </div>
-    </div>
-
-  </div>
+<section class="section layer3">
+  <h1>Affordability Comparison</h1>
+  <p>
+    Typical agencies charge inflated prices. We remove overhead and deliver smarter builds.
+  </p>
+  <canvas id="priceChart" width="600" height="300"></canvas>
 </section>
 
-<!-- LAYER 4: CONTACT -->
 <section class="section layer4">
-  <div>
-    <div class="title">Get in touch</div>
-    <div class="lead">Tell us what you need. We'll respond with a clear plan and an honest quote.</div>
-
-    <div style="height:16px"></div>
-
-    <form class="form" onsubmit="event.preventDefault(); alert('Form submitted (demo) — hook your backend later')">
-      <input class="input" placeholder="Your name" required />
-      <input class="input" placeholder="Email" type="email" required />
-      <textarea placeholder="Describe project..." required></textarea>
-      <button class="submit">Send message</button>
-    </form>
-  </div>
+  <h1>Contact</h1>
+  <p>
+    Tell us your vision. We’ll respond with a clean strategy and transparent pricing.
+  </p>
+  <form onsubmit="event.preventDefault(); alert('Demo submission');">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Describe your project..." required></textarea>
+    <button>Send Message</button>
+  </form>
 </section>
-
-<footer>
-  © 2026 SiteMango • Clean code. Smart design. Real results.
-</footer>
 
 <script>
-/* ======== Console animation ======== */
-const consoleEl = document.getElementById('console');
-const consoleLines = [
-  'Boot sequence minimal…',
-  'Applying lean build pipeline…',
-  'Prefetching templates…',
-  'SiteMango ready — affordability engine online.'
-];
-let ci = 0;
-(function writeConsole(){
-  if(ci < consoleLines.length){
-    consoleEl.innerHTML += consoleLines[ci] + '<br>';
-    ci++; setTimeout(writeConsole, 650);
-  }
-})();
+// Scroll Progress + Section Blur
+const sections=document.querySelectorAll(".section");
+const dots=document.querySelectorAll(".dot");
 
-/* ======== Scroll progress & parallax grid shift & section scale ======== */
-const progress = document.getElementById('progress');
-window.addEventListener('scroll', ()=>{
-  const st = document.documentElement.scrollTop || document.body.scrollTop;
-  const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const pct = (st / sh) * 100;
-  progress.style.width = pct + '%';
+window.addEventListener("scroll",()=>{
+  const st=document.documentElement.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById("progress").style.width=(st/sh*100)+"%";
 
-  // grid parallax (move background)
-  document.body.style.setProperty('--grid-y', (st * 0.15) + 'px');
-  document.body.style.backgroundPosition = `0 ${-st*0.03}px`;
-  // scale sections slightly around center
-  document.querySelectorAll('.section').forEach(sec=>{
-    const r = sec.getBoundingClientRect();
-    const factor = Math.max(0.96, 1 - Math.abs(r.top) / (window.innerHeight * 10));
-    sec.style.transform = `scale(${factor})`;
+  sections.forEach((sec,i)=>{
+    const rect=sec.getBoundingClientRect();
+    const visible=Math.abs(rect.top)<window.innerHeight/2;
+    sec.style.filter=visible?"blur(0px)":"blur(2px)";
+    dots[i].classList.toggle("active",visible);
   });
 });
 
-/* ======== LINE CHART (illustrative conversion lift) ======== */
-function drawLineChart(){
-  const svg = document.getElementById('lineChart');
-  // sample points (basic → optimized → conversion-focused)
-  const points = [6, 9, 13, 19, 24]; // hypothetical conversion rate units
-  const w = 420, h = 160, pad = 28;
-  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-  svg.innerHTML = '';
-  // axes grid
-  for(let y=0;y<=4;y++){
-    const yy = pad + (h - pad*2) * y/4;
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1',pad); line.setAttribute('x2', w-pad);
-    line.setAttribute('y1', yy); line.setAttribute('y2', yy);
-    line.setAttribute('stroke','rgba(255,255,255,0.03)');
-    svg.appendChild(line);
+// Dot navigation
+dots.forEach((dot,i)=>{
+  dot.addEventListener("click",()=>{
+    sections[i].scrollIntoView({behavior:"smooth"});
+  });
+});
+
+// Typing Animation
+const texts=["We build fast.","We build clean.","We build to convert.","Affordable. Scalable. Powerful."];
+let i=0,j=0;
+const el=document.getElementById("typing");
+function type(){ if(j<texts[i].length){ el.textContent+=texts[i][j++]; setTimeout(type,60);} else setTimeout(erase,1500);}
+function erase(){ if(j>0){ el.textContent=texts[i].substring(0,--j); setTimeout(erase,40);} else{ i=(i+1)%texts.length; setTimeout(type,400);}}
+type();
+
+// Cursor Glow
+document.addEventListener("mousemove",e=>{
+  const c=document.getElementById("cursor");
+  c.style.left=e.clientX+"px";
+  c.style.top=e.clientY+"px";
+});
+
+// Counters
+document.querySelectorAll(".counter").forEach(counter=>{
+  let target=+counter.dataset.target;
+  let count=0;
+  let step=target/100;
+  function update(){
+    if(count<target){count+=step;counter.textContent=Math.floor(count);requestAnimationFrame(update);}
+    else counter.textContent=target;
+  } update();
+});
+
+// Graph
+const canvas=document.getElementById("priceChart");
+const ctx=canvas.getContext("2d");
+const our=[2500,3000];
+const market=[4500,5200];
+function draw(){
+  ctx.clearRect(0,0,600,300);
+  for(let i=0;i<2;i++){
+    let x=150+i*200;
+    let scale=0.05;
+    ctx.fillStyle="#9cff2e";
+    ctx.fillRect(x,300-our[i]*scale,60,our[i]*scale);
+    ctx.fillStyle="#ff4d4d";
+    ctx.fillRect(x+80,300-market[i]*scale,60,market[i]*scale);
   }
-  // compute coordinates
-  const max = Math.max(...points) * 1.1;
-  const stepX = (w - pad*2)/(points.length-1);
-  const coords = points.map((v,i)=>{
-    const x = pad + i*stepX;
-    const y = h - pad - ((v / max) * (h - pad*2));
-    return [x,y];
-  });
-  // polyline
-  const poly = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-  poly.setAttribute('points', coords.map(c=>c.join(',')).join(' '));
-  poly.setAttribute('fill','none');
-  poly.setAttribute('stroke','url(#grad1)');
-  poly.setAttribute('stroke-width','3');
-  svg.appendChild(poly);
-  // gradient
-  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-  const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
-  grad.setAttribute('id','grad1'); grad.setAttribute('x1','0'); grad.setAttribute('x2','1');
-  const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','#9cff2e');
-  const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','#5fe36a');
-  grad.appendChild(s1); grad.appendChild(s2); defs.appendChild(grad); svg.appendChild(defs);
-  // markers & anim dots
-  coords.forEach((c, idx)=>{
-    const circ = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circ.setAttribute('cx',c[0]); circ.setAttribute('cy',c[1]); circ.setAttribute('r',4);
-    circ.setAttribute('fill','#9cff2e'); circ.setAttribute('opacity',0.95);
-    svg.appendChild(circ);
-    // label
-    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
-    txt.setAttribute('x', c[0]); txt.setAttribute('y', c[1]-10);
-    txt.setAttribute('fill','var(--muted)'); txt.setAttribute('font-size','10');
-    txt.setAttribute('text-anchor','middle'); txt.textContent = points[idx] + '%';
-    svg.appendChild(txt);
-  });
 }
-drawLineChart();
-
-/* ======== BAR CHART: Pricing Comparison (interactive) ========
-  - categories: Static, Static+Form, Backend
-  - ourPrices: our current SiteMango (what you set earlier)
-  - marketPrices: typical market averages (illustrative)
-  - toggleBtn toggles which dataset is shown as highlighted (we show both side-by-side visually, clicking toggles emphasis)
-  - clicking a bar selects it and displays percentage cheaper/similar
-*/
-const categories = ['Static Website','Static + Form','Advanced Backend'];
-const ourPrices = [2500, 3000, 0];   // 0 indicates custom/higher (no fixed)
-const marketPrices = [4500, 5200, 20000];
-
-const svgBar = document.getElementById('barChart');
-const BAR_W = 520, BAR_H = 260, PAD = 40;
-svgBar.setAttribute('viewBox', `0 0 ${BAR_W} ${BAR_H}`);
-svgBar.innerHTML = '';
-
-// scales and rendering
-function renderBarChart(highlight='both'){
-  svgBar.innerHTML = '';
-  // background lines
-  for(let i=0;i<=4;i++){
-    const y = PAD + i*( (BAR_H - PAD*2)/4 );
-    const ln = document.createElementNS('http://www.w3.org/2000/svg','line');
-    ln.setAttribute('x1',PAD); ln.setAttribute('x2', BAR_W-PAD);
-    ln.setAttribute('y1', y); ln.setAttribute('y2', y);
-    ln.setAttribute('stroke','rgba(255,255,255,0.03)');
-    svgBar.appendChild(ln);
-  }
-  // compute max for scaling (exclude zeros for backend custom)
-  const maxVal = Math.max(...marketPrices.map((v,i)=> Math.max(v, ourPrices[i]||0)));
-  const groupW = (BAR_W - PAD*2);
-  const barGroupWidth = groupW / categories.length;
-  const barWidth = Math.min(44, barGroupWidth*0.36);
-
-  categories.forEach((cat, idx) => {
-    const gx = PAD + idx * barGroupWidth + barGroupWidth/2;
-    // market bar (left)
-    const mVal = marketPrices[idx];
-    const mH = ((mVal / maxVal) * (BAR_H - PAD*2));
-    const my = BAR_H - PAD - mH;
-    // our bar (right)
-    const oVal = ourPrices[idx];
-    const oH = oVal ? ((oVal / maxVal) * (BAR_H - PAD*2)) : 0;
-    const oy = BAR_H - PAD - oH;
-
-    // market rect
-    const rectM = document.createElementNS('http://www.w3.org/2000/svg','rect');
-    rectM.setAttribute('x', gx - barWidth - 6);
-    rectM.setAttribute('y', my);
-    rectM.setAttribute('width', barWidth);
-    rectM.setAttribute('height', mH);
-    rectM.setAttribute('rx',4);
-    rectM.setAttribute('fill', 'rgba(255,255,255,0.06)');
-    rectM.setAttribute('stroke','rgba(255,255,255,0.03)');
-    rectM.style.cursor = 'pointer';
-    rectM.dataset.index = idx;
-    rectM.dataset.type = 'market';
-    svgBar.appendChild(rectM);
-
-    // our rect (only if price>0)
-    if(oVal){
-      const rectO = document.createElementNS('http://www.w3.org/2000/svg','rect');
-      rectO.setAttribute('x', gx + 6);
-      rectO.setAttribute('y', oy);
-      rectO.setAttribute('width', barWidth);
-      rectO.setAttribute('height', oH);
-      rectO.setAttribute('rx',4);
-      // color emphasis based on toggle
-      if(highlight === 'ours') rectO.setAttribute('fill','rgba(156,255,46,0.95)');
-      else if(highlight === 'market') rectO.setAttribute('fill','rgba(255,255,255,0.06)');
-      else rectO.setAttribute('fill','rgba(156,255,46,0.8)'); // both
-      rectO.style.cursor = 'pointer';
-      rectO.dataset.index = idx;
-      rectO.dataset.type = 'ours';
-      svgBar.appendChild(rectO);
-    } else {
-      // draw a small marker indicating custom price
-      const mark = document.createElementNS('http://www.w3.org/2000/svg','rect');
-      mark.setAttribute('x', gx + 6);
-      mark.setAttribute('y', BAR_H - PAD - 12);
-      mark.setAttribute('width', barWidth);
-      mark.setAttribute('height', 12);
-      mark.setAttribute('rx',4);
-      mark.setAttribute('fill','rgba(255,255,255,0.03)');
-      svgBar.appendChild(mark);
-    }
-
-    // labels
-    const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
-    lbl.setAttribute('x', gx); lbl.setAttribute('y', BAR_H - PAD + 16);
-    lbl.setAttribute('fill','var(--muted)'); lbl.setAttribute('font-size','12');
-    lbl.setAttribute('text-anchor','middle');
-    lbl.textContent = cat;
-    svgBar.appendChild(lbl);
-
-    // value labels
-    const vm = document.createElementNS('http://www.w3.org/2000/svg','text');
-    vm.setAttribute('x', gx - barWidth - 6 + barWidth/2); vm.setAttribute('y', my - 8);
-    vm.setAttribute('fill','var(--muted)'); vm.setAttribute('font-size','11');
-    vm.setAttribute('text-anchor','middle');
-    vm.textContent = '₹' + (mVal.toLocaleString('en-IN'));
-    svgBar.appendChild(vm);
-
-    if(oVal){
-      const vo = document.createElementNS('http://www.w3.org/2000/svg','text');
-      vo.setAttribute('x', gx + 6 + barWidth/2); vo.setAttribute('y', oy - 8);
-      vo.setAttribute('fill', highlight === 'market' ? 'rgba(255,255,255,0.45)' : 'var(--text)');
-      vo.setAttribute('font-size','11'); vo.setAttribute('text-anchor','middle');
-      vo.textContent = '₹' + (oVal.toLocaleString('en-IN'));
-      svgBar.appendChild(vo);
-    } else {
-      const vo = document.createElementNS('http://www.w3.org/2000/svg','text');
-      vo.setAttribute('x', gx + 6 + barWidth/2); vo.setAttribute('y', BAR_H - PAD - 16);
-      vo.setAttribute('fill','var(--muted)'); vo.setAttribute('font-size','11'); vo.setAttribute('text-anchor','middle');
-      vo.textContent = 'Custom';
-      svgBar.appendChild(vo);
-    }
-  });
-
-  // attach click handlers by pointer-events (SVG elements)
-  svgBar.querySelectorAll('rect').forEach(r=>{
-    r.addEventListener('click', (e)=>{
-      const idx = +r.dataset.index;
-      const type = r.dataset.type;
-      showComparison(idx, type);
-    });
-  });
-}
-renderBarChart('both');
-
-/* toggle emphasis button */
-const toggleBtn = document.getElementById('toggleBtn');
-let toggleState = 'both';
-toggleBtn.addEventListener('click', ()=>{
-  if(toggleState === 'both'){ toggleState = 'ours'; toggleBtn.textContent = 'Show Market'; }
-  else if(toggleState === 'ours'){ toggleState = 'market'; toggleBtn.textContent = 'Show Both'; }
-  else { toggleState = 'both'; toggleBtn.textContent = 'Show Ours'; }
-  renderBarChart(toggleState);
-});
-
-/* show comparison details and percentage cheaper */
-function showComparison(idx, clickedType){
-  const cat = categories[idx];
-  const our = ourPrices[idx];
-  const market = marketPrices[idx];
-  let infoText = `<strong>${cat}</strong><br/>`;
-  if(our && market){
-    const pct = Math.round((1 - (our / market)) * 100);
-    infoText += `Market: ₹${market.toLocaleString('en-IN')}<br/>SiteMango: ₹${our.toLocaleString('en-IN')}<br/>You are ~${pct}% cheaper vs market (illustrative).`;
-    // update card summary fields
-    if(idx === 0) document.getElementById('pctStatic').textContent = `You are ~${pct}% cheaper vs market (illustrative)`;
-    if(idx === 1) document.getElementById('pctForm').textContent = `You are ~${pct}% cheaper vs market (illustrative)`;
-  } else if(!our){
-    infoText += `Market baseline: ₹${market.toLocaleString('en-IN')}<br/>SiteMango: Custom builds — contact us for quotes.`;
-  } else {
-    infoText += `Market baseline missing.<br/>SiteMango: ₹${our.toLocaleString('en-IN')}`;
-  }
-  document.getElementById('selectedInfo').innerHTML = infoText;
-
-  // also display a short summary
-  const sum = `For ${cat}: Market ₹${market.toLocaleString('en-IN')}, SiteMango ₹${our ? our.toLocaleString('en-IN') : 'Custom'}.`;
-  document.getElementById('summaryText').textContent = sum;
-}
-
-/* populate numeric summary market displays */
-document.getElementById('marketStatic').textContent = '₹' + marketPrices[0].toLocaleString('en-IN');
-document.getElementById('marketForm').textContent = '₹' + marketPrices[1].toLocaleString('en-IN');
-
-/* initial pct calculations displayed */
-(function initPct(){
-  const calcPct = (a,b) => b>0 ? Math.round((1 - (a/b))*100) : '—';
-  document.getElementById('pctStatic').textContent = `You are ~${calcPct(ourPrices[0],marketPrices[0])}% cheaper vs market (illustrative)`;
-  document.getElementById('pctForm').textContent = `You are ~${calcPct(ourPrices[1],marketPrices[1])}% cheaper vs market (illustrative)`;
-})();
-
-/* small accessibility: keyboard navigation for chart (left-right to change selection) */
-let selectedIndex = -1;
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'ArrowRight'){ selectedIndex = Math.min(categories.length-1, selectedIndex+1); showComparison(selectedIndex, 'market');}
-  if(e.key === 'ArrowLeft'){ selectedIndex = Math.max(0, selectedIndex-1); showComparison(selectedIndex, 'market');}
-});
-
-/* responsiveness: redraw charts on resize */
-window.addEventListener('resize', ()=>{
-  drawLineChart();
-  renderBarChart(toggleState);
-});
-
-/* initial console focus (tiny nicety) */
-setTimeout(()=>{ window.scrollTo({top:0,behavior:'smooth'}); }, 120);
-
+draw();
 </script>
+
 </body>
-                                                                                                                                                  </html>
+  </html>
