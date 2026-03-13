@@ -7,300 +7,424 @@
 
 <style>
 :root{
-  --accent:#9cff2e;
-  --bg:#070a0d;
-  --section:#0f1418;
-  --text:#e8f0f2;
+--accent:#9cff2e;
+--bg:#06080c;
+--text:#e8f0f2;
 }
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Courier New", monospace;
-}
-
-html{
-  scroll-behavior:smooth;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Courier New", monospace;
 }
 
 body{
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.7;
-  letter-spacing:.3px;
-  overflow-x:hidden;
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
 }
 
-/* Neon top progress */
+/* progress bar */
+
 #progress{
-  position:fixed;
-  top:0;left:0;
-  height:3px;width:0%;
-  background:var(--accent);
-  box-shadow:0 0 15px var(--accent);
-  z-index:1000;
+position:fixed;
+top:0;
+left:0;
+height:3px;
+width:0%;
+background:var(--accent);
+box-shadow:0 0 15px var(--accent);
+z-index:999;
 }
 
-/* Header */
+/* particles */
+
+#particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+/* header */
+
 header{
-  position:fixed;
-  top:20px;
-  left:8%;
-  font-size:1.2rem;
-  color:var(--accent);
-  z-index:999;
+position:fixed;
+top:20px;
+left:8%;
+color:var(--accent);
+font-size:1.2rem;
+letter-spacing:2px;
 }
 
-/* Sections */
+/* sections */
+
 section{
-  min-height:100vh;
-  padding:160px 10% 120px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  opacity:0;
-  transform:translateY(60px);
-  transition:all .8s ease;
-}
-
-section.visible{
-  opacity:1;
-  transform:translateY(0);
+min-height:120vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:0 10%;
 }
 
 h1{
-  font-size:2.8rem;
-  margin-bottom:25px;
-  color:var(--accent);
+font-size:3rem;
+margin-bottom:25px;
+color:var(--accent);
+text-shadow:0 0 20px rgba(156,255,46,.4);
 }
 
 p{
-  max-width:700px;
-  margin-bottom:25px;
-  opacity:.85;
+max-width:700px;
+margin-bottom:25px;
+opacity:.85;
 }
 
-/* Hero typing */
+/* typing */
+
 .typing{
-  font-size:1.3rem;
-  border-right:2px solid var(--accent);
-  white-space:nowrap;
-  overflow:hidden;
-  width:fit-content;
+font-size:1.4rem;
+border-right:2px solid var(--accent);
+white-space:nowrap;
+overflow:hidden;
+width:fit-content;
 }
 
-/* Glass cards */
+/* cards */
+
 .cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
-  margin-top:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:30px;
+margin-top:40px;
 }
 
 .card{
-  padding:30px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.04);
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.08);
-  transition:.3s;
+padding:25px;
+border-radius:16px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(16px);
+border:1px solid rgba(255,255,255,0.1);
+transition:.35s;
 }
 
 .card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 0 35px rgba(156,255,46,.35);
+transform:translateY(-10px);
+box-shadow:0 0 40px rgba(156,255,46,.35);
 }
 
-/* Counters */
 .counter{
-  font-size:2rem;
-  color:var(--accent);
-  margin-top:12px;
+font-size:2rem;
+margin-top:12px;
+color:var(--accent);
 }
 
-/* Chart */
+/* graph */
+
 canvas{
-  <p style="margin-top:20px; opacity:.7;">
-On average, SiteMango builds are 
-<strong id="avgPercent"></strong>% more affordable 
-than typical small agency pricing.
-</p>
-  margin-top:40px;
-  border-radius:12px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.12);
+margin-top:30px;
+width:500px;
+height:260px;
+border-radius:10px;
+background:rgba(0,0,0,.4);
+border:1px solid rgba(255,255,255,.15);
 }
 
-/* Contact */
+/* form */
+
 form{
-  max-width:480px;
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  margin-top:30px;
+max-width:420px;
+display:flex;
+flex-direction:column;
+gap:16px;
+margin-top:25px;
 }
 
 input,textarea{
-  padding:14px;
-  border-radius:8px;
-  border:none;
-  background:rgba(255,255,255,.06);
-  color:var(--text);
+padding:12px;
+border-radius:8px;
+border:none;
+background:rgba(255,255,255,.07);
+color:white;
 }
 
-textarea{height:130px;resize:none;}
-
 button{
-  padding:14px;
-  border-radius:8px;
-  border:2px solid var(--accent);
-  background:transparent;
-  color:var(--accent);
-  cursor:pointer;
-  transition:.3s;
+padding:12px;
+border-radius:8px;
+border:2px solid var(--accent);
+background:transparent;
+color:var(--accent);
+cursor:pointer;
 }
 
 button:hover{
-  background:var(--accent);
-  color:black;
+background:var(--accent);
+color:black;
+}
+
+#formStatus{
+margin-top:10px;
+color:var(--accent);
+opacity:.9;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="particles"></canvas>
 <div id="progress"></div>
+
 <header>SiteMango</header>
 
-<!-- HERO -->
 <section>
-  <h1>SiteMango</h1>
-  <div class="typing" id="typing"></div>
-  <p>
-    We build clean, performance-driven websites designed to convert.
-    No inflated agency pricing. No bloated code. Just intelligent execution.
-  </p>
+
+<h1>SiteMango</h1>
+
+<div class="typing" id="typing"></div>
+
+<p>
+We build fast, performance-focused websites designed to convert.
+</p>
+
 </section>
 
-<!-- IMPACT -->
 <section>
-  <h1>Impact & Growth</h1>
-  <p>
-    A website is infrastructure for trust and revenue. Speed, clarity,
-    and UX structure directly influence user confidence and conversions.
-  </p>
-  <div class="cards">
-    <div class="card">
-      Conversion Lift
-      <div class="counter" data-target="45">0</div>%
-    </div>
-    <div class="card">
-      Credibility Increase
-      <div class="counter" data-target="82">0</div>%
-    </div>
-    <div class="card">
-      Mobile Optimization Impact
-      <div class="counter" data-target="60">0</div>%
-    </div>
-  </div>
+
+<h1>Impact & Growth</h1>
+
+<p>
+Clear UX and strong performance dramatically increase trust and conversions.
+</p>
+
+<div class="cards">
+
+<div class="card">
+Conversion Lift
+<div class="counter" data-target="45">0</div>%
+</div>
+
+<div class="card">
+Credibility Increase
+<div class="counter" data-target="82">0</div>%
+</div>
+
+<div class="card">
+Mobile Optimization
+<div class="counter" data-target="60">0</div>%
+</div>
+
+</div>
+
 </section>
 
-<!-- AFFORDABILITY -->
 <section>
-  <h1>Affordability Comparison</h1>
-  <p>
-    Typical builds cost significantly more due to overhead and inefficiencies.
-    We deliver similar or better performance at lean startup pricing.
-  </p>
-  <canvas id="priceChart" width="700" height="350"></canvas>
+
+<h1>Affordability Comparison</h1>
+
+<canvas id="priceChart" width="500" height="260"></canvas>
+
+<p style="margin-top:15px;opacity:.7;">
+Average savings: <strong id="avgPercent"></strong>%
+</p>
+
 </section>
 
-<!-- CONTACT -->
 <section>
-  <h1>Contact</h1>
-  <p>
-    Tell us your vision. We’ll respond with a practical roadmap and transparent pricing.
-  </p>
-  <form onsubmit="event.preventDefault(); alert('Demo submission');">
-    <input type="text" placeholder="Your Name" required>
-    <input type="email" placeholder="Your Email" required>
-    <textarea placeholder="Describe your project..." required></textarea>
-    <button>Send Message</button>
-  </form>
+
+<h1>Contact</h1>
+
+<form id="contactForm">
+
+<input type="text" name="name" placeholder="Name" required>
+<input type="email" name="email" placeholder="Email" required>
+<textarea name="project" placeholder="Describe your project"></textarea>
+
+<button type="submit">Send Message</button>
+
+<div id="formStatus"></div>
+
+</form>
+
 </section>
 
 <script>
-// Smooth reveal
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("visible");
-    }
-  });
-},{threshold:.2});
-document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
 
-// Scroll progress
-window.addEventListener("scroll",()=>{
-  const st=document.documentElement.scrollTop;
-  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  document.getElementById("progress").style.width=(st/sh*100)+"%";
-});
+/* Google Sheets endpoint */
 
-// Typing animation
-const texts=["We build fast.","We build clean.","We build to convert.","Affordable. Scalable. Powerful."];
-let i=0,j=0;
-const el=document.getElementById("typing");
-function type(){if(j<texts[i].length){el.textContent+=texts[i][j++];setTimeout(type,60);}else setTimeout(erase,1500);}
-function erase(){if(j>0){el.textContent=texts[i].substring(0,--j);setTimeout(erase,40);}else{i=(i+1)%texts.length;setTimeout(type,400);}}
-type();
+const scriptURL="https://script.google.com/macros/s/AKfycbySA1oABI1E1qJNnZUuHbBBHihEAcvps_MlBncS31Y1sHR26m4iOg3lEFa-yn8va5ONpg/exec"
+const form=document.getElementById("contactForm")
+const status=document.getElementById("formStatus")
 
-// Counters
-document.querySelectorAll(".counter").forEach(counter=>{
-  let target=+counter.dataset.target;
-  let count=0;
-  function update(){
-    count+=target/100;
-    if(count<target){counter.textContent=Math.floor(count);requestAnimationFrame(update);}
-    else counter.textContent=target;
-  }update();
-});
+form.addEventListener("submit",e=>{
 
-// Graph
-const canvas=document.getElementById("priceChart");
-const ctx=canvas.getContext("2d");
-const our=[2500,3000];
-const market=[4500,5200];
-const percentages = our.map((price, i) => {
-  return Math.round((1 - price / market[i]) * 100);
-  const avg = Math.round(
-  percentages.reduce((a,b)=>a+b,0) / percentages.length
-);
+e.preventDefault()
 
-document.getElementById("avgPercent").textContent = avg;
-});
-function draw(){
-  ctx.clearRect(0,0,700,350);
-  ctx.lineWidth = 1;
-ctx.strokeStyle = "rgba(255,255,255,0.1)";
-ctx.beginPath();
-ctx.moveTo(0, 350);
-ctx.lineTo(700, 350);
-ctx.stroke();
-  for(let i=0;i<2;i++){
-    let x=200+i*250;
-    let scale=0.06;
-    ctx.fillStyle="#9cff2e";
-    ctx.fillRect(x,350-our[i]*scale,70,our[i]*scale);
-    ctx.fillStyle="#ff4d4d";
-    ctx.fillRect(x+100,350-market[i]*scale,70,market[i]*scale);
-    ctx.fillStyle = "#9cff2e";
-ctx.font = "16px Courier New";
-ctx.fillText("-" + percentages[i] + "%", x, 350 - market[i] * scale - 15); 
-  }
+status.textContent="Sending..."
+
+const data={
+name:form.name.value,
+email:form.email.value,
+project:form.project.value
 }
-draw();
+
+fetch(scriptURL,{
+method:"POST",
+body:JSON.stringify(data)
+})
+.then(res=>res.json())
+.then(res=>{
+status.textContent="✔ Message sent successfully"
+form.reset()
+})
+.catch(err=>{
+status.textContent="Error sending message"
+})
+
+})
+
+/* progress bar */
+
+window.addEventListener("scroll",()=>{
+
+const st=document.documentElement.scrollTop
+const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
+document.getElementById("progress").style.width=(st/sh*100)+"%"
+
+})
+
+/* typing */
+
+const texts=["We build fast.","We build clean.","We build to convert."]
+let i=0,j=0
+const el=document.getElementById("typing")
+
+function type(){
+if(j<texts[i].length){
+el.textContent+=texts[i][j++]
+setTimeout(type,60)
+}else setTimeout(erase,1500)
+}
+
+function erase(){
+if(j>0){
+el.textContent=texts[i].substring(0,--j)
+setTimeout(erase,40)
+}else{
+i=(i+1)%texts.length
+setTimeout(type,400)
+}
+}
+
+type()
+
+/* counters */
+
+document.querySelectorAll(".counter").forEach(counter=>{
+let target=+counter.dataset.target
+let count=0
+function update(){
+count+=target/100
+if(count<target){
+counter.textContent=Math.floor(count)
+requestAnimationFrame(update)
+}else counter.textContent=target
+}
+update()
+})
+
+/* graph */
+
+const canvas=document.getElementById("priceChart")
+const ctx=canvas.getContext("2d")
+
+const our=[2500,3000]
+const market=[4500,5200]
+
+const percentages=our.map((price,i)=>Math.round((1-price/market[i])*100))
+const avg=Math.round(percentages.reduce((a,b)=>a+b)/percentages.length)
+
+document.getElementById("avgPercent").textContent=avg
+
+let progress=0
+
+function draw(){
+
+ctx.clearRect(0,0,500,260)
+
+for(let i=0;i<2;i++){
+
+let x=120+i*180
+let scale=.035
+
+let ourHeight=our[i]*scale*progress
+let marketHeight=market[i]*scale*progress
+
+ctx.fillStyle="#9cff2e"
+ctx.fillRect(x,260-ourHeight,50,ourHeight)
+
+ctx.fillStyle="#ff4d4d"
+ctx.fillRect(x+70,260-marketHeight,50,marketHeight)
+
+ctx.fillStyle="#9cff2e"
+ctx.font="14px Courier"
+ctx.fillText("-"+percentages[i]+"%",x,260-marketHeight-10)
+
+}
+
+}
+
+function animate(){
+progress+=0.02
+if(progress>1)progress=1
+draw()
+if(progress<1)requestAnimationFrame(animate)
+}
+
+animate()
+
+/* particles */
+
+const pcanvas=document.getElementById("particles")
+const pctx=pcanvas.getContext("2d")
+
+pcanvas.width=window.innerWidth
+pcanvas.height=window.innerHeight
+
+const particles=[]
+
+for(let i=0;i<70;i++){
+particles.push({
+x:Math.random()*pcanvas.width,
+y:Math.random()*pcanvas.height,
+r:Math.random()*2,
+dx:(Math.random()-.5)*0.4,
+dy:(Math.random()-.5)*0.4
+})
+}
+
+function animateParticles(){
+
+pctx.clearRect(0,0,pcanvas.width,pcanvas.height)
+
+pctx.fillStyle="rgba(156,255,46,.7)"
+
+particles.forEach(p=>{
+p.x+=p.dx
+p.y+=p.dy
+pctx.beginPath()
+pctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+pctx.fill()
+})
+
+requestAnimationFrame(animateParticles)
+}
+
+animateParticles()
+
 </script>
 
 </body>
