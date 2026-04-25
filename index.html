@@ -265,14 +265,23 @@ e.preventDefault()
 
 status.textContent="Sending..."
 
+const formData=new FormData(form)
 const data={
-name:form.name.value,
-email:form.email.value,
-project:form.project.value
+name:formData.get("name")?.toString().trim() ?? "",
+email:formData.get("email")?.toString().trim() ?? "",
+project:formData.get("project")?.toString().trim() ?? ""
+}
+
+if(!data.name || !data.email){
+status.textContent="Please complete all required fields."
+return
 }
 
 fetch(scriptURL,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify(data)
 })
 .then(res=>res.json())
@@ -292,7 +301,8 @@ window.addEventListener("scroll",()=>{
 
 const st=document.documentElement.scrollTop
 const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
-document.getElementById("progress").style.width=(st/sh*100)+"%"
+const percent=sh>0?(st/sh*100):0
+document.getElementById("progress").style.width=percent+"%"
 
 })
 
