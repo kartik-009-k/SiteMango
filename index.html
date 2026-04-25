@@ -23,17 +23,9 @@ body{
   min-height:100vh;
   color:var(--text);
   background:
-    radial-gradient(circle at 12% 18%, rgba(255,215,93,.16), transparent 34%),
-    linear-gradient(150deg,#f8f9fc 0%,#eff2f8 55%,#eceff6 100%);
-}
-
-.mango-sunset{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  transform:translateY(var(--mesh-shift,0px)) translateZ(0);
-  will-change:transform;
+    radial-gradient(circle at 18% 20%, rgba(255,179,64,.38), transparent 36%),
+    radial-gradient(circle at 82% 12%, rgba(255,255,255,.55), transparent 46%),
+    linear-gradient(145deg,#060606 0%, #1d1d1d 24%, #f4f4f4 62%, #ffbe57 100%);
 }
 
 .nav-wrap{position:sticky;top:14px;z-index:90;display:flex;justify-content:center;padding:10px;}
@@ -171,13 +163,6 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
 </style>
 </head>
 <body>
-<svg class="mango-sunset" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <circle cx="280" cy="220" r="300" fill="rgba(124,96,255,.32)"/>
-  <circle cx="1320" cy="180" r="340" fill="rgba(36,136,255,.29)"/>
-  <circle cx="1180" cy="780" r="320" fill="rgba(255,180,70,.28)"/>
-  <circle cx="520" cy="760" r="290" fill="rgba(194,132,255,.22)"/>
-</svg>
-
 <div class="nav-wrap">
   <nav class="nav">
     <div class="brand">Site<span>mango</span></div>
@@ -324,9 +309,6 @@ const heroHeadline=document.getElementById("heroHeadline")
 let ticking=false
 
 function updateMotion(){
-  const scrollY=window.scrollY
-  document.documentElement.style.setProperty("--mesh-shift",`${scrollY*0.2}px`)
-
   const vh=window.innerHeight
 
   motionCards.forEach(card=>{
