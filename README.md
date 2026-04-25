@@ -28,7 +28,6 @@ Then visit `http://localhost:8000`.
    - `Timestamp`
    - `Full Name`
    - `Company Email`
-   - `Project Type`
    - `Project Details`
 3. In that spreadsheet, open **Extensions → Apps Script**.
 4. Replace the default code with the script below.
@@ -47,7 +46,6 @@ function doPost(e) {
       new Date(),
       data.fullName || '',
       data.companyEmail || '',
-      data.projectType || '',
       data.projectDetails || ''
     ]);
 

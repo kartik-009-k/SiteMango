@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sitemango — Premium Glass Development Studio</title>
+<title>SiteMango</title>
 <style>
 :root{
   --text:#1f2430;
@@ -19,7 +19,13 @@
 
 *{box-sizing:border-box;margin:0;padding:0;font-family:"Inter","SF Pro Display","Segoe UI",sans-serif;}
 html,body{overflow-x:hidden;scroll-behavior:smooth;}
-body{min-height:100vh;color:var(--text);background:linear-gradient(150deg,#f8f9fc 0%,#eff2f8 55%,#eceff6 100%);}
+body{
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,215,93,.16), transparent 34%),
+    linear-gradient(150deg,#f8f9fc 0%,#eff2f8 55%,#eceff6 100%);
+}
 
 .mango-sunset{
   position:fixed;
@@ -128,6 +134,7 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
 
 .form-panel h2{font-size:clamp(1.5rem,4vw,2.7rem);margin-bottom:10px;}
 .form-panel p{color:var(--muted);margin-bottom:14px;line-height:1.7;}
+.form-panel{box-shadow:0 24px 55px rgba(65,73,109,.15),0 0 0 1px rgba(255,199,57,.15) inset;}
 .form-grid{display:grid;gap:12px;}
 .form-grid label{font-size:.9rem;color:#47506a;font-weight:600;}
 .form-grid input,.form-grid select,.form-grid textarea{
@@ -240,14 +247,6 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
         </label>
         <label>Company Email
           <input type="email" name="companyEmail" required placeholder="jane@company.com" />
-        </label>
-        <label>Project Type
-          <select name="projectType" required>
-            <option value="">Select a project type</option>
-            <option value="Web Dev">Web Dev</option>
-            <option value="UI/UX">UI/UX</option>
-            <option value="Strategy">Strategy</option>
-          </select>
         </label>
         <label>Project Details
           <textarea name="projectDetails" required placeholder="Goals, timeline, scope, and any important context"></textarea>
@@ -402,11 +401,10 @@ form.addEventListener("submit",e=>{
   const payload={
     fullName:formData.get("fullName")?.toString().trim() ?? "",
     companyEmail:formData.get("companyEmail")?.toString().trim() ?? "",
-    projectType:formData.get("projectType")?.toString().trim() ?? "",
     projectDetails:formData.get("projectDetails")?.toString().trim() ?? ""
   }
 
-  if(!payload.fullName || !payload.companyEmail || !payload.projectType || !payload.projectDetails){
+  if(!payload.fullName || !payload.companyEmail || !payload.projectDetails){
     formStatus.textContent="Please complete all required fields."
     return
   }
