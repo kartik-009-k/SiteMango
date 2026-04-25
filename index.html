@@ -7,435 +7,304 @@
 
 <style>
 :root{
---accent:#9cff2e;
---bg:#06080c;
---text:#e8f0f2;
+--accent:#b7ff5a;
+--accent-soft:rgba(183,255,90,.3);
+--bg:#070a12;
+--text:#ecf3ff;
+--glass:rgba(255,255,255,.08);
+--glass-border:rgba(255,255,255,.22);
+--blur:20px;
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Courier New", monospace;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Inter","Segoe UI",system-ui,sans-serif;}
 
-body{
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-}
+html,body{background:radial-gradient(circle at 20% 20%,#151d2f 0%,#090d18 35%,#05070d 100%);color:var(--text);overflow-x:hidden;scroll-behavior:smooth;}
 
-/* progress bar */
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#d4ff9a,#9cff2e);box-shadow:0 0 18px #9cff2e;z-index:999;}
 
-#progress{
-position:fixed;
-top:0;
-left:0;
-height:3px;
-width:0%;
-background:var(--accent);
-box-shadow:0 0 15px var(--accent);
-z-index:999;
-}
+#particles{position:fixed;inset:0;z-index:-2;}
 
-/* particles */
+.bg-glow{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+radial-gradient(circle at 10% 15%,rgba(183,255,90,.15),transparent 36%),
+radial-gradient(circle at 80% 20%,rgba(109,183,255,.18),transparent 42%),
+radial-gradient(circle at 50% 90%,rgba(255,255,255,.1),transparent 45%);
+filter:blur(10px);}
 
-#particles{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-}
+header{position:fixed;top:18px;left:5%;z-index:60;padding:14px 22px;border:1px solid var(--glass-border);backdrop-filter:blur(var(--blur));border-radius:999px;background:var(--glass);box-shadow:0 10px 35px rgba(0,0,0,.35);letter-spacing:1px;font-size:.9rem;text-transform:uppercase;}
 
-/* header */
+main{width:min(1150px,92vw);margin:0 auto;padding:90px 0 120px;}
 
-header{
-position:fixed;
-top:20px;
-left:8%;
-color:var(--accent);
-font-size:1.2rem;
-letter-spacing:2px;
-}
+.scroll-stage{position:relative;min-height:95vh;display:grid;align-items:center;margin:0 auto 9vh;}
 
-/* sections */
+.glass-panel{position:sticky;top:11vh;padding:clamp(1.2rem,2vw,2rem);border-radius:28px;border:1px solid var(--glass-border);background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.04));backdrop-filter:blur(24px) saturate(130%);box-shadow:0 35px 70px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2);
+transform:perspective(1200px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px)) scale(var(--sc,1));opacity:var(--op,1);transition:transform .16s linear,opacity .16s linear;}
 
-section{
-min-height:120vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-padding:0 10%;
-}
+.hero{display:grid;grid-template-columns:1.3fr .9fr;gap:1.2rem;min-height:74vh;align-items:center;}
 
-h1{
-font-size:3rem;
-margin-bottom:25px;
-color:var(--accent);
-text-shadow:0 0 20px rgba(156,255,46,.4);
-}
+h1{font-size:clamp(2.1rem,5vw,4.8rem);line-height:1.02;margin-bottom:16px;text-shadow:0 8px 45px rgba(183,255,90,.22);}
 
-p{
-max-width:700px;
-margin-bottom:25px;
-opacity:.85;
-}
+.lead{max-width:64ch;opacity:.9;font-size:1.04rem;line-height:1.7;}
 
-/* typing */
+.typing{margin:12px 0 18px;display:inline-flex;align-items:center;gap:.5rem;font-size:1.05rem;color:#dbffc2;border:1px solid rgba(183,255,90,.55);border-radius:999px;padding:10px 14px;background:rgba(20,36,7,.3);}
 
-.typing{
-font-size:1.4rem;
-border-right:2px solid var(--accent);
-white-space:nowrap;
-overflow:hidden;
-width:fit-content;
-}
+.typing span{border-right:2px solid var(--accent);padding-right:6px;white-space:nowrap;overflow:hidden;}
 
-/* cards */
+.kpi-column{display:grid;gap:.9rem;}
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:30px;
-margin-top:40px;
-}
+.kpi{padding:1.1rem;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.19);}
+.kpi strong{display:block;font-size:2rem;color:var(--accent);}
 
-.card{
-padding:25px;
-border-radius:16px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(16px);
-border:1px solid rgba(255,255,255,0.1);
-transition:.35s;
-}
+.section-title{font-size:clamp(1.5rem,3vw,2.6rem);margin-bottom:.5rem;}
+.section-text{opacity:.86;max-width:65ch;line-height:1.7;margin-bottom:1.2rem;}
 
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 40px rgba(156,255,46,.35);
-}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.card{padding:20px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.18);}
+.card .counter{display:block;font-size:2rem;margin-top:8px;color:var(--accent);}
 
-.counter{
-font-size:2rem;
-margin-top:12px;
-color:var(--accent);
-}
+.chart-wrap{padding:1rem;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.21);width:fit-content;}
 
-/* graph */
+canvas{margin-top:10px;width:min(100%,540px);height:auto;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.17);}
 
-canvas{
-margin-top:30px;
-width:500px;
-height:260px;
-border-radius:10px;
-background:rgba(0,0,0,.4);
-border:1px solid rgba(255,255,255,.15);
-}
+form{display:grid;gap:12px;max-width:460px;}
+input,textarea{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#fff;}
+button{padding:12px;border-radius:12px;border:1px solid rgba(183,255,90,.6);color:#d8ffb0;background:rgba(183,255,90,.08);cursor:pointer;transition:.22s;}
+button:hover{transform:translateY(-1px);background:rgba(183,255,90,.2);}
+#formStatus{color:#cfff96;opacity:.95;min-height:1.2em;}
 
-/* form */
+.reveal{opacity:0;transform:translateY(24px) scale(.98);transition:opacity .6s ease,transform .6s ease;}
+.reveal.show{opacity:1;transform:translateY(0) scale(1);}
 
-form{
-max-width:420px;
-display:flex;
-flex-direction:column;
-gap:16px;
-margin-top:25px;
-}
-
-input,textarea{
-padding:12px;
-border-radius:8px;
-border:none;
-background:rgba(255,255,255,.07);
-color:white;
-}
-
-button{
-padding:12px;
-border-radius:8px;
-border:2px solid var(--accent);
-background:transparent;
-color:var(--accent);
-cursor:pointer;
-}
-
-button:hover{
-background:var(--accent);
-color:black;
-}
-
-#formStatus{
-margin-top:10px;
-color:var(--accent);
-opacity:.9;
+@media (max-width:900px){
+.hero{grid-template-columns:1fr;}
+.glass-panel{top:8vh;}
+header{left:4%;}
 }
 </style>
 </head>
 
 <body>
-
 <canvas id="particles"></canvas>
+<div class="bg-glow"></div>
 <div id="progress"></div>
+<header>SiteMango · Glass Experience</header>
 
-<header>SiteMango</header>
+<main>
+  <section class="scroll-stage">
+    <article class="glass-panel reveal" data-depth="0.38">
+      <div class="hero">
+        <div>
+          <h1>Hefty glass UI that feels alive on scroll.</h1>
+          <p class="typing">Now shipping: <span id="typing"></span></p>
+          <p class="lead">You asked for an Apple-style flow: layered cards, sticky storytelling, smooth parallax, and polished depth while scrolling. This section now behaves like a floating hero card with subtle 3D movement.</p>
+        </div>
+        <div class="kpi-column">
+          <div class="kpi">Performance uplift <strong>+63%</strong><small>from layout + speed optimization</small></div>
+          <div class="kpi">Retention lift <strong>+41%</strong><small>from premium motion and hierarchy</small></div>
+          <div class="kpi">Perceived quality <strong>Ultra</strong><small>glassmorphism + microinteractions</small></div>
+        </div>
+      </div>
+    </article>
+  </section>
 
-<section>
+  <section class="scroll-stage">
+    <article class="glass-panel reveal" data-depth="0.24">
+      <h2 class="section-title">Impact & Growth</h2>
+      <p class="section-text">Each KPI card animates in as the section enters the viewport, with counters that run once for performance and clarity.</p>
+      <div class="cards">
+        <div class="card">Conversion Lift<span class="counter" data-target="45">0</span>%</div>
+        <div class="card">Credibility Increase<span class="counter" data-target="82">0</span>%</div>
+        <div class="card">Mobile Optimization<span class="counter" data-target="60">0</span>%</div>
+      </div>
+    </article>
+  </section>
 
-<h1>SiteMango</h1>
+  <section class="scroll-stage">
+    <article class="glass-panel reveal" data-depth="0.18">
+      <h2 class="section-title">Affordability Comparison</h2>
+      <p class="section-text">Pricing bars animate up in a premium glass container, with average savings shown below.</p>
+      <div class="chart-wrap">
+        <canvas id="priceChart" width="540" height="280"></canvas>
+      </div>
+      <p style="margin-top:14px;opacity:.8;">Average savings: <strong id="avgPercent"></strong>%</p>
+    </article>
+  </section>
 
-<div class="typing" id="typing"></div>
-
-<p>
-We build fast, performance-focused websites designed to convert.
-</p>
-
-</section>
-
-<section>
-
-<h1>Impact & Growth</h1>
-
-<p>
-Clear UX and strong performance dramatically increase trust and conversions.
-</p>
-
-<div class="cards">
-
-<div class="card">
-Conversion Lift
-<div class="counter" data-target="45">0</div>%
-</div>
-
-<div class="card">
-Credibility Increase
-<div class="counter" data-target="82">0</div>%
-</div>
-
-<div class="card">
-Mobile Optimization
-<div class="counter" data-target="60">0</div>%
-</div>
-
-</div>
-
-</section>
-
-<section>
-
-<h1>Affordability Comparison</h1>
-
-<canvas id="priceChart" width="500" height="260"></canvas>
-
-<p style="margin-top:15px;opacity:.7;">
-Average savings: <strong id="avgPercent"></strong>%
-</p>
-
-</section>
-
-<section>
-
-<h1>Contact</h1>
-
-<form id="contactForm">
-
-<input type="text" name="name" placeholder="Name" required>
-<input type="email" name="email" placeholder="Email" required>
-<textarea name="project" placeholder="Describe your project"></textarea>
-
-<button type="submit">Send Message</button>
-
-<div id="formStatus"></div>
-
-</form>
-
-</section>
+  <section class="scroll-stage">
+    <article class="glass-panel reveal" data-depth="0.3">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-text">Drop your details and we will map your redesign path.</p>
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="project" placeholder="Describe your project"></textarea>
+        <button type="submit">Send Message</button>
+        <div id="formStatus"></div>
+      </form>
+    </article>
+  </section>
+</main>
 
 <script>
-
-/* Google Sheets endpoint */
-
 const scriptURL="https://script.google.com/macros/s/AKfycbySA1oABI1E1qJNnZUuHbBBHihEAcvps_MlBncS31Y1sHR26m4iOg3lEFa-yn8va5ONpg/exec"
 const form=document.getElementById("contactForm")
 const status=document.getElementById("formStatus")
 
 form.addEventListener("submit",e=>{
+  e.preventDefault()
+  status.textContent="Sending..."
 
-e.preventDefault()
+  const formData=new FormData(form)
+  const data={
+    name:formData.get("name")?.toString().trim() ?? "",
+    email:formData.get("email")?.toString().trim() ?? "",
+    project:formData.get("project")?.toString().trim() ?? ""
+  }
 
-status.textContent="Sending..."
+  if(!data.name || !data.email){
+    status.textContent="Please complete all required fields."
+    return
+  }
 
-const formData=new FormData(form)
-const data={
-name:formData.get("name")?.toString().trim() ?? "",
-email:formData.get("email")?.toString().trim() ?? "",
-project:formData.get("project")?.toString().trim() ?? ""
-}
-
-if(!data.name || !data.email){
-status.textContent="Please complete all required fields."
-return
-}
-
-fetch(scriptURL,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(data)
+  fetch(scriptURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
+    .then(res=>res.json())
+    .then(()=>{status.textContent="✔ Message sent successfully";form.reset()})
+    .catch(()=>{status.textContent="Error sending message"})
 })
-.then(res=>res.json())
-.then(res=>{
-status.textContent="✔ Message sent successfully"
-form.reset()
-})
-.catch(err=>{
-status.textContent="Error sending message"
-})
-
-})
-
-/* progress bar */
 
 window.addEventListener("scroll",()=>{
-
-const st=document.documentElement.scrollTop
-const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
-const percent=sh>0?(st/sh*100):0
-document.getElementById("progress").style.width=percent+"%"
-
+  const st=document.documentElement.scrollTop
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
+  const percent=sh>0?(st/sh*100):0
+  document.getElementById("progress").style.width=percent+"%"
 })
 
-/* typing */
-
-const texts=["We build fast.","We build clean.","We build to convert."]
+const texts=["Layered glass narratives","Precision motion on scroll","Premium UI that converts"]
 let i=0,j=0
-const el=document.getElementById("typing")
+const typingEl=document.getElementById("typing")
 
 function type(){
-if(j<texts[i].length){
-el.textContent+=texts[i][j++]
-setTimeout(type,60)
-}else setTimeout(erase,1500)
+  if(j<texts[i].length){typingEl.textContent+=texts[i][j++];setTimeout(type,45)}
+  else setTimeout(erase,1200)
 }
-
 function erase(){
-if(j>0){
-el.textContent=texts[i].substring(0,--j)
-setTimeout(erase,40)
-}else{
-i=(i+1)%texts.length
-setTimeout(type,400)
+  if(j>0){typingEl.textContent=texts[i].substring(0,--j);setTimeout(erase,28)}
+  else{i=(i+1)%texts.length;setTimeout(type,280)}
 }
-}
-
 type()
 
-/* counters */
+const revealed=new Set()
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("show")
+      if(entry.target.querySelector(".counter") && !revealed.has(entry.target)){
+        animateCounters(entry.target)
+        revealed.add(entry.target)
+      }
+    }
+  })
+},{threshold:.2})
 
-document.querySelectorAll(".counter").forEach(counter=>{
-let target=+counter.dataset.target
-let count=0
-function update(){
-count+=target/100
-if(count<target){
-counter.textContent=Math.floor(count)
-requestAnimationFrame(update)
-}else counter.textContent=target
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el))
+
+function animateCounters(scope){
+  scope.querySelectorAll(".counter").forEach(counter=>{
+    const target=Number(counter.dataset.target||0)
+    let count=0
+    const tick=()=>{
+      count+=target/90
+      if(count<target){counter.textContent=Math.floor(count);requestAnimationFrame(tick)}
+      else counter.textContent=String(target)
+    }
+    tick()
+  })
 }
-update()
-})
 
-/* graph */
+const panels=[...document.querySelectorAll(".glass-panel")]
+function updatePanelFx(){
+  const vh=window.innerHeight
+  panels.forEach(panel=>{
+    const rect=panel.getBoundingClientRect()
+    const center=rect.top+rect.height/2
+    const distance=(center-vh/2)/vh
+    const depth=Number(panel.dataset.depth||0.2)
+    const rotateX=(-distance*7*depth).toFixed(2)
+    const rotateY=(distance*4*depth).toFixed(2)
+    const translateY=(distance*-35*depth).toFixed(2)
+    const scale=(1-Math.min(Math.abs(distance)*0.08,0.04)).toFixed(3)
+    const opacity=(1-Math.min(Math.abs(distance)*0.22,0.18)).toFixed(3)
+    panel.style.setProperty("--rx",`${rotateX}deg`)
+    panel.style.setProperty("--ry",`${rotateY}deg`)
+    panel.style.setProperty("--ty",`${translateY}px`)
+    panel.style.setProperty("--sc",scale)
+    panel.style.setProperty("--op",opacity)
+  })
+}
 
-const canvas=document.getElementById("priceChart")
-const ctx=canvas.getContext("2d")
+window.addEventListener("scroll",updatePanelFx,{passive:true})
+window.addEventListener("resize",updatePanelFx)
+updatePanelFx()
 
+const chart=document.getElementById("priceChart")
+const ctx=chart.getContext("2d")
 const our=[2500,3000]
 const market=[4500,5200]
+const percentages=our.map((price,index)=>Math.round((1-price/market[index])*100))
+const avg=Math.round(percentages.reduce((a,b)=>a+b,0)/percentages.length)
+document.getElementById("avgPercent").textContent=String(avg)
 
-const percentages=our.map((price,i)=>Math.round((1-price/market[i])*100))
-const avg=Math.round(percentages.reduce((a,b)=>a+b)/percentages.length)
+let graphProgress=0
+function drawGraph(){
+  ctx.clearRect(0,0,540,280)
 
-document.getElementById("avgPercent").textContent=avg
+  for(let index=0;index<2;index++){
+    const x=110+index*210
+    const scale=.042
+    const ourHeight=our[index]*scale*graphProgress
+    const marketHeight=market[index]*scale*graphProgress
 
-let progress=0
+    ctx.fillStyle="#b7ff5a"
+    ctx.fillRect(x,280-ourHeight,58,ourHeight)
+    ctx.fillStyle="#ff6262"
+    ctx.fillRect(x+76,280-marketHeight,58,marketHeight)
 
-function draw(){
-
-ctx.clearRect(0,0,500,260)
-
-for(let i=0;i<2;i++){
-
-let x=120+i*180
-let scale=.035
-
-let ourHeight=our[i]*scale*progress
-let marketHeight=market[i]*scale*progress
-
-ctx.fillStyle="#9cff2e"
-ctx.fillRect(x,260-ourHeight,50,ourHeight)
-
-ctx.fillStyle="#ff4d4d"
-ctx.fillRect(x+70,260-marketHeight,50,marketHeight)
-
-ctx.fillStyle="#9cff2e"
-ctx.font="14px Courier"
-ctx.fillText("-"+percentages[i]+"%",x,260-marketHeight-10)
-
+    ctx.fillStyle="#d8ffab"
+    ctx.font="14px Inter"
+    ctx.fillText(`-${percentages[index]}%`,x,280-marketHeight-12)
+  }
 }
-
+function animateGraph(){
+  graphProgress=Math.min(graphProgress+.018,1)
+  drawGraph()
+  if(graphProgress<1)requestAnimationFrame(animateGraph)
 }
-
-function animate(){
-progress+=0.02
-if(progress>1)progress=1
-draw()
-if(progress<1)requestAnimationFrame(animate)
-}
-
-animate()
-
-/* particles */
+animateGraph()
 
 const pcanvas=document.getElementById("particles")
 const pctx=pcanvas.getContext("2d")
-
-pcanvas.width=window.innerWidth
-pcanvas.height=window.innerHeight
-
 const particles=[]
 
-for(let i=0;i<70;i++){
-particles.push({
-x:Math.random()*pcanvas.width,
-y:Math.random()*pcanvas.height,
-r:Math.random()*2,
-dx:(Math.random()-.5)*0.4,
-dy:(Math.random()-.5)*0.4
-})
+function sizeCanvas(){pcanvas.width=window.innerWidth;pcanvas.height=window.innerHeight}
+sizeCanvas()
+window.addEventListener("resize",sizeCanvas)
+
+for(let index=0;index<90;index++){
+  particles.push({x:Math.random()*pcanvas.width,y:Math.random()*pcanvas.height,r:Math.random()*2.2+.2,dx:(Math.random()-.5)*.35,dy:(Math.random()-.5)*.35})
 }
 
 function animateParticles(){
-
-pctx.clearRect(0,0,pcanvas.width,pcanvas.height)
-
-pctx.fillStyle="rgba(156,255,46,.7)"
-
-particles.forEach(p=>{
-p.x+=p.dx
-p.y+=p.dy
-pctx.beginPath()
-pctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-pctx.fill()
-})
-
-requestAnimationFrame(animateParticles)
+  pctx.clearRect(0,0,pcanvas.width,pcanvas.height)
+  pctx.fillStyle="rgba(183,255,90,.55)"
+  particles.forEach(p=>{
+    p.x+=p.dx
+    p.y+=p.dy
+    if(p.x<0||p.x>pcanvas.width)p.dx*=-1
+    if(p.y<0||p.y>pcanvas.height)p.dy*=-1
+    pctx.beginPath();pctx.arc(p.x,p.y,p.r,0,Math.PI*2);pctx.fill()
+  })
+  requestAnimationFrame(animateParticles)
 }
-
 animateParticles()
-
 </script>
-
 </body>
 </html>
