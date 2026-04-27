@@ -27,8 +27,9 @@ Then visit `http://localhost:8000`.
 2. Add these headers in row 1:
    - `Timestamp`
    - `Full Name`
-   - `Company Email`
-   - `Project Details`
+   - `Corporate Email`
+   - `Project Vertical`
+   - `Vision Statement`
    - `Client IP (optional)`
 3. In that spreadsheet, open **Extensions → Apps Script**.
 4. Replace the default code with the script below.
@@ -49,7 +50,7 @@ function doPost(e) {
     }
 
     // Required field check
-    if (!data.fullName || !data.companyEmail || !data.projectDetails) {
+    if (!data.fullName || !data.corporateEmail || !data.projectVertical || !data.visionStatement) {
       return jsonResponse({ ok: false, reason: 'Please complete all required fields.' });
     }
 
@@ -57,7 +58,7 @@ function doPost(e) {
     const values = sheet.getDataRange().getValues();
     const now = Date.now();
     const cooldownMs = 2 * 60 * 1000;
-    const email = String(data.companyEmail).toLowerCase().trim();
+    const email = String(data.corporateEmail).toLowerCase().trim();
 
     for (let i = values.length - 1; i > 0; i--) {
       const rowTimestamp = new Date(values[i][0]).getTime();
@@ -75,8 +76,9 @@ function doPost(e) {
     sheet.appendRow([
       new Date(),
       data.fullName || '',
-      data.companyEmail || '',
-      data.projectDetails || '',
+      data.corporateEmail || '',
+      data.projectVertical || '',
+      data.visionStatement || '',
       clientIp
     ]);
 
