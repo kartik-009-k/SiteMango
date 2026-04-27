@@ -29,6 +29,7 @@ Then visit `http://localhost:8000`.
    - `Full Name`
    - `Company Email`
    - `Project Details`
+   - `Client IP (optional)`
 3. In that spreadsheet, open **Extensions → Apps Script**.
 4. Replace the default code with the script below.
 5. Click **Deploy → New deployment → Web app**:
@@ -42,24 +43,57 @@ function doPost(e) {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Leads');
     const data = JSON.parse(e.postData.contents || '{}');
 
+    // Honeypot spam check
+    if ((data.website || '').trim() !== '') {
+      return jsonResponse({ ok: false, reason: 'Spam check failed.' });
+    }
+
+    // Required field check
+    if (!data.fullName || !data.companyEmail || !data.projectDetails) {
+      return jsonResponse({ ok: false, reason: 'Please complete all required fields.' });
+    }
+
+    // Duplicate cooldown check (same email, last 2 minutes)
+    const values = sheet.getDataRange().getValues();
+    const now = Date.now();
+    const cooldownMs = 2 * 60 * 1000;
+    const email = String(data.companyEmail).toLowerCase().trim();
+
+    for (let i = values.length - 1; i > 0; i--) {
+      const rowTimestamp = new Date(values[i][0]).getTime();
+      const rowEmail = String(values[i][2] || '').toLowerCase().trim();
+      if (rowEmail === email && now - rowTimestamp < cooldownMs) {
+        return jsonResponse({ ok: false, reason: 'Please wait before submitting again.' });
+      }
+      if (now - rowTimestamp >= cooldownMs) {
+        break;
+      }
+    }
+
+    const clientIp = e?.parameter?.ip || '';
+
     sheet.appendRow([
       new Date(),
       data.fullName || '',
       data.companyEmail || '',
-      data.projectDetails || ''
+      data.projectDetails || '',
+      clientIp
     ]);
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return jsonResponse({ ok: true });
   } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: false, message: String(error) }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return jsonResponse({ ok: false, reason: String(error) });
   }
+}
+
+function jsonResponse(payload) {
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 ```
 
-### Important note
+### Important notes
 
-If you redeploy Apps Script or create a new deployment version, update the `sheetEndpoint` URL in `index.html`.
+- If you redeploy Apps Script or create a new deployment version, update the `sheetEndpoint` URL in `index.html`.
+- Update social preview metadata (`canonical`, `og:url`, `og:image`, `twitter:image`) in `index.html` before production deploy.

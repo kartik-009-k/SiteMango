@@ -4,6 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SiteMango</title>
+<meta name="description" content="SiteMango designs and builds premium, high-performance websites with conversion-focused UX and flagship brand storytelling." />
+<link rel="canonical" href="https://example.com/" />
+<meta property="og:title" content="SiteMango — Premium Web Development Agency" />
+<meta property="og:description" content="High-performance websites, glass-smooth interfaces, and conversion-driven digital experiences." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://example.com/" />
+<meta property="og:image" content="https://example.com/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SiteMango — Premium Web Development Agency" />
+<meta name="twitter:description" content="We engineer high-performance systems and craft premium digital experiences." />
+<meta name="twitter:image" content="https://example.com/og-image.jpg" />
 <style>
 :root{
   --text:#1f2430;
@@ -129,7 +140,7 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
 .form-panel{box-shadow:0 24px 55px rgba(65,73,109,.15),0 0 0 1px rgba(255,199,57,.15) inset;}
 .form-grid{display:grid;gap:12px;}
 .form-grid label{font-size:.9rem;color:#47506a;font-weight:600;}
-.form-grid input,.form-grid select,.form-grid textarea{
+.form-grid input,.form-grid textarea{
   width:100%;margin-top:6px;padding:12px 13px;border-radius:12px;border:1px solid rgba(196,205,220,.9);
   background:rgba(255,255,255,.78);color:#26304a;
 }
@@ -148,12 +159,22 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
   animation:pulse 2s ease-in-out infinite;
 }
 
+.submit-btn:disabled{opacity:.7;cursor:not-allowed;}
+
 @keyframes pulse{
   0%,100%{transform:scale(1) translateZ(0);box-shadow:0 10px 25px rgba(255,174,39,.42);}
   50%{transform:scale(1.015) translateZ(0);box-shadow:0 12px 30px rgba(255,174,39,.55);}
 }
 
 #formStatus{min-height:1.2em;margin-top:4px;color:#68531a;font-weight:600;}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+@media (prefers-reduced-motion: reduce){
+  html,body{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  .motion-card,.feature-tile,.slide{transform:none !important;}
+}
 
 @media (max-width:920px){
   .hero-grid{grid-template-columns:1fr;}
@@ -164,7 +185,7 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
 </head>
 <body>
 <div class="nav-wrap">
-  <nav class="nav">
+  <nav class="nav" aria-label="Primary">
     <div class="brand">Site<span>mango</span></div>
     <ul class="nav-links">
       <li><a href="#hero">Home</a></li>
@@ -198,10 +219,10 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
     <div class="section-head" data-head>02 · Features</div>
     <article class="glass-panel motion-card" data-motion>
       <div class="features-grid" id="featuresGrid">
-        <div class="feature-tile"><div class="icon-chip">⚡</div><h3>High-Performance Engineering</h3><p>We optimize architecture, rendering, and delivery for measurable speed and stability.</p></div>
-        <div class="feature-tile"><div class="icon-chip">🧠</div><h3>Strategic UX Clarity</h3><p>Every interaction supports conversion, comprehension, and a premium user journey.</p></div>
-        <div class="feature-tile"><div class="icon-chip">🧩</div><h3>Scalable Design Systems</h3><p>Reusable component patterns designed for long-term product growth and consistency.</p></div>
-        <div class="feature-tile"><div class="icon-chip">🛡️</div><h3>Launch Confidence</h3><p>Accessibility, QA, and cross-device quality checks are built into our process.</p></div>
+        <div class="feature-tile"><div class="icon-chip" aria-hidden="true">⚡</div><h3>High-Performance Engineering</h3><p>We optimize architecture, rendering, and delivery for measurable speed and stability.</p></div>
+        <div class="feature-tile"><div class="icon-chip" aria-hidden="true">🧠</div><h3>Strategic UX Clarity</h3><p>Every interaction supports conversion, comprehension, and a premium user journey.</p></div>
+        <div class="feature-tile"><div class="icon-chip" aria-hidden="true">🧩</div><h3>Scalable Design Systems</h3><p>Reusable component patterns designed for long-term product growth and consistency.</p></div>
+        <div class="feature-tile"><div class="icon-chip" aria-hidden="true">🛡️</div><h3>Launch Confidence</h3><p>Accessibility, QA, and cross-device quality checks are built into our process.</p></div>
       </div>
     </article>
   </section>
@@ -209,14 +230,14 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
   <section class="section" id="testimonials">
     <div class="section-head" data-head>03 · Testimonials</div>
     <article class="glass-panel motion-card" data-motion>
-      <div class="slider">
+      <div class="slider" role="region" aria-label="Client testimonials">
         <div class="slide active"><p>“Sitemango translated our vision into a premium, credible experience that immediately elevated our brand.”</p><footer>— Avery Collins, CEO · Nordwell Labs</footer></div>
         <div class="slide"><p>“The delivery quality was exceptional. Every motion detail felt intentional, refined, and conversion-minded.”</p><footer>— Priya Nair, Product Director · Verta Studio</footer></div>
         <div class="slide"><p>“From architecture to polish, Sitemango made the complex look effortless and dramatically improved our launch outcomes.”</p><footer>— Matteo Ruiz, Founder · Lumen Grid</footer></div>
       </div>
       <div class="slider-controls">
-        <button id="prevBtn" type="button">← Prev</button>
-        <button id="nextBtn" type="button">Next →</button>
+        <button id="prevBtn" type="button" aria-label="Previous testimonial">← Prev</button>
+        <button id="nextBtn" type="button" aria-label="Next testimonial">Next →</button>
       </div>
     </article>
   </section>
@@ -227,24 +248,41 @@ main{width:min(1140px,92vw);margin:0 auto;padding:8px 0 90px;}
       <h2>Start Your Flagship Project</h2>
       <p>Share project details and our team will return a tailored roadmap, timeline, and implementation strategy.</p>
       <form id="flagshipForm" class="form-grid">
-        <label>Full Name
-          <input type="text" name="fullName" required placeholder="Jane Doe" />
-        </label>
-        <label>Company Email
-          <input type="email" name="companyEmail" required placeholder="jane@company.com" />
-        </label>
-        <label>Project Details
-          <textarea name="projectDetails" required placeholder="Goals, timeline, scope, and any important context"></textarea>
-        </label>
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" name="fullName" required placeholder="Jane Doe" autocomplete="name" />
+
+        <label for="companyEmail">Company Email</label>
+        <input id="companyEmail" type="email" name="companyEmail" required placeholder="jane@company.com" autocomplete="email" />
+
+        <label for="projectDetails">Project Details</label>
+        <textarea id="projectDetails" name="projectDetails" required placeholder="Goals, timeline, scope, and any important context"></textarea>
+
+        <label class="sr-only" for="website">Website</label>
+        <input class="sr-only" id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+
         <button class="submit-btn" type="submit">Submit</button>
-        <div id="formStatus"></div>
+        <div id="formStatus" aria-live="polite"></div>
       </form>
     </article>
   </section>
 </main>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SiteMango",
+  "url": "https://example.com/",
+  "description": "Premium web development agency focused on high-performance websites and conversion-driven UX.",
+  "email": "hello@sitemango.com"
+}
+</script>
+
 <script>
 const sheetEndpoint="https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_ID/exec"
+const formCooldownMs=60_000
+const honeypotFieldName="website"
+const preferReducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
 const phrases=[
   "build digital clarity",
@@ -281,7 +319,12 @@ function typewriterLoop(){
 
   setTimeout(typewriterLoop,delay)
 }
-typewriterLoop()
+
+if(preferReducedMotion){
+  typewriterEl.textContent=phrases[0]
+}else{
+  typewriterLoop()
+}
 
 const slides=[...document.querySelectorAll(".slide")]
 const nextBtn=document.getElementById("nextBtn")
@@ -301,7 +344,15 @@ function restartSlider(){
 
 nextBtn.addEventListener("click",()=>{showSlide(activeSlide+1);restartSlider()})
 prevBtn.addEventListener("click",()=>{showSlide(activeSlide-1);restartSlider()})
-restartSlider()
+
+if(!preferReducedMotion){
+  restartSlider()
+}
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="ArrowRight"){showSlide(activeSlide+1);restartSlider()}
+  if(event.key==="ArrowLeft"){showSlide(activeSlide-1);restartSlider()}
+})
 
 const motionCards=[...document.querySelectorAll("[data-motion]")]
 const stickyHeads=[...document.querySelectorAll("[data-head]")]
@@ -355,9 +406,11 @@ function onScroll(){
   requestAnimationFrame(updateMotion)
 }
 
-window.addEventListener("scroll",onScroll,{passive:true})
-window.addEventListener("resize",onScroll)
-updateMotion()
+if(!preferReducedMotion){
+  window.addEventListener("scroll",onScroll,{passive:true})
+  window.addEventListener("resize",onScroll)
+  updateMotion()
+}
 
 const featuresGrid=document.getElementById("featuresGrid")
 const featureTiles=[...document.querySelectorAll(".feature-tile")]
@@ -376,14 +429,32 @@ featureObserver.observe(featuresGrid)
 
 const form=document.getElementById("flagshipForm")
 const formStatus=document.getElementById("formStatus")
+const submitButton=form.querySelector(".submit-btn")
 
 form.addEventListener("submit",e=>{
   e.preventDefault()
+  if(submitButton.disabled) return
+
   const formData=new FormData(form)
+  const honeypotValue=(formData.get(honeypotFieldName)?.toString().trim() ?? "")
+  if(honeypotValue){
+    formStatus.textContent="Spam check failed."
+    return
+  }
+
+  const lastSubmit=Number(localStorage.getItem("sitemangoLastSubmit") ?? "0")
+  const now=Date.now()
+  const waitMs=(lastSubmit+formCooldownMs)-now
+  if(waitMs>0){
+    formStatus.textContent=`Please wait ${Math.ceil(waitMs/1000)}s before sending another request.`
+    return
+  }
+
   const payload={
     fullName:formData.get("fullName")?.toString().trim() ?? "",
     companyEmail:formData.get("companyEmail")?.toString().trim() ?? "",
-    projectDetails:formData.get("projectDetails")?.toString().trim() ?? ""
+    projectDetails:formData.get("projectDetails")?.toString().trim() ?? "",
+    website:honeypotValue
   }
 
   if(!payload.fullName || !payload.companyEmail || !payload.projectDetails){
@@ -392,11 +463,25 @@ form.addEventListener("submit",e=>{
   }
 
   formStatus.textContent="Submitting..."
+  submitButton.disabled=true
+  submitButton.textContent="Submitting..."
 
   fetch(sheetEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
     .then(res=>res.json())
-    .then(()=>{formStatus.textContent="✔ Project brief submitted successfully.";form.reset()})
+    .then(result=>{
+      if(result?.ok===false){
+        formStatus.textContent=result?.reason || "Submission failed. Please try again."
+        return
+      }
+      localStorage.setItem("sitemangoLastSubmit",String(Date.now()))
+      formStatus.textContent="✔ Project brief submitted successfully."
+      form.reset()
+    })
     .catch(()=>{formStatus.textContent="Submission failed. Please try again."})
+    .finally(()=>{
+      submitButton.disabled=false
+      submitButton.textContent="Submit"
+    })
 })
 </script>
 </body>
