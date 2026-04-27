@@ -34,6 +34,9 @@ body{
     linear-gradient(145deg,#060606 0%, #1d1d1d 24%, #f4f4f4 62%, #ffbe57 100%);
 }
 
+#scrollProgress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#ffe26a,#ff9500);box-shadow:0 0 16px rgba(255,186,36,.8);z-index:200;}
+.ambient-orb{position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle at 30% 30%, rgba(255,226,106,.32), rgba(255,149,0,.1) 56%, transparent 72%);filter:blur(8px);transform:translate(-50%,-50%);}
+
 .nav-wrap{position:sticky;top:14px;z-index:120;display:flex;justify-content:center;padding:10px;}
 .nav{width:min(1180px,95vw);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(20px);box-shadow:0 15px 30px rgba(0,0,0,.26);}
 .brand{font-weight:800;letter-spacing:.5px;}
@@ -59,10 +62,15 @@ main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
 .btn-main,.btn-ghost{padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:700;}
 .btn-main{background:linear-gradient(120deg,#ffe471,#ffca35,#ff970f);color:#241600;box-shadow:0 10px 22px rgba(255,170,26,.45);}
+.btn-main{position:relative;overflow:hidden;}
+.btn-main::after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(110deg,transparent,rgba(255,255,255,.4),transparent);animation:btnSweep 2.8s infinite;}
+@keyframes btnSweep{to{transform:translateX(120%);}}
 .btn-ghost{border:1px solid rgba(255,255,255,.58);color:#fff5d0;background:rgba(0,0,0,.25);}
 .mini-grid{display:grid;gap:12px;}
 .mini{padding:14px;border-radius:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);position:relative;overflow:hidden;}
 .mini::after{content:"";position:absolute;inset:auto -20% -70% -20%;height:120px;background:radial-gradient(60% 60% at 50% 0, rgba(255,214,10,.35), transparent 70%);}
+.trust-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.trust-pill{padding:6px 10px;border-radius:999px;font-size:.76rem;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.36);color:#ffe4ad;}
 
 .features{padding:1.6rem;}
 .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
@@ -125,6 +133,8 @@ textarea{min-height:120px;resize:none;}
 </style>
 </head>
 <body>
+<div id="scrollProgress"></div>
+<div class="ambient-orb" id="ambientOrb"></div>
 <div class="nav-wrap">
   <nav class="nav" aria-label="Primary">
     <div class="brand">Site<span>mango</span></div>
@@ -149,6 +159,11 @@ textarea{min-height:120px;resize:none;}
         <div class="hero-actions">
           <a class="btn-main" href="#intake">Start Flagship Build</a>
           <a class="btn-ghost" href="#lab">View Live Examples</a>
+        </div>
+        <div class="trust-strip">
+          <span class="trust-pill">Perf Budget Driven</span>
+          <span class="trust-pill">Conversion Architecture</span>
+          <span class="trust-pill">Production-Grade Motion</span>
         </div>
       </div>
       <div class="mini-grid">
@@ -272,6 +287,20 @@ function typeLoop(){
 }
 typeLoop()
 
+const progressEl=document.getElementById("scrollProgress")
+window.addEventListener("scroll",()=>{
+  const st=document.documentElement.scrollTop
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
+  const p=sh>0?(st/sh*100):0
+  progressEl.style.width=`${p}%`
+},{passive:true})
+
+const orb=document.getElementById("ambientOrb")
+window.addEventListener("pointermove",event=>{
+  orb.style.left=`${event.clientX}px`
+  orb.style.top=`${event.clientY}px`
+})
+
 const revealObserver=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){entry.target.classList.add("show")}
@@ -293,6 +322,9 @@ function restartTestimony(){
 document.getElementById("prevTestimony").addEventListener("click",()=>{showTestimony(activeTestimony-1);restartTestimony()})
 document.getElementById("nextTestimony").addEventListener("click",()=>{showTestimony(activeTestimony+1);restartTestimony()})
 restartTestimony()
+const testimonyShell=document.getElementById("testimonySlider")
+testimonyShell.addEventListener("mouseenter",()=>clearInterval(testimonyTimer))
+testimonyShell.addEventListener("mouseleave",restartTestimony)
 
 function standaloneMarkup(example){
   if(example.theme==="ecommerce"){
@@ -347,12 +379,18 @@ let timer
 function showSlide(i){
   active=(i+slides.length)%slides.length
   slides.forEach((s,idx)=>s.classList.toggle('active',idx===active))
-  dotEls.forEach((d,idx)=>d.classList.toggle('active',idx===active))
+  dotEls.forEach((d,idx)=>{d.classList.toggle('active',idx===active);d.setAttribute("aria-current",idx===active?"true":"false")})
 }
 function restart(){clearInterval(timer);timer=setInterval(()=>showSlide(active+1),5000)}
 document.getElementById('prevExample').addEventListener('click',()=>{showSlide(active-1);restart()})
 document.getElementById('nextExample').addEventListener('click',()=>{showSlide(active+1);restart()})
 restart()
+track.addEventListener("mouseenter",()=>clearInterval(timer))
+track.addEventListener("mouseleave",restart)
+document.addEventListener("keydown",event=>{
+  if(event.key==="ArrowRight"){showSlide(active+1);restart()}
+  if(event.key==="ArrowLeft"){showSlide(active-1);restart()}
+})
 
 const form=document.getElementById("flagshipForm")
 const formStatus=document.getElementById("formStatus")
