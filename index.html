@@ -46,6 +46,8 @@ main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
 .section{min-height:95vh;display:grid;align-items:center;padding:24px 0;}
 .section-head{position:sticky;top:88px;z-index:10;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;color:#ffd56f;opacity:.9;}
 .glass{border:1px solid rgba(255,255,255,.5);background:var(--glass-bg);backdrop-filter:blur(18px);border-radius:28px;box-shadow:0 20px 55px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.34);}
+.motion-glass{opacity:0;transform:translateY(24px) scale(.98) rotateX(3deg);transition:transform .55s ease,opacity .55s ease;will-change:transform,opacity;}
+.motion-glass.show{opacity:1;transform:translateY(0) scale(1) rotateX(0deg);}
 
 .hero{padding:2rem;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;}
 .hero h1{font-size:clamp(2rem,5vw,4.6rem);line-height:1.04;margin-bottom:12px;}
@@ -60,6 +62,16 @@ main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
 .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
 .feature{padding:16px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.45);}
 .feature svg{width:34px;height:34px;margin-bottom:8px;}
+
+/* Testimonials */
+.testimony-shell{padding:1.4rem;display:grid;gap:12px;}
+.testimony-slider{position:relative;min-height:220px;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.2);}
+.testimony{position:absolute;inset:0;padding:20px;display:grid;align-content:center;gap:10px;opacity:0;transform:translateX(24px);transition:.45s;}
+.testimony.active{opacity:1;transform:translateX(0);}
+.testimony p{font-size:1.06rem;line-height:1.7;color:#ffecc4;}
+.testimony footer{color:#ffd889;font-size:.9rem;}
+.testimony-controls{display:flex;gap:8px;}
+.testimony-controls button{border:none;border-radius:999px;padding:8px 12px;background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.45);cursor:pointer;}
 
 /* Section 04 Carousel */
 .carousel-shell{padding:1.2rem;}
@@ -113,6 +125,7 @@ textarea{min-height:120px;resize:none;}
     <ul class="nav-links">
       <li><a href="#hero">Home</a></li>
       <li><a href="#features">Core</a></li>
+      <li><a href="#testimonials">Testimony</a></li>
       <li><a href="#lab">Examples</a></li>
       <li><a href="#intake">Intake</a></li>
     </ul>
@@ -122,7 +135,7 @@ textarea{min-height:120px;resize:none;}
 <main>
   <section class="section" id="hero">
     <div class="section-head">01 · The Core Signal</div>
-    <article class="hero glass">
+    <article class="hero glass motion-glass">
       <div>
         <h1>Transparent systems. Elite engineering. Mango-level clarity.</h1>
         <div class="typewriter-wrap"><strong>Deep Dev:</strong><span id="typewriter"></span></div>
@@ -138,7 +151,7 @@ textarea{min-height:120px;resize:none;}
 
   <section class="section" id="features">
     <div class="section-head">02 · Technical DNA</div>
-    <article class="features glass">
+    <article class="features glass motion-glass">
       <div class="features-grid">
         <div class="feature"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="#FFD60A" stroke-width="1.7"/></svg><h3>Performance Systems</h3><p>Hard-core rendering and runtime optimization.</p></div>
         <div class="feature"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#FFD60A" stroke-width="1.7"/></svg><h3>UX Architecture</h3><p>Information flow mapped to business outcomes.</p></div>
@@ -148,9 +161,33 @@ textarea{min-height:120px;resize:none;}
     </article>
   </section>
 
+  <section class="section" id="testimonials">
+    <div class="section-head">03 · Testimony</div>
+    <article class="testimony-shell glass motion-glass">
+      <div class="testimony-slider" id="testimonySlider">
+        <div class="testimony active">
+          <p>“SiteMango turned our rough concept into a premium digital experience that instantly increased trust and conversion quality.”</p>
+          <footer>— Avery Collins, CEO · Nordwell Labs</footer>
+        </div>
+        <div class="testimony">
+          <p>“From UI clarity to performance architecture, every part of the execution felt senior-level and production-ready.”</p>
+          <footer>— Priya Nair, Product Director · Verta Studio</footer>
+        </div>
+        <div class="testimony">
+          <p>“The glassmorphism language and smooth motion transformed our brand presence. The outcome feels unmistakably high-end.”</p>
+          <footer>— Matteo Ruiz, Founder · Lumen Grid</footer>
+        </div>
+      </div>
+      <div class="testimony-controls">
+        <button id="prevTestimony" type="button">← Prev</button>
+        <button id="nextTestimony" type="button">Next →</button>
+      </div>
+    </article>
+  </section>
+
   <section class="section" id="lab">
     <div class="section-head">04 · Standalone Site Examples (Carousel)</div>
-    <article class="carousel-shell glass">
+    <article class="carousel-shell glass motion-glass">
       <div class="carousel-top">
         <h2>15 Standalone Website Examples</h2>
         <div class="carousel-controls">
@@ -165,7 +202,7 @@ textarea{min-height:120px;resize:none;}
 
   <section class="section" id="intake">
     <div class="section-head">05 · Strategic Intake</div>
-    <article class="intake-panel">
+    <article class="intake-panel motion-glass">
       <h2>Strategic Intake: Build the next flagship with us.</h2>
       <p>Pick your vertical, share your vision, and we’ll return a concrete technical roadmap.</p>
       <form id="flagshipForm" class="form-grid" novalidate>
@@ -223,6 +260,28 @@ function typeLoop(){
   setTimeout(typeLoop,delay)
 }
 typeLoop()
+
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add("show")}
+  })
+},{threshold:.18})
+document.querySelectorAll(".motion-glass").forEach(el=>revealObserver.observe(el))
+
+const testimonyEls=[...document.querySelectorAll(".testimony")]
+let activeTestimony=0
+let testimonyTimer
+function showTestimony(i){
+  activeTestimony=(i+testimonyEls.length)%testimonyEls.length
+  testimonyEls.forEach((el,idx)=>el.classList.toggle("active",idx===activeTestimony))
+}
+function restartTestimony(){
+  clearInterval(testimonyTimer)
+  testimonyTimer=setInterval(()=>showTestimony(activeTestimony+1),5200)
+}
+document.getElementById("prevTestimony").addEventListener("click",()=>{showTestimony(activeTestimony-1);restartTestimony()})
+document.getElementById("nextTestimony").addEventListener("click",()=>{showTestimony(activeTestimony+1);restartTestimony()})
+restartTestimony()
 
 function standaloneMarkup(example){
   return `<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>${example.title}</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,sans-serif;color:#fff;background:radial-gradient(circle at 85% 15%, ${example.accent}55, transparent 45%),linear-gradient(140deg,#0f0f11,#241d16 48%,#ffb13b)}header{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);backdrop-filter:blur(14px)}header b{letter-spacing:.5px}header nav a{color:#fff8d8;text-decoration:none;margin-left:12px;font-size:.85rem}main{width:min(1020px,92vw);margin:28px auto;display:grid;gap:16px}.hero{padding:22px;border:1px solid rgba(255,255,255,.38);border-radius:22px;background:rgba(255,255,255,.1);backdrop-filter:blur(18px)}h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.6rem)}p{line-height:1.6;opacity:.95}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{padding:14px;border-radius:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3)}.cta{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:999px;background:${example.accent};color:#302100;font-weight:700;text-decoration:none}.metric{font-size:1.4rem;font-weight:800;color:${example.accent}}@media(max-width:780px){.cards{grid-template-columns:1fr}}</style></head><body><header><b>${example.title}</b><nav><a href='#'>Work</a><a href='#'>Services</a><a href='#'>Contact</a></nav></header><main><section class='hero'><h1>${example.concept}</h1><p>${example.desc}. This standalone mock site shows how this vertical could look as a polished production-ready experience.</p><a class='cta' href='#'>Request Demo</a></section><section class='cards'><article class='card'><div class='metric'>+42%</div><p>Conversion-focused UI architecture.</p></article><article class='card'><div class='metric'>1.3s</div><p>Performance target for first meaningful paint.</p></article><article class='card'><div class='metric'>A11y</div><p>Accessible structure and keyboard-friendly flows.</p></article></section></main></body></html>`
