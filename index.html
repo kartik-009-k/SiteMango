@@ -23,42 +23,15 @@
   --glass-bg:rgba(255,255,255,.14);
   --glass-border:rgba(255,255,255,.55);
   --text:#f9f9f9;
-  --muted:#e7e7e7;
-  --panel-top:100px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0;font-family:"Inter","SF Pro Display","Segoe UI",sans-serif;}
 html,body{overflow-x:hidden;scroll-behavior:smooth;background:#0e0e11;color:var(--text);}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:-20%;
-  z-index:-2;
+body{
+  min-height:100vh;
   background:
-    radial-gradient(40% 45% at 82% 12%, rgba(255,214,10,.55) 0%, rgba(255,149,0,.35) 45%, rgba(28,28,30,.1) 80%),
-    radial-gradient(35% 40% at 20% 70%, rgba(255,149,0,.38) 0%, rgba(28,28,30,.12) 70%),
-    linear-gradient(130deg, #1C1C1E 0%, #2a2420 28%, #7b5d2c 55%, #ff9500 100%);
-  background-size:160% 160%,180% 180%,130% 130%;
-  animation:mangoLiquify 26s ease-in-out infinite alternate;
-  will-change:transform,background-position;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  background:radial-gradient(circle at 84% 6%, rgba(255,214,10,.25), transparent 48%);
-}
-
-body.pause-bg::before{animation-play-state:paused;}
-
-@keyframes mangoLiquify{
-  0%{transform:translate3d(0,0,0) scale(1);background-position:0% 40%,100% 60%,50% 50%;}
-  50%{transform:translate3d(-1%,1%,0) scale(1.04);background-position:50% 0%,20% 100%,60% 40%;}
-  100%{transform:translate3d(1%,-1%,0) scale(1.07);background-position:100% 60%,0% 0%,45% 65%;}
+    radial-gradient(circle at 18% 20%, rgba(255,179,64,.38), transparent 36%),
+    radial-gradient(circle at 82% 12%, rgba(255,255,255,.55), transparent 46%),
+    linear-gradient(145deg,#060606 0%, #1d1d1d 24%, #f4f4f4 62%, #ffbe57 100%);
 }
 
 .nav-wrap{position:sticky;top:14px;z-index:120;display:flex;justify-content:center;padding:10px;}
@@ -72,7 +45,6 @@ body.pause-bg::before{animation-play-state:paused;}
 main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
 .section{min-height:95vh;display:grid;align-items:center;padding:24px 0;}
 .section-head{position:sticky;top:88px;z-index:10;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;color:#ffd56f;opacity:.9;}
-
 .glass{border:1px solid rgba(255,255,255,.5);background:var(--glass-bg);backdrop-filter:blur(18px);border-radius:28px;box-shadow:0 20px 55px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.34);}
 
 .hero{padding:2rem;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;}
@@ -89,164 +61,47 @@ main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
 .feature{padding:16px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.45);}
 .feature svg{width:34px;height:34px;margin-bottom:8px;}
 
-/* SECTION 04 LAB */
-.lab-wrapper{contain:paint;}
-.lab-stage{height:95vh;position:relative;}
-.lab-card{
-  position:sticky;
-  top:var(--panel-top);
-  min-height:70vh;
-  padding:1.4rem;
-  border-radius:28px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.62);
-  backdrop-filter:blur(26px);
-  box-shadow:0 20px 55px rgba(0,0,0,.32);
-  transform:translateY(40px) scale(.96) rotateX(2.2deg);
-  opacity:0;
-  transition:transform .55s ease,opacity .55s ease,filter .55s ease,border-color .55s ease;
-  will-change:transform,opacity;
-}
-.lab-card.active{transform:translateY(0) scale(1) rotateX(0deg);opacity:1;}
-.lab-header{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin-bottom:10px;}
-.lab-header h3{font-size:1.15rem;letter-spacing:.6px;}
-.lab-meta{font-size:.75rem;color:#ffdf95;}
-.lab-body{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:stretch;}
-.portal{border:1px solid rgba(255,255,255,.36);border-radius:18px;padding:14px;background:rgba(0,0,0,.18);position:relative;overflow:hidden;}
-.portal p{font-size:.93rem;line-height:1.55;color:#f5e7c3;}
-.lab-notes{display:grid;gap:8px;}
-.note{padding:10px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);font-size:.84rem;line-height:1.45;color:#ffecc0;}
+/* Section 04 Carousel */
+.carousel-shell{padding:1.2rem;}
+.carousel-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;}
+.carousel-controls{display:flex;gap:8px;}
+.carousel-controls button{border:none;border-radius:999px;padding:9px 12px;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;border:1px solid rgba(255,255,255,.45);}
+.carousel-track{position:relative;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.2);min-height:65vh;}
+.carousel-slide{position:absolute;inset:0;padding:14px;display:grid;grid-template-columns:1.2fr .8fr;gap:14px;opacity:0;transform:translateX(22px);transition:opacity .4s ease,transform .4s ease;pointer-events:none;}
+.carousel-slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+.preview-frame{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.4);background:#111;}
+.preview-frame iframe{width:100%;height:100%;min-height:48vh;border:none;background:#fff;}
+.slide-info{padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.38);background:rgba(255,255,255,.1);display:grid;gap:10px;align-content:start;}
+.slide-info h3{font-size:1.1rem;}
+.slide-info p{line-height:1.55;color:#f6e6c3;font-size:.93rem;}
+.spec-list{display:grid;gap:6px;}
+.spec-list li{font-size:.82rem;color:#ffe3a0;list-style:none;padding:7px 9px;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(0,0,0,.18);}
+.open-demo{justify-self:start;border:none;border-radius:999px;padding:10px 14px;background:linear-gradient(120deg,#ffe26a,#ffba21,#ff9500);font-weight:700;color:#3a2500;cursor:pointer;}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.dot{width:10px;height:10px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;}
+.dot.active{background:#ffd60a;}
 
-.portal.retail{backdrop-filter:blur(40px);}
-.portal.retail::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);opacity:0;transition:.3s;}
-.portal.retail:hover::after{opacity:1;}
-
-.glow-graph{stroke:#63f2ff;stroke-width:1.5;fill:none;stroke-dasharray:5 7;animation:graphPulse 2s ease-in-out infinite;}
-@keyframes graphPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
-.counter{font-size:1.6rem;color:#a6ffff;font-weight:700;}
-
-.portal.fintech{background:linear-gradient(140deg, rgba(141,198,255,.18), rgba(230,240,255,.08));}
-.portal.fintech::before{content:"";position:absolute;inset:-2px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);transform:translateX(var(--holo, -120%));}
-.flow-dot{width:8px;height:8px;border-radius:50%;background:#9be9ff;position:absolute;top:50%;left:10%;animation:flow 2.6s linear infinite;}
-@keyframes flow{to{left:86%;}}
-
-.portal.arch{display:grid;grid-template-columns:.8fr 1.2fr;gap:8px;}
-.arch-image{background:linear-gradient(180deg, #999, #555);filter:grayscale(1);transition:filter .4s, box-shadow .4s;}
-.lab-card.active .arch-image{filter:grayscale(.25) sepia(.4) hue-rotate(-12deg) saturate(1.3);box-shadow:0 0 25px rgba(255,214,10,.3) inset;}
-
-.portal.ai{overflow:hidden;}
-.portal.ai::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 40% 40%, rgba(255,255,255,.22), transparent 45%);animation:distort 5s ease-in-out infinite alternate;}
-@keyframes distort{0%{transform:translate(-2%,-2%) scale(1);}100%{transform:translate(2%,1%) scale(1.08);}}
-.network{position:relative;height:120px;}
-.network::before,.network::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle, rgba(255,214,10,.7) 1px, transparent 1px);background-size:26px 26px;}
-.network::after{background-image:linear-gradient(rgba(255,255,255,.25) .5px, transparent .5px), linear-gradient(90deg, rgba(255,255,255,.25) .5px, transparent .5px);background-size:26px 26px;opacity:.45;}
-
-.portal.wellness{border-radius:60px;backdrop-filter:blur(15px);}
-.pulse-text{animation:softPulse 3.4s ease-in-out infinite;letter-spacing:.08em;}
-@keyframes softPulse{0%,100%{opacity:.7;}50%{opacity:1;}}
-
-.map-markers{position:relative;height:110px;}
-.marker{position:absolute;width:10px;height:10px;border-radius:50%;background:#ffd60a;box-shadow:0 0 10px rgba(255,214,10,.9);}
-
-.kinetic{display:inline-block;transform:scaleX(var(--kinetic,1));transition:transform .15s linear;}
-
-.progress-fill{width:6px;height:120px;border-radius:999px;background:rgba(255,255,255,.25);position:relative;overflow:hidden;}
-.progress-fill span{position:absolute;left:0;bottom:0;width:100%;height:var(--read,0%);background:linear-gradient(180deg,#ffd60a,#ff9500);}
-
-.blur-clear{filter:blur(12px);opacity:.6;transition:.5s;}
-.lab-card.active .blur-clear{filter:blur(0);opacity:1;}
-
-.portal.legal{background:rgba(0,0,0,.8);border:1px solid #D4AF37;font-family:"Playfair Display",serif;}
-
-.scanline::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg, rgba(255,255,255,.05) 0 1px, transparent 1px 5px);animation:scan 5s linear infinite;pointer-events:none;}
-@keyframes scan{from{transform:translateY(-100%);}to{transform:translateY(100%);}}
-
-.circle-portal{width:170px;height:170px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.6);background:linear-gradient(140deg,#6a5742,#f0b24a);transform:scale(1);transition:transform .4s;}
-.lab-card.active .circle-portal{transform:scale(1.05);}
-
-.blueprint{background-image:linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px);background-size:20px 20px;}
-.bracket{position:relative;}
-.bracket::before,.bracket::after{content:"";position:absolute;width:18px;height:18px;border:2px solid #ffd60a;}
-.bracket::before{left:6px;top:6px;border-right:none;border-bottom:none;}
-.bracket::after{right:6px;bottom:6px;border-left:none;border-top:none;}
-
-.focus-box{position:relative;height:130px;background:rgba(0,0,0,.5);}
-.focus-box::before{content:"";position:absolute;inset:0;backdrop-filter:blur(10px);}
-.focus-box::after{content:"";position:absolute;inset:28% 34%;border:1px solid rgba(255,255,255,.8);backdrop-filter:none;background:rgba(255,255,255,.08);}
-
-/* SECTION 05 */
+/* Section 05 */
 .intake-panel{min-height:80vh;padding:2.2rem;border-radius:34px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(40px);display:grid;align-content:center;gap:14px;}
 .intake-panel h2{font-size:clamp(1.6rem,4vw,3.1rem);}
 .intake-panel p{color:#ffe9c2;max-width:65ch;line-height:1.7;}
 .form-grid{display:grid;gap:16px;}
 .float-field{position:relative;}
-.float-field input,.float-field textarea,.float-field select{
-  width:100%;
-  border:none;
-  border-bottom:1px solid rgba(255,255,255,.75);
-  background:transparent;
-  color:#fff;
-  padding:14px 4px 8px;
-  font-size:1rem;
-  outline:none;
-}
-.float-field label{
-  position:absolute;
-  left:4px;
-  top:14px;
-  color:#ffecc6;
-  transition:.24s;
-  pointer-events:none;
-}
-.float-field input:focus + label,
-.float-field input:not(:placeholder-shown) + label,
-.float-field textarea:focus + label,
-.float-field textarea:not(:placeholder-shown) + label,
-.float-field select:focus + label,
-.float-field select:valid + label{
-  top:-8px;
-  font-size:.75rem;
-  color:var(--mango);
-}
+.float-field input,.float-field textarea,.float-field select{width:100%;border:none;border-bottom:1px solid rgba(255,255,255,.75);background:transparent;color:#fff;padding:14px 4px 8px;font-size:1rem;outline:none;}
+.float-field label{position:absolute;left:4px;top:14px;color:#ffecc6;transition:.24s;pointer-events:none;}
+.float-field input:focus + label,.float-field input:not(:placeholder-shown) + label,.float-field textarea:focus + label,.float-field textarea:not(:placeholder-shown) + label,.float-field select:focus + label,.float-field select:valid + label{top:-8px;font-size:.75rem;color:var(--mango);}
 .float-field input:focus,.float-field textarea:focus,.float-field select:focus{border-bottom-color:var(--mango);}
-
 textarea{min-height:120px;resize:none;}
 
-.squeeze-btn{
-  position:relative;
-  overflow:hidden;
-  border:none;
-  border-radius:999px;
-  padding:14px 22px;
-  font-weight:800;
-  color:#3a2800;
-  background:linear-gradient(130deg,#ffe26a,#ffb300,#ff9500);
-  cursor:pointer;
-  box-shadow:0 12px 22px rgba(255,171,28,.38);
-}
-.squeeze-btn::before{
-  content:"";
-  position:absolute;
-  left:-20%;right:-20%;bottom:-35%;height:120%;
-  background:radial-gradient(70% 55% at 50% 100%, rgba(255,255,255,.45), rgba(255,255,255,0));
-  animation:slosh 2.6s ease-in-out infinite;
-}
-.squeeze-btn:hover{box-shadow:0 0 28px rgba(255,214,10,.6),0 12px 22px rgba(255,171,28,.38);}
+.squeeze-btn{position:relative;overflow:hidden;border:none;border-radius:999px;padding:14px 22px;font-weight:800;color:#3a2800;background:linear-gradient(130deg,#ffe26a,#ffb300,#ff9500);cursor:pointer;box-shadow:0 12px 22px rgba(255,171,28,.38);}
+.squeeze-btn::before{content:"";position:absolute;left:-20%;right:-20%;bottom:-35%;height:120%;background:radial-gradient(70% 55% at 50% 100%, rgba(255,255,255,.45), rgba(255,255,255,0));animation:slosh 2.6s ease-in-out infinite;}
 @keyframes slosh{0%,100%{transform:translateX(-8%) rotate(-2deg);}50%{transform:translateX(8%) rotate(2deg);}}
-
 #formStatus{min-height:1.2em;color:#ffe39d;font-weight:600;}
-
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
 
-@media (prefers-reduced-motion: reduce){
-  html,body{scroll-behavior:auto;}
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
-}
-
-@media (max-width:930px){
-  .hero{grid-template-columns:1fr;}
+@media (max-width:980px){
+  .hero,.carousel-slide{grid-template-columns:1fr;}
   #typewriter{min-width:16ch;}
-  .lab-body{grid-template-columns:1fr;}
   .nav-links{display:none;}
 }
 </style>
@@ -258,7 +113,7 @@ textarea{min-height:120px;resize:none;}
     <ul class="nav-links">
       <li><a href="#hero">Home</a></li>
       <li><a href="#features">Core</a></li>
-      <li><a href="#lab">The Lab</a></li>
+      <li><a href="#lab">Examples</a></li>
       <li><a href="#intake">Intake</a></li>
     </ul>
   </nav>
@@ -294,118 +149,32 @@ textarea{min-height:120px;resize:none;}
   </section>
 
   <section class="section" id="lab">
-    <div class="section-head">04 · The Lab: 15-Genre Masterclass</div>
-    <div class="lab-wrapper" id="labWrapper">
-      <!-- 1 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>01. Premium Luxury Retail</h3><span class="lab-meta">High-Street Vitrine</span></div>
-        <div class="lab-body">
-          <div class="portal retail"><p>Frost-window glass with iridescent edge. Hover reveals product silhouette like breath on glass.</p></div>
-          <div class="lab-notes"><div class="note">40px blur vitrines.</div><div class="note">Iridescent edge catches scroll light.</div></div>
+    <div class="section-head">04 · Standalone Site Examples (Carousel)</div>
+    <article class="carousel-shell glass">
+      <div class="carousel-top">
+        <h2>15 Standalone Website Examples</h2>
+        <div class="carousel-controls">
+          <button id="prevExample" type="button">← Prev</button>
+          <button id="nextExample" type="button">Next →</button>
         </div>
-      </article></div>
-      <!-- 2 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>02. Data-Driven SaaS Platforms</h3><span class="lab-meta">Clear Dashboard</span></div>
-        <div class="lab-body"><div class="portal"><svg viewBox="0 0 220 80" width="100%"><path class="glow-graph" d="M4 70 C 50 10, 95 55, 140 24 S 210 52, 218 10"/></svg><div class="counter" data-target="98">0</div></div><div class="lab-notes"><div class="note">Neon-cyan pulse graph (2s).</div><div class="note">Counters run on intersection.</div></div></div>
-      </article></div>
-      <!-- 3 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>03. FinTech & Neosystems</h3><span class="lab-meta">Cryptographic Precision</span></div>
-        <div class="lab-body"><div class="portal fintech"><div class="flow-dot"></div><p>Security hologram edge with transaction flow dots through glass tubes.</p></div><div class="lab-notes"><div class="note">Blue-silver tint for trust.</div><div class="note">Hologram shifts with scroll.</div></div></div>
-      </article></div>
-      <!-- 4 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>04. Architectural & Spatial Design</h3><span class="lab-meta">Monolithic Transparency</span></div>
-        <div class="lab-body"><div class="portal arch"><div><p>Structural whitespace and pinned left narrative.</p></div><div class="arch-image"></div></div><div class="lab-notes"><div class="note">Asymmetric layout + parallax feel.</div><div class="note">Monochrome to mango saturation when active.</div></div></div>
-      </article></div>
-      <!-- 5 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>05. AI & Neural Labs</h3><span class="lab-meta">Living Synapse</span></div>
-        <div class="lab-body"><div class="portal ai"><div class="network"></div></div><div class="lab-notes"><div class="note">Lens-like liquid distortion.</div><div class="note">Glowing nodes + 0.5px links.</div></div></div>
-      </article></div>
-      <!-- 6 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>06. Global Wellness & Healthcare</h3><span class="lab-meta">Organic Clarity</span></div>
-        <div class="lab-body"><div class="portal wellness"><p class="pulse-text">Calm, rounded interface with soft-focus rhythm.</p></div><div class="lab-notes"><div class="note">60px corners, 15px blur.</div><div class="note">Gentle opacity pulse.</div></div></div>
-      </article></div>
-      <!-- 7 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>07. Next-Gen Real Estate</h3><span class="lab-meta">HUD Map</span></div>
-        <div class="lab-body"><div class="portal"><div class="map-markers"><span class="marker" style="top:20%;left:30%"></span><span class="marker" style="top:55%;left:58%"></span><span class="marker" style="top:68%;left:18%"></span></div></div><div class="lab-notes"><div class="note">Markers glow at viewport center.</div><div class="note">Floating line-art plans.</div></div></div>
-      </article></div>
-      <!-- 8 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>08. Motion Graphics & Creative Agencies</h3><span class="lab-meta">Zest & High-Energy</span></div>
-        <div class="lab-body"><div class="portal"><p class="kinetic">Kinetic Typography powered by scroll velocity.</p></div><div class="lab-notes"><div class="note">100% mango accents.</div><div class="note">High-contrast energy mode.</div></div></div>
-      </article></div>
-      <!-- 9 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>09. Educational & E-Learning Ecosystems</h3><span class="lab-meta">Structured Layers</span></div>
-        <div class="lab-body"><div class="portal" style="display:flex;gap:10px;"><div class="progress-fill"><span></span></div><p>Vertical tabs, module clarity, and readable hierarchy.</p></div><div class="lab-notes"><div class="note">Progress glass fill as user reads.</div><div class="note">Simple geometric learning icons.</div></div></div>
-      </article></div>
-      <!-- 10 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>10. Social Impact & Non-Profit Narratives</h3><span class="lab-meta">Purpose Lens</span></div>
-        <div class="lab-body"><div class="portal" style="background:rgba(255,255,255,.02)"><p class="blur-clear">“Impact scales when stories are engineered for empathy.”</p></div><div class="lab-notes"><div class="note">High-transparency hero image support.</div><div class="note">Blur-to-clear quote transitions.</div></div></div>
-      </article></div>
-      <!-- 11 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>11. Corporate Legal & Consulting</h3><span class="lab-meta">Obsidian Prestige</span></div>
-        <div class="lab-body"><div class="portal legal"><p>Symmetrical serif composition with authority-first hierarchy.</p></div><div class="lab-notes"><div class="note">rgba(0,0,0,0.8) tint.</div><div class="note">Gold leaf border #D4AF37.</div></div></div>
-      </article></div>
-      <!-- 12 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>12. Esports & Gaming Environments</h3><span class="lab-meta">Neon Grid</span></div>
-        <div class="lab-body"><div class="portal scanline"><p>Reactive neon grid with glitch-ready CTA states.</p></div><div class="lab-notes"><div class="note">Scanline pass every 5s.</div><div class="note">Purple accent reaction patterns.</div></div></div>
-      </article></div>
-      <!-- 13 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>13. Hospitality & Luxury Travel</h3><span class="lab-meta">The Porthole</span></div>
-        <div class="lab-body"><div class="portal" style="display:grid;place-items:center;"><div class="circle-portal"></div><p style="font-size:.78rem;margin-top:8px;">27.9881°N · 86.9250°E</p></div><div class="lab-notes"><div class="note">Circular immersion viewport.</div><div class="note">Background zooms to 1.05x on active.</div></div></div>
-      </article></div>
-      <!-- 14 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>14. Automotive & Industrial Engineering</h3><span class="lab-meta">Blueprint Logic</span></div>
-        <div class="lab-body"><div class="portal blueprint bracket"><p style="font-family:monospace;">Torque · 486Nm | Range · 640km | Drag · 0.22Cd</p></div><div class="lab-notes"><div class="note">20px engineering grid.</div><div class="note">Corner bracket borders.</div></div></div>
-      </article></div>
-      <!-- 15 -->
-      <div class="lab-stage"><article class="lab-card" data-lab-card>
-        <div class="lab-header"><h3>15. Cinematography & Film Portfolios</h3><span class="lab-meta">Darkroom Lens</span></div>
-        <div class="lab-body"><div class="portal"><div class="focus-box"></div></div><div class="lab-notes"><div class="note">Blurred frame with clear focus box.</div><div class="note">FPS 24 · Focal 35mm metadata zones.</div></div></div>
-      </article></div>
-    </div>
+      </div>
+      <div class="carousel-track" id="carouselTrack"></div>
+      <div class="dots" id="carouselDots"></div>
+    </article>
   </section>
 
   <section class="section" id="intake">
     <div class="section-head">05 · Strategic Intake</div>
     <article class="intake-panel">
       <h2>Strategic Intake: Build the next flagship with us.</h2>
-      <p>As you complete the Lab, the system enters Mango-Gold focus mode. Share your intent and we will return a concrete technical roadmap.</p>
+      <p>Pick your vertical, share your vision, and we’ll return a concrete technical roadmap.</p>
       <form id="flagshipForm" class="form-grid" novalidate>
-        <div class="float-field">
-          <input id="fullName" name="fullName" placeholder=" " autocomplete="name" required />
-          <label for="fullName">Full Name</label>
-        </div>
-        <div class="float-field">
-          <input id="corporateEmail" name="corporateEmail" type="email" placeholder=" " autocomplete="email" required />
-          <label for="corporateEmail">Corporate Email</label>
-        </div>
-        <div class="float-field">
-          <select id="projectVertical" name="projectVertical" required>
-            <option value="" selected disabled></option>
-            <option>Premium Luxury Retail</option><option>Data-Driven SaaS Platforms</option><option>FinTech & Neosystems</option><option>Architectural & Spatial Design</option><option>Artificial Intelligence & Neural Labs</option><option>Global Wellness & Healthcare</option><option>Next-Gen Real Estate</option><option>Motion Graphics & Creative Agencies</option><option>Educational & E-Learning Ecosystems</option><option>Social Impact & Non-Profit Narratives</option><option>Corporate Legal & Consulting</option><option>Esports & Gaming Environments</option><option>Hospitality & Luxury Travel</option><option>Automotive & Industrial Engineering</option><option>Cinematography & Film Portfolios</option>
-          </select>
-          <label for="projectVertical">Project Vertical</label>
-        </div>
-        <div class="float-field">
-          <textarea id="visionStatement" name="visionStatement" placeholder=" " required></textarea>
-          <label for="visionStatement">Vision Statement</label>
-        </div>
-
+        <div class="float-field"><input id="fullName" name="fullName" placeholder=" " autocomplete="name" required /><label for="fullName">Full Name</label></div>
+        <div class="float-field"><input id="corporateEmail" name="corporateEmail" type="email" placeholder=" " autocomplete="email" required /><label for="corporateEmail">Corporate Email</label></div>
+        <div class="float-field"><select id="projectVertical" name="projectVertical" required><option value="" selected disabled></option></select><label for="projectVertical">Project Vertical</label></div>
+        <div class="float-field"><textarea id="visionStatement" name="visionStatement" placeholder=" " required></textarea><label for="visionStatement">Vision Statement</label></div>
         <label class="sr-only" for="website">Website</label>
         <input class="sr-only" id="website" name="website" tabindex="-1" autocomplete="off" />
-
         <button class="squeeze-btn" type="submit">Squeeze the Mango</button>
         <div id="formStatus" aria-live="polite"></div>
       </form>
@@ -424,8 +193,26 @@ const typeLines=[
   "We architect the future of the transparent web."
 ]
 
+const examples=[
+  ["Premium Luxury Retail","High-Street Vitrine","Frosted storefront with hover reveal"],
+  ["Data-Driven SaaS Platforms","Clear Dashboard","Pulse-graph KPIs and glass widgets"],
+  ["FinTech & Neosystems","Cryptographic Precision","Hologram edge + transaction motion"],
+  ["Architectural & Spatial Design","Monolithic Transparency","Asymmetric structure and depth"],
+  ["AI & Neural Labs","Living Synapse","Neural dots + lens distortion"],
+  ["Global Wellness & Healthcare","Organic Clarity","Soft rounded calm interfaces"],
+  ["Next-Gen Real Estate","HUD Map","Spatial overlays with marker glow"],
+  ["Motion Graphics & Creative Agencies","Zest & High-Energy","Kinetic type and bold mango accents"],
+  ["Educational & E-Learning","Structured Layers","Module tabs and progress rails"],
+  ["Social Impact & Non-Profit","Purpose Lens","Blur-to-clear narrative storytelling"],
+  ["Corporate Legal & Consulting","Obsidian Prestige","Gold-edged formal authority"],
+  ["Esports & Gaming","Neon Grid","Reactive scanline, glitch CTA energy"],
+  ["Hospitality & Luxury Travel","The Porthole","Immersive destination framing"],
+  ["Automotive & Industrial","Blueprint Logic","Grid systems and technical specs"],
+  ["Cinematography & Film","Darkroom Lens","Focused center-frame reveal"]
+]
+
 const typewriterEl=document.getElementById("typewriter")
-let ti=0, tj=0, isTyping=true
+let ti=0,tj=0,isTyping=true
 function typeLoop(){
   const line=typeLines[ti]
   tj=isTyping?Math.min(tj+1,line.length):Math.max(tj-1,0)
@@ -437,79 +224,75 @@ function typeLoop(){
 }
 typeLoop()
 
-const labCards=[...document.querySelectorAll("[data-lab-card]")]
-const counters=[...document.querySelectorAll(".counter")]
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("active")
-      const counter=entry.target.querySelector(".counter")
-      if(counter&&!counter.dataset.done){
-        const target=Number(counter.dataset.target||0)
-        let value=0
-        const tick=()=>{
-          value+=target/70
-          if(value<target){counter.textContent=String(Math.floor(value));requestAnimationFrame(tick)}
-          else{counter.textContent=String(target);counter.dataset.done="1"}
-        }
-        tick()
-      }
-    }
-  })
-},{threshold:.28})
-labCards.forEach(card=>observer.observe(card))
-
-let lastY=window.scrollY
-let velocity=0
-const kineticEl=document.querySelector(".kinetic")
-function onScroll(){
-  const current=window.scrollY
-  velocity=current-lastY
-  lastY=current
-  const xScale=Math.max(.9,Math.min(1.14,1+Math.abs(velocity)/220))
-  kineticEl.style.setProperty("--kinetic",xScale.toFixed(3))
-
-  const progressBars=[...document.querySelectorAll(".progress-fill span")]
-  progressBars.forEach(bar=>{
-    const rect=bar.closest('.lab-card').getBoundingClientRect()
-    const vh=window.innerHeight
-    const progress=Math.max(0,Math.min(1,(vh-rect.top)/(vh+rect.height)))
-    bar.style.setProperty("--read",`${Math.round(progress*100)}%`)
-  })
-
-  const holoCards=[...document.querySelectorAll('.portal.fintech')]
-  holoCards.forEach(card=>{
-    const rect=card.getBoundingClientRect()
-    const p=Math.max(-120,Math.min(120,((window.innerHeight/2-rect.top)/window.innerHeight)*120))
-    card.style.setProperty('--holo',`${p}%`)
-  })
+function standaloneMarkup(title,concept){
+  return `<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><style>body{margin:0;font-family:Inter,sans-serif;background:linear-gradient(140deg,#111,#2d2212 45%,#ffb13b);color:#fff;min-height:100vh;display:grid;place-items:center}article{width:min(860px,92vw);padding:24px;border:1px solid rgba(255,255,255,.5);border-radius:20px;background:rgba(255,255,255,.14);backdrop-filter:blur(16px)}h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.6rem)}p{line-height:1.6;opacity:.95}</style></head><body><article><h1>${title}</h1><p>${concept}</p><p>This is a standalone sample website preview generated by SiteMango's example carousel.</p></article></body></html>`
 }
-window.addEventListener('scroll',onScroll,{passive:true})
-onScroll()
+
+const track=document.getElementById("carouselTrack")
+const dots=document.getElementById("carouselDots")
+const selectEl=document.getElementById("projectVertical")
+
+examples.forEach((ex,index)=>{
+  const [title,meta,desc]=ex
+  const slide=document.createElement("article")
+  slide.className=`carousel-slide ${index===0?"active":""}`
+  slide.innerHTML=`
+    <div class="preview-frame"><iframe loading="lazy" title="${title} preview" srcdoc="${standaloneMarkup(title,desc).replace(/"/g,'&quot;')}"></iframe></div>
+    <div class="slide-info">
+      <h3>${index+1}. ${title}</h3>
+      <p><strong>${meta}</strong> — ${desc}</p>
+      <ul class="spec-list">
+        <li>Standalone sample website preview</li>
+        <li>Glassmorphism 2.0 styling language</li>
+        <li>Consumer-facing portal concept</li>
+      </ul>
+      <button class="open-demo" type="button">Open Standalone Demo</button>
+    </div>`
+  slide.querySelector('.open-demo').addEventListener('click',()=>{
+    const blob=new Blob([standaloneMarkup(title,desc)],{type:'text/html'})
+    const url=URL.createObjectURL(blob)
+    window.open(url,'_blank','noopener,noreferrer')
+    setTimeout(()=>URL.revokeObjectURL(url),30000)
+  })
+  track.appendChild(slide)
+
+  const dot=document.createElement('button')
+  dot.className=`dot ${index===0?"active":""}`
+  dot.setAttribute('aria-label',`Go to example ${index+1}`)
+  dot.addEventListener('click',()=>showSlide(index))
+  dots.appendChild(dot)
+
+  const option=document.createElement('option')
+  option.textContent=title
+  selectEl.appendChild(option)
+})
+
+const slides=[...document.querySelectorAll('.carousel-slide')]
+const dotEls=[...document.querySelectorAll('.dot')]
+let active=0
+let timer
+function showSlide(i){
+  active=(i+slides.length)%slides.length
+  slides.forEach((s,idx)=>s.classList.toggle('active',idx===active))
+  dotEls.forEach((d,idx)=>d.classList.toggle('active',idx===active))
+}
+function restart(){clearInterval(timer);timer=setInterval(()=>showSlide(active+1),5000)}
+document.getElementById('prevExample').addEventListener('click',()=>{showSlide(active-1);restart()})
+document.getElementById('nextExample').addEventListener('click',()=>{showSlide(active+1);restart()})
+restart()
 
 const form=document.getElementById("flagshipForm")
 const formStatus=document.getElementById("formStatus")
 const submitBtn=form.querySelector(".squeeze-btn")
 const vision=document.getElementById("visionStatement")
-
-vision.addEventListener("input",()=>{
-  vision.style.height='auto'
-  vision.style.height=`${vision.scrollHeight}px`
-})
-
-form.addEventListener("focusin",()=>document.body.classList.add("pause-bg"))
-form.addEventListener("focusout",()=>{
-  if(!form.contains(document.activeElement)){document.body.classList.remove("pause-bg")}
-})
+vision.addEventListener("input",()=>{vision.style.height='auto';vision.style.height=`${vision.scrollHeight}px`})
 
 form.addEventListener("submit",e=>{
   e.preventDefault()
   if(submitBtn.disabled) return
-
   const data=new FormData(form)
   const honeypot=(data.get("website")?.toString().trim() ?? "")
   if(honeypot){formStatus.textContent="Spam check failed.";return}
-
   const lastSubmit=Number(localStorage.getItem("sitemangoLastSubmit")||0)
   const waitMs=(lastSubmit+formCooldownMs)-Date.now()
   if(waitMs>0){formStatus.textContent=`Please wait ${Math.ceil(waitMs/1000)}s before trying again.`;return}
@@ -521,23 +304,17 @@ form.addEventListener("submit",e=>{
     visionStatement:data.get("visionStatement")?.toString().trim() ?? "",
     website:honeypot
   }
-
-  if(!payload.fullName||!payload.corporateEmail||!payload.projectVertical||!payload.visionStatement){
-    formStatus.textContent="Please complete all fields before submitting."
-    return
-  }
+  if(!payload.fullName||!payload.corporateEmail||!payload.projectVertical||!payload.visionStatement){formStatus.textContent="Please complete all fields before submitting.";return}
 
   formStatus.textContent="Squeezing the mango..."
   submitBtn.disabled=true
-
   fetch(sheetEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
     .then(r=>r.json())
     .then(res=>{
       if(res?.ok===false){formStatus.textContent=res.reason||"Submission failed.";return}
       formStatus.textContent="✔ Strategy brief received. We will contact you shortly."
       localStorage.setItem("sitemangoLastSubmit",String(Date.now()))
-      form.reset()
-      vision.style.height=''
+      form.reset();vision.style.height=''
     })
     .catch(()=>{formStatus.textContent="Submission failed. Please try again."})
     .finally(()=>{submitBtn.disabled=false})
