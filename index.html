@@ -1,431 +1,493 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SiteMango</title>
-
+<meta name="description" content="SiteMango builds glass-smooth, high-performance digital platforms for elite brands and global teams." />
+<link rel="canonical" href="https://example.com/" />
+<meta property="og:title" content="SiteMango — Glassmorphism 2.0 Web Systems" />
+<meta property="og:description" content="Technical-elite web development with premium motion, conversion UX, and flagship engineering." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://example.com/" />
+<meta property="og:image" content="https://example.com/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SiteMango — Technical-Elite Web Development" />
+<meta name="twitter:description" content="We build digital clarity for next-generation brands." />
+<meta name="twitter:image" content="https://example.com/og-image.jpg" />
 <style>
 :root{
---accent:#9cff2e;
---bg:#06080c;
---text:#e8f0f2;
+  --mango:#FFD60A;
+  --orange:#FF9500;
+  --obsidian:#1C1C1E;
+  --glass-bg:rgba(255,255,255,.14);
+  --glass-border:rgba(255,255,255,.55);
+  --text:#f9f9f9;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Inter","SF Pro Display","Segoe UI",sans-serif;}
+html,body{overflow-x:hidden;scroll-behavior:smooth;background:#0e0e11;color:var(--text);}
+body{min-height:100vh;background:#0e0e11;}
+
+.mesh-bg{
+  position:fixed;
+  inset:-20%;
+  z-index:5;
+  pointer-events:none;
+  animation:mesh-drift 30s ease-in-out infinite alternate;
+}
+.mesh-bg svg{width:140%;height:140%;}
+@keyframes mesh-drift{
+  0%{transform:translate3d(0,0,0) scale(1);}
+  50%{transform:translate3d(-2%,-1%,0) scale(1.05);}
+  100%{transform:translate3d(2%,1%,0) scale(1.08);}
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Courier New", monospace;
+#scrollProgress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#ffe26a,#ff9500);box-shadow:0 0 16px rgba(255,186,36,.8);z-index:200;}
+.ambient-orb{position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle at 30% 30%, rgba(255,226,106,.32), rgba(255,149,0,.1) 56%, transparent 72%);filter:blur(8px);transform:translate(-50%,-50%);}
+
+.nav-wrap{position:sticky;top:14px;z-index:120;display:flex;justify-content:center;padding:10px;}
+.nav{width:min(1180px,95vw);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(20px);box-shadow:0 15px 30px rgba(0,0,0,.26);transition:transform .25s ease,backdrop-filter .25s ease;}
+body.nav-compact .nav{transform:scale(.9);backdrop-filter:blur(26px);}
+.brand{font-weight:800;letter-spacing:.5px;}
+.brand span{color:var(--mango);}
+.nav-links{list-style:none;display:flex;gap:10px;}
+.nav-links a{color:#ffeab6;text-decoration:none;padding:8px 12px;border-radius:999px;font-size:.9rem;}
+.nav-links a:hover{background:rgba(255,255,255,.22);}
+
+main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
+.section{min-height:95vh;display:grid;align-items:center;padding:24px 0;}
+.section-head{position:sticky;top:88px;z-index:10;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;color:#ffd56f;opacity:.9;}
+.glass{border:1px solid rgba(255,255,255,.5);background:var(--glass-bg);backdrop-filter:blur(18px);border-radius:28px;box-shadow:0 20px 55px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.34);}
+.motion-glass{opacity:0;transform:translateY(24px) scale(.98) rotateX(3deg);transition:transform .55s ease,opacity .55s ease;will-change:transform,opacity;}
+.motion-glass.show{opacity:1;transform:translateY(0) scale(1) rotateX(0deg);}
+
+.hero{padding:2rem;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;}
+.hero{position:relative;z-index:10;}
+.hyper-hero{min-height:180vh;contain:layout style;}
+.hyper-hero-inner{position:sticky;top:0;height:100vh;display:grid;align-items:center;}
+.hero-type{
+  font-size:clamp(2rem,5vw,5rem);
+  line-height:1.05;
+  text-shadow:0 0 20px rgba(255,214,10,.3);
+  transform:scale(var(--hero-scale,1)) translateZ(0);
+  opacity:var(--hero-opacity,1);
+  filter:blur(var(--hero-blur,0px));
+  transition:opacity .12s linear,transform .12s linear,filter .12s linear;
+  z-index:10;
 }
-
-body{
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
+.hero-prefix{font-weight:800;}
+.hero-suffix{display:block;}
+#typewriter{
+  min-width:22ch;
+  white-space:nowrap;
+  overflow:hidden;
+  border-right:2px solid #ffd60a;
+  box-shadow:2px 0 12px rgba(255,214,10,.65);
+  animation:cursorPulse 1s steps(1,end) infinite;
+  transform:translateZ(0);
 }
+@keyframes cursorPulse{50%{border-color:transparent;box-shadow:none;}}
+.hero p{line-height:1.7;color:#f6ebd1;max-width:58ch;}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.btn-main,.btn-ghost{padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:700;}
+.btn-main{background:linear-gradient(120deg,#ffe471,#ffca35,#ff970f);color:#241600;box-shadow:0 10px 22px rgba(255,170,26,.45);}
+.btn-main{position:relative;overflow:hidden;}
+.btn-main::after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(110deg,transparent,rgba(255,255,255,.4),transparent);animation:btnSweep 2.8s infinite;}
+@keyframes btnSweep{to{transform:translateX(120%);}}
+.btn-ghost{border:1px solid rgba(255,255,255,.58);color:#fff5d0;background:rgba(0,0,0,.25);}
+.mini-grid{display:grid;gap:12px;}
+.mini{padding:14px;border-radius:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);position:relative;overflow:hidden;}
+.mini::after{content:"";position:absolute;inset:auto -20% -70% -20%;height:120px;background:radial-gradient(60% 60% at 50% 0, rgba(255,214,10,.35), transparent 70%);}
+.trust-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.trust-pill{padding:6px 10px;border-radius:999px;font-size:.76rem;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.36);color:#ffe4ad;}
 
-/* progress bar */
+.features{padding:1.6rem;}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+.feature{padding:16px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.45);}
+.feature svg{width:34px;height:34px;margin-bottom:8px;}
 
-#progress{
-position:fixed;
-top:0;
-left:0;
-height:3px;
-width:0%;
-background:var(--accent);
-box-shadow:0 0 15px var(--accent);
-z-index:999;
-}
+/* Testimonials */
+.testimony-shell{padding:1.4rem;display:grid;gap:12px;}
+.testimony-slider{position:relative;min-height:220px;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.2);}
+.testimony{position:absolute;inset:0;padding:20px;display:grid;align-content:center;gap:10px;opacity:0;transform:translateX(24px);transition:.45s;}
+.testimony.active{opacity:1;transform:translateX(0);}
+.testimony p{font-size:1.06rem;line-height:1.7;color:#ffecc4;}
+.testimony footer{color:#ffd889;font-size:.9rem;}
+.testimony-controls{display:flex;gap:8px;}
+.testimony-controls button{border:none;border-radius:999px;padding:8px 12px;background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.45);cursor:pointer;}
 
-/* particles */
+/* Section 04 Carousel */
+.carousel-shell{padding:1.2rem;}
+.carousel-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;}
+.carousel-controls{display:flex;gap:8px;}
+.carousel-controls button{border:none;border-radius:999px;padding:9px 12px;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;border:1px solid rgba(255,255,255,.45);}
+.carousel-track{position:relative;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.2);min-height:65vh;}
+.carousel-slide{position:absolute;inset:0;padding:14px;display:grid;grid-template-columns:1.2fr .8fr;gap:14px;opacity:0;transform:translateX(22px);transition:opacity .4s ease,transform .4s ease;pointer-events:none;}
+.carousel-slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+.preview-frame{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.4);background:#111;}
+.preview-frame iframe{width:100%;height:100%;min-height:48vh;border:none;background:#fff;}
+.slide-info{padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.38);background:rgba(255,255,255,.1);display:grid;gap:10px;align-content:start;}
+.slide-info h3{font-size:1.1rem;}
+.slide-info p{line-height:1.55;color:#f6e6c3;font-size:.93rem;}
+.spec-list{display:grid;gap:6px;}
+.spec-list li{font-size:.82rem;color:#ffe3a0;list-style:none;padding:7px 9px;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(0,0,0,.18);}
+.open-demo{justify-self:start;border:none;border-radius:999px;padding:10px 14px;background:linear-gradient(120deg,#ffe26a,#ffba21,#ff9500);font-weight:700;color:#3a2500;cursor:pointer;}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.dot{width:10px;height:10px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;}
+.dot.active{background:#ffd60a;}
 
-#particles{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-}
+/* Section 05 */
+.intake-panel{min-height:80vh;padding:2.2rem;border-radius:34px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(40px);display:grid;align-content:center;gap:14px;}
+.intake-panel h2{font-size:clamp(1.6rem,4vw,3.1rem);color:#1e1708;}
+.intake-panel p{color:#35290d;max-width:65ch;line-height:1.7;}
+.form-grid{display:grid;gap:16px;}
+.float-field{position:relative;}
+.float-field input,.float-field textarea,.float-field select{width:100%;border:none;border-bottom:1px solid rgba(64,49,16,.55);background:transparent;color:#261f11;padding:14px 4px 8px;font-size:1rem;outline:none;}
+.float-field label{position:absolute;left:4px;top:14px;color:#5a4615;transition:.24s;pointer-events:none;}
+.float-field input:focus + label,.float-field input:not(:placeholder-shown) + label,.float-field textarea:focus + label,.float-field textarea:not(:placeholder-shown) + label,.float-field select:focus + label,.float-field select:valid + label{top:-8px;font-size:.75rem;color:var(--mango);}
+.float-field input:focus,.float-field textarea:focus,.float-field select:focus{border-bottom-color:var(--mango);}
+textarea{min-height:120px;resize:none;}
 
-/* header */
+.squeeze-btn{position:relative;overflow:hidden;border:none;border-radius:999px;padding:14px 22px;font-weight:800;color:#3a2800;background:linear-gradient(130deg,#ffe26a,#ffb300,#ff9500);cursor:pointer;box-shadow:0 12px 22px rgba(255,171,28,.38);}
+.squeeze-btn::before{content:"";position:absolute;left:-20%;right:-20%;bottom:-35%;height:120%;background:radial-gradient(70% 55% at 50% 100%, rgba(255,255,255,.45), rgba(255,255,255,0));animation:slosh 2.6s ease-in-out infinite;}
+@keyframes slosh{0%,100%{transform:translateX(-8%) rotate(-2deg);}50%{transform:translateX(8%) rotate(2deg);}}
+#formStatus{min-height:1.2em;color:#3c2f10;font-weight:600;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
 
-header{
-position:fixed;
-top:20px;
-left:8%;
-color:var(--accent);
-font-size:1.2rem;
-letter-spacing:2px;
-}
-
-/* sections */
-
-section{
-min-height:120vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-padding:0 10%;
-}
-
-h1{
-font-size:3rem;
-margin-bottom:25px;
-color:var(--accent);
-text-shadow:0 0 20px rgba(156,255,46,.4);
-}
-
-p{
-max-width:700px;
-margin-bottom:25px;
-opacity:.85;
-}
-
-/* typing */
-
-.typing{
-font-size:1.4rem;
-border-right:2px solid var(--accent);
-white-space:nowrap;
-overflow:hidden;
-width:fit-content;
-}
-
-/* cards */
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:30px;
-margin-top:40px;
-}
-
-.card{
-padding:25px;
-border-radius:16px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(16px);
-border:1px solid rgba(255,255,255,0.1);
-transition:.35s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 40px rgba(156,255,46,.35);
-}
-
-.counter{
-font-size:2rem;
-margin-top:12px;
-color:var(--accent);
-}
-
-/* graph */
-
-canvas{
-margin-top:30px;
-width:500px;
-height:260px;
-border-radius:10px;
-background:rgba(0,0,0,.4);
-border:1px solid rgba(255,255,255,.15);
-}
-
-/* form */
-
-form{
-max-width:420px;
-display:flex;
-flex-direction:column;
-gap:16px;
-margin-top:25px;
-}
-
-input,textarea{
-padding:12px;
-border-radius:8px;
-border:none;
-background:rgba(255,255,255,.07);
-color:white;
-}
-
-button{
-padding:12px;
-border-radius:8px;
-border:2px solid var(--accent);
-background:transparent;
-color:var(--accent);
-cursor:pointer;
-}
-
-button:hover{
-background:var(--accent);
-color:black;
-}
-
-#formStatus{
-margin-top:10px;
-color:var(--accent);
-opacity:.9;
+@media (max-width:980px){
+  .hero,.carousel-slide{grid-template-columns:1fr;}
+  #typewriter{min-width:16ch;}
+  .nav-links{display:none;}
 }
 </style>
 </head>
-
 <body>
-
-<canvas id="particles"></canvas>
-<div id="progress"></div>
-
-<header>SiteMango</header>
-
-<section>
-
-<h1>SiteMango</h1>
-
-<div class="typing" id="typing"></div>
-
-<p>
-We build fast, performance-focused websites designed to convert.
-</p>
-
-</section>
-
-<section>
-
-<h1>Impact & Growth</h1>
-
-<p>
-Clear UX and strong performance dramatically increase trust and conversions.
-</p>
-
-<div class="cards">
-
-<div class="card">
-Conversion Lift
-<div class="counter" data-target="45">0</div>%
+<div class="mesh-bg" aria-hidden="true">
+  <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="blur80"><feGaussianBlur stdDeviation="80" /></filter>
+    </defs>
+    <circle cx="290" cy="180" r="260" fill="#FFD60A" filter="url(#blur80)" />
+    <circle cx="1020" cy="220" r="300" fill="#FF9500" filter="url(#blur80)" />
+    <circle cx="710" cy="720" r="360" fill="#1C1C1E" filter="url(#blur80)" />
+  </svg>
+</div>
+<div id="scrollProgress"></div>
+<div class="ambient-orb" id="ambientOrb"></div>
+<div class="nav-wrap">
+  <nav class="nav" aria-label="Primary">
+    <div class="brand">Site<span>mango</span></div>
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#features">Core</a></li>
+      <li><a href="#testimonials">Testimony</a></li>
+      <li><a href="#lab">Examples</a></li>
+      <li><a href="#intake">Intake</a></li>
+    </ul>
+  </nav>
 </div>
 
-<div class="card">
-Credibility Increase
-<div class="counter" data-target="82">0</div>%
-</div>
+<main>
+  <section class="section hyper-hero" id="hero">
+    <div class="hyper-hero-inner">
+      <div class="section-head">01 · The Hyper-Hero</div>
+      <article class="hero glass motion-glass" id="heroGlass">
+        <div>
+          <h1 class="hero-type"><span class="hero-prefix">We </span><span id="typewriter"></span><span class="hero-suffix"> for the next generation.</span></h1>
+          <p>SiteMango designs and engineers flagship web ecosystems where performance, interaction fidelity, and narrative precision become one seamless digital surface.</p>
+          <div class="hero-actions">
+            <a class="btn-main" href="#intake">Start Flagship Build</a>
+            <a class="btn-ghost" href="#lab">View Live Examples</a>
+          </div>
+          <div class="trust-strip">
+            <span class="trust-pill">Perf Budget Driven</span>
+            <span class="trust-pill">Conversion Architecture</span>
+            <span class="trust-pill">Production-Grade Motion</span>
+          </div>
+        </div>
+        <div class="mini-grid">
+          <div class="mini">LCP targeting under 1.5s with production-grade optimization.</div>
+          <div class="mini">Design systems built for scale and maintainability.</div>
+          <div class="mini">Motion language aligned to conversion behavior.</div>
+        </div>
+      </article>
+    </div>
+  </section>
 
-<div class="card">
-Mobile Optimization
-<div class="counter" data-target="60">0</div>%
-</div>
+  <section class="section" id="features">
+    <div class="section-head">02 · Technical DNA</div>
+    <article class="features glass motion-glass">
+      <div class="features-grid">
+        <div class="feature"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="#FFD60A" stroke-width="1.7"/></svg><h3>Performance Systems</h3><p>Hard-core rendering and runtime optimization.</p></div>
+        <div class="feature"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#FFD60A" stroke-width="1.7"/></svg><h3>UX Architecture</h3><p>Information flow mapped to business outcomes.</p></div>
+        <div class="feature"><svg viewBox="0 0 24 24" fill="none"><path d="M5 18l5-12 4 9 5-7" stroke="#FFD60A" stroke-width="1.7"/></svg><h3>Motion Intelligence</h3><p>Micro and macro motion synced with user intent.</p></div>
+        <div class="feature"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="5" width="14" height="14" stroke="#FFD60A" stroke-width="1.7"/></svg><h3>Scalable Delivery</h3><p>Build pipelines and components made for growth.</p></div>
+      </div>
+    </article>
+  </section>
 
-</div>
+  <section class="section" id="testimonials">
+    <div class="section-head">03 · Testimony</div>
+    <article class="testimony-shell glass motion-glass">
+      <div class="testimony-slider" id="testimonySlider">
+        <div class="testimony active">
+          <p>“SiteMango turned our rough concept into a premium digital experience that instantly increased trust and conversion quality.”</p>
+          <footer>— Avery Collins, CEO · Nordwell Labs</footer>
+        </div>
+        <div class="testimony">
+          <p>“From UI clarity to performance architecture, every part of the execution felt senior-level and production-ready.”</p>
+          <footer>— Priya Nair, Product Director · Verta Studio</footer>
+        </div>
+        <div class="testimony">
+          <p>“The glassmorphism language and smooth motion transformed our brand presence. The outcome feels unmistakably high-end.”</p>
+          <footer>— Matteo Ruiz, Founder · Lumen Grid</footer>
+        </div>
+      </div>
+      <div class="testimony-controls">
+        <button id="prevTestimony" type="button">← Prev</button>
+        <button id="nextTestimony" type="button">Next →</button>
+      </div>
+    </article>
+  </section>
 
-</section>
+  <section class="section" id="lab">
+    <div class="section-head">04 · Standalone Site Examples (Carousel)</div>
+    <article class="carousel-shell glass motion-glass">
+      <div class="carousel-top">
+        <h2>16 Standalone Website Examples</h2>
+        <div class="carousel-controls">
+          <button id="prevExample" type="button">← Prev</button>
+          <button id="nextExample" type="button">Next →</button>
+        </div>
+      </div>
+      <div class="carousel-track" id="carouselTrack"></div>
+      <div class="dots" id="carouselDots"></div>
+    </article>
+  </section>
 
-<section>
-
-<h1>Affordability Comparison</h1>
-
-<canvas id="priceChart" width="500" height="260"></canvas>
-
-<p style="margin-top:15px;opacity:.7;">
-Average savings: <strong id="avgPercent"></strong>%
-</p>
-
-</section>
-
-<section>
-
-<h1>Contact</h1>
-
-<form id="contactForm">
-
-<input type="text" name="name" placeholder="Name" required>
-<input type="email" name="email" placeholder="Email" required>
-<textarea name="project" placeholder="Describe your project"></textarea>
-
-<button type="submit">Send Message</button>
-
-<div id="formStatus"></div>
-
-</form>
-
-</section>
+  <section class="section" id="intake">
+    <div class="section-head">05 · Strategic Intake</div>
+    <article class="intake-panel motion-glass">
+      <h2>Strategic Intake: Build the next flagship with us.</h2>
+      <p>Pick your vertical, share your vision, and we’ll return a concrete technical roadmap.</p>
+      <form id="flagshipForm" class="form-grid" novalidate>
+        <div class="float-field"><input id="fullName" name="fullName" placeholder=" " autocomplete="name" required /><label for="fullName">Full Name</label></div>
+        <div class="float-field"><input id="corporateEmail" name="corporateEmail" type="email" placeholder=" " autocomplete="email" required /><label for="corporateEmail">Corporate Email</label></div>
+        <div class="float-field"><select id="projectVertical" name="projectVertical" required><option value="" selected disabled></option></select><label for="projectVertical">Project Vertical</label></div>
+        <div class="float-field"><textarea id="visionStatement" name="visionStatement" placeholder=" " required></textarea><label for="visionStatement">Vision Statement</label></div>
+        <label class="sr-only" for="website">Website</label>
+        <input class="sr-only" id="website" name="website" tabindex="-1" autocomplete="off" />
+        <button class="squeeze-btn" type="submit">Squeeze the Mango</button>
+        <div id="formStatus" aria-live="polite"></div>
+      </form>
+    </article>
+  </section>
+</main>
 
 <script>
+const sheetEndpoint="https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_ID/exec"
+const formCooldownMs=60_000
+const typeLines=[
+  "build digital clarity",
+  "craft glass-smooth interfaces",
+  "engineer high-performance systems",
+  "transform complex ideas into visual juice",
+  "architect the future of the transparent web",
+  "squeeze more value from every pixel"
+]
 
-/* Google Sheets endpoint */
+const examples=[
+  {title:"E-Commerce Storefront",concept:"Conversion Product Grid",desc:"Real product cards with a working Add to Cart counter",accent:"#ffbe38",theme:"ecommerce"},
+  {title:"Premium Luxury Retail",concept:"High-Street Vitrine",desc:"Frosted storefront with hover reveal",accent:"#f5c56b",theme:"luxe"},
+  {title:"Data-Driven SaaS Platforms",concept:"Clear Dashboard",desc:"Pulse-graph KPIs and glass widgets",accent:"#66e2ff",theme:"saas"},
+  {title:"FinTech & Neosystems",concept:"Cryptographic Precision",desc:"Hologram edge + transaction motion",accent:"#8cc0ff",theme:"fintech"},
+  {title:"Architectural & Spatial Design",concept:"Monolithic Transparency",desc:"Asymmetric structure and depth",accent:"#d7d7d7",theme:"architecture"},
+  {title:"AI & Neural Labs",concept:"Living Synapse",desc:"Neural dots + lens distortion",accent:"#b8ff6a",theme:"ai"},
+  {title:"Global Wellness & Healthcare",concept:"Organic Clarity",desc:"Soft rounded calm interfaces",accent:"#86f3d7",theme:"wellness"},
+  {title:"Next-Gen Real Estate",concept:"HUD Map",desc:"Spatial overlays with marker glow",accent:"#ffd46e",theme:"realestate"},
+  {title:"Motion Graphics & Creative Agencies",concept:"Zest & High-Energy",desc:"Kinetic type and bold mango accents",accent:"#ffb30f",theme:"creative"},
+  {title:"Educational & E-Learning",concept:"Structured Layers",desc:"Module tabs and progress rails",accent:"#ffe38d",theme:"education"},
+  {title:"Social Impact & Non-Profit",concept:"Purpose Lens",desc:"Blur-to-clear narrative storytelling",accent:"#ffd2b0",theme:"nonprofit"},
+  {title:"Corporate Legal & Consulting",concept:"Obsidian Prestige",desc:"Gold-edged formal authority",accent:"#d4af37",theme:"legal"},
+  {title:"Esports & Gaming",concept:"Neon Grid",desc:"Reactive scanline, glitch CTA energy",accent:"#b992ff",theme:"gaming"},
+  {title:"Hospitality & Luxury Travel",concept:"The Porthole",desc:"Immersive destination framing",accent:"#ffcf9a",theme:"travel"},
+  {title:"Automotive & Industrial",concept:"Blueprint Logic",desc:"Grid systems and technical specs",accent:"#95bcff",theme:"industrial"},
+  {title:"Cinematography & Film",concept:"Darkroom Lens",desc:"Focused center-frame reveal",accent:"#ffda6d",theme:"cinema"}
+]
 
-const scriptURL="https://script.google.com/macros/s/AKfycbySA1oABI1E1qJNnZUuHbBBHihEAcvps_MlBncS31Y1sHR26m4iOg3lEFa-yn8va5ONpg/exec"
-const form=document.getElementById("contactForm")
-const status=document.getElementById("formStatus")
+const typewriterEl=document.getElementById("typewriter")
+let ti=0,tj=0,isTyping=true
+let typewriterPaused=false
+function typeLoop(){
+  if(typewriterPaused){setTimeout(typeLoop,140);return}
+  const line=typeLines[ti]
+  tj=isTyping?Math.min(tj+1,line.length):Math.max(tj-1,0)
+  typewriterEl.textContent=line.slice(0,tj)
+  let delay=isTyping?80:40
+  if(isTyping&&tj===line.length){isTyping=false;delay=2500}
+  if(!isTyping&&tj===0){isTyping=true;ti=(ti+1)%typeLines.length;delay=280}
+  setTimeout(typeLoop,delay)
+}
+typeLoop()
+
+const progressEl=document.getElementById("scrollProgress")
+window.addEventListener("scroll",()=>{
+  const st=document.documentElement.scrollTop
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
+  const p=sh>0?(st/sh*100):0
+  progressEl.style.width=`${p}%`
+  document.body.classList.toggle("nav-compact",st>24)
+
+  const heroProgress=Math.min(Math.max(st/500,0),1)
+  document.documentElement.style.setProperty("--hero-scale",String(1-heroProgress*0.15))
+  document.documentElement.style.setProperty("--hero-opacity",String(1-heroProgress))
+  document.documentElement.style.setProperty("--hero-blur",`${(heroProgress*6).toFixed(2)}px`)
+},{passive:true})
+
+const orb=document.getElementById("ambientOrb")
+window.addEventListener("pointermove",event=>{
+  orb.style.left=`${event.clientX}px`
+  orb.style.top=`${event.clientY}px`
+})
+
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add("show")}
+  })
+},{threshold:.18})
+document.querySelectorAll(".motion-glass").forEach(el=>revealObserver.observe(el))
+
+const heroVisibilityObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.target.id==="hero"){
+      typewriterPaused=!entry.isIntersecting
+    }
+  })
+},{threshold:.08})
+heroVisibilityObserver.observe(document.getElementById("hero"))
+
+const testimonyEls=[...document.querySelectorAll(".testimony")]
+let activeTestimony=0
+let testimonyTimer
+function showTestimony(i){
+  activeTestimony=(i+testimonyEls.length)%testimonyEls.length
+  testimonyEls.forEach((el,idx)=>el.classList.toggle("active",idx===activeTestimony))
+}
+function restartTestimony(){
+  clearInterval(testimonyTimer)
+  testimonyTimer=setInterval(()=>showTestimony(activeTestimony+1),5200)
+}
+document.getElementById("prevTestimony").addEventListener("click",()=>{showTestimony(activeTestimony-1);restartTestimony()})
+document.getElementById("nextTestimony").addEventListener("click",()=>{showTestimony(activeTestimony+1);restartTestimony()})
+restartTestimony()
+const testimonyShell=document.getElementById("testimonySlider")
+testimonyShell.addEventListener("mouseenter",()=>clearInterval(testimonyTimer))
+testimonyShell.addEventListener("mouseleave",restartTestimony)
+
+function standaloneMarkup(example){
+  if(example.theme==="ecommerce"){
+    return `<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>${example.title}</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,sans-serif;background:linear-gradient(140deg,#19140b,#3b2a12 45%,#ffbe38);color:#fff}header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(255,255,255,.09);border-bottom:1px solid rgba(255,255,255,.2)}main{width:min(980px,92vw);margin:20px auto;display:grid;gap:12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.p{padding:12px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.1)}button{border:none;border-radius:999px;padding:8px 12px;background:#ffd76a;color:#2d1f00;font-weight:700;cursor:pointer}@media(max-width:760px){.grid{grid-template-columns:1fr}}</style></head><body><header><b>Mango Market</b><span>Cart: <strong id='cart'>0</strong></span></header><main><section class='p'><h1 style='margin:0 0 8px'>Featured Products</h1><p>Working e-commerce example with sample products and add-to-cart interactions.</p></section><section class='grid'><article class='p'><h3>Mango Glass Lamp</h3><p>$89</p><button data-add>Add to Cart</button></article><article class='p'><h3>Sunset Chair</h3><p>$129</p><button data-add>Add to Cart</button></article><article class='p'><h3>Amber Vase</h3><p>$49</p><button data-add>Add to Cart</button></article></section></main><script>let c=0;document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{c++;document.getElementById('cart').textContent=c});<\/script></body></html>`
+  }
+  return `<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>${example.title}</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,sans-serif;color:#fff;background:radial-gradient(circle at 85% 15%, ${example.accent}55, transparent 45%),linear-gradient(140deg,#0f0f11,#241d16 48%,#ffb13b)}header{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);backdrop-filter:blur(14px)}header b{letter-spacing:.5px}header nav a{color:#fff8d8;text-decoration:none;margin-left:12px;font-size:.85rem}main{width:min(1020px,92vw);margin:28px auto;display:grid;gap:16px}.hero{padding:22px;border:1px solid rgba(255,255,255,.38);border-radius:22px;background:rgba(255,255,255,.1);backdrop-filter:blur(18px)}h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.6rem)}p{line-height:1.6;opacity:.95}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{padding:14px;border-radius:14px;background:${example.theme==="legal"?"rgba(0,0,0,.55)":"rgba(255,255,255,.1)"};border:1px solid ${example.theme==="legal"?"#d4af37":"rgba(255,255,255,.3)"} }.cta{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:999px;background:${example.accent};color:#302100;font-weight:700;text-decoration:none}.metric{font-size:1.4rem;font-weight:800;color:${example.accent}}@media(max-width:780px){.cards{grid-template-columns:1fr}}</style></head><body><header><b>${example.title}</b><nav><a href='#'>Work</a><a href='#'>Services</a><a href='#'>Contact</a></nav></header><main><section class='hero'><h1>${example.concept}</h1><p>${example.desc}. This standalone mock site shows how this vertical could look as a polished production-ready experience.</p><a class='cta' href='#'>Request Demo</a></section><section class='cards'><article class='card'><div class='metric'>+42%</div><p>Conversion-focused UI architecture.</p></article><article class='card'><div class='metric'>1.3s</div><p>Performance target for first meaningful paint.</p></article><article class='card'><div class='metric'>A11y</div><p>Accessible structure and keyboard-friendly flows.</p></article></section></main></body></html>`
+}
+
+const track=document.getElementById("carouselTrack")
+const dots=document.getElementById("carouselDots")
+const selectEl=document.getElementById("projectVertical")
+
+examples.forEach((ex,index)=>{
+  const {title,concept,desc}=ex
+  const slide=document.createElement("article")
+  slide.className=`carousel-slide ${index===0?"active":""}`
+  slide.innerHTML=`
+    <div class="preview-frame"><iframe loading="lazy" title="${title} preview" srcdoc="${standaloneMarkup(ex).replace(/"/g,'&quot;')}"></iframe></div>
+    <div class="slide-info">
+      <h3>${index+1}. ${title}</h3>
+      <p><strong>${concept}</strong> — ${desc}</p>
+      <ul class="spec-list">
+        <li>Standalone mini-site with nav, hero, metrics, and CTA</li>
+        <li>Vertical-specific accent and positioning language</li>
+        <li>Consumer-facing flow similar to real launch pages</li>
+      </ul>
+      <button class="open-demo" type="button">Open Standalone Demo</button>
+    </div>`
+  slide.querySelector('.open-demo').addEventListener('click',()=>{
+    const blob=new Blob([standaloneMarkup(ex)],{type:'text/html'})
+    const url=URL.createObjectURL(blob)
+    window.open(url,'_blank','noopener,noreferrer')
+    setTimeout(()=>URL.revokeObjectURL(url),30000)
+  })
+  track.appendChild(slide)
+
+  const dot=document.createElement('button')
+  dot.className=`dot ${index===0?"active":""}`
+  dot.setAttribute('aria-label',`Go to example ${index+1}`)
+  dot.addEventListener('click',()=>showSlide(index))
+  dots.appendChild(dot)
+
+  const option=document.createElement('option')
+  option.textContent=title
+  selectEl.appendChild(option)
+})
+
+const slides=[...document.querySelectorAll('.carousel-slide')]
+const dotEls=[...document.querySelectorAll('.dot')]
+let active=0
+let timer
+function showSlide(i){
+  active=(i+slides.length)%slides.length
+  slides.forEach((s,idx)=>s.classList.toggle('active',idx===active))
+  dotEls.forEach((d,idx)=>{d.classList.toggle('active',idx===active);d.setAttribute("aria-current",idx===active?"true":"false")})
+}
+function restart(){clearInterval(timer);timer=setInterval(()=>showSlide(active+1),5000)}
+document.getElementById('prevExample').addEventListener('click',()=>{showSlide(active-1);restart()})
+document.getElementById('nextExample').addEventListener('click',()=>{showSlide(active+1);restart()})
+restart()
+track.addEventListener("mouseenter",()=>clearInterval(timer))
+track.addEventListener("mouseleave",restart)
+document.addEventListener("keydown",event=>{
+  if(event.key==="ArrowRight"){showSlide(active+1);restart()}
+  if(event.key==="ArrowLeft"){showSlide(active-1);restart()}
+})
+
+const form=document.getElementById("flagshipForm")
+const formStatus=document.getElementById("formStatus")
+const submitBtn=form.querySelector(".squeeze-btn")
+const vision=document.getElementById("visionStatement")
+vision.addEventListener("input",()=>{vision.style.height='auto';vision.style.height=`${vision.scrollHeight}px`})
 
 form.addEventListener("submit",e=>{
+  e.preventDefault()
+  if(submitBtn.disabled) return
+  const data=new FormData(form)
+  const honeypot=(data.get("website")?.toString().trim() ?? "")
+  if(honeypot){formStatus.textContent="Spam check failed.";return}
+  const lastSubmit=Number(localStorage.getItem("sitemangoLastSubmit")||0)
+  const waitMs=(lastSubmit+formCooldownMs)-Date.now()
+  if(waitMs>0){formStatus.textContent=`Please wait ${Math.ceil(waitMs/1000)}s before trying again.`;return}
 
-e.preventDefault()
+  const payload={
+    fullName:data.get("fullName")?.toString().trim() ?? "",
+    corporateEmail:data.get("corporateEmail")?.toString().trim() ?? "",
+    projectVertical:data.get("projectVertical")?.toString().trim() ?? "",
+    visionStatement:data.get("visionStatement")?.toString().trim() ?? "",
+    website:honeypot
+  }
+  if(!payload.fullName||!payload.corporateEmail||!payload.projectVertical||!payload.visionStatement){formStatus.textContent="Please complete all fields before submitting.";return}
 
-status.textContent="Sending..."
-
-const data={
-name:form.name.value,
-email:form.email.value,
-project:form.project.value
-}
-
-fetch(scriptURL,{
-method:"POST",
-body:JSON.stringify(data)
+  formStatus.textContent="Squeezing the mango..."
+  submitBtn.disabled=true
+  fetch(sheetEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+    .then(r=>r.json())
+    .then(res=>{
+      if(res?.ok===false){formStatus.textContent=res.reason||"Submission failed.";return}
+      formStatus.textContent="✔ Strategy brief received. We will contact you shortly."
+      localStorage.setItem("sitemangoLastSubmit",String(Date.now()))
+      form.reset();vision.style.height=''
+    })
+    .catch(()=>{formStatus.textContent="Submission failed. Please try again."})
+    .finally(()=>{submitBtn.disabled=false})
 })
-.then(res=>res.json())
-.then(res=>{
-status.textContent="✔ Message sent successfully"
-form.reset()
-})
-.catch(err=>{
-status.textContent="Error sending message"
-})
-
-})
-
-/* progress bar */
-
-window.addEventListener("scroll",()=>{
-
-const st=document.documentElement.scrollTop
-const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
-document.getElementById("progress").style.width=(st/sh*100)+"%"
-
-})
-
-/* typing */
-
-const texts=["We build fast.","We build clean.","We build to convert."]
-let i=0,j=0
-const el=document.getElementById("typing")
-
-function type(){
-if(j<texts[i].length){
-el.textContent+=texts[i][j++]
-setTimeout(type,60)
-}else setTimeout(erase,1500)
-}
-
-function erase(){
-if(j>0){
-el.textContent=texts[i].substring(0,--j)
-setTimeout(erase,40)
-}else{
-i=(i+1)%texts.length
-setTimeout(type,400)
-}
-}
-
-type()
-
-/* counters */
-
-document.querySelectorAll(".counter").forEach(counter=>{
-let target=+counter.dataset.target
-let count=0
-function update(){
-count+=target/100
-if(count<target){
-counter.textContent=Math.floor(count)
-requestAnimationFrame(update)
-}else counter.textContent=target
-}
-update()
-})
-
-/* graph */
-
-const canvas=document.getElementById("priceChart")
-const ctx=canvas.getContext("2d")
-
-const our=[2500,3000]
-const market=[4500,5200]
-
-const percentages=our.map((price,i)=>Math.round((1-price/market[i])*100))
-const avg=Math.round(percentages.reduce((a,b)=>a+b)/percentages.length)
-
-document.getElementById("avgPercent").textContent=avg
-
-let progress=0
-
-function draw(){
-
-ctx.clearRect(0,0,500,260)
-
-for(let i=0;i<2;i++){
-
-let x=120+i*180
-let scale=.035
-
-let ourHeight=our[i]*scale*progress
-let marketHeight=market[i]*scale*progress
-
-ctx.fillStyle="#9cff2e"
-ctx.fillRect(x,260-ourHeight,50,ourHeight)
-
-ctx.fillStyle="#ff4d4d"
-ctx.fillRect(x+70,260-marketHeight,50,marketHeight)
-
-ctx.fillStyle="#9cff2e"
-ctx.font="14px Courier"
-ctx.fillText("-"+percentages[i]+"%",x,260-marketHeight-10)
-
-}
-
-}
-
-function animate(){
-progress+=0.02
-if(progress>1)progress=1
-draw()
-if(progress<1)requestAnimationFrame(animate)
-}
-
-animate()
-
-/* particles */
-
-const pcanvas=document.getElementById("particles")
-const pctx=pcanvas.getContext("2d")
-
-pcanvas.width=window.innerWidth
-pcanvas.height=window.innerHeight
-
-const particles=[]
-
-for(let i=0;i<70;i++){
-particles.push({
-x:Math.random()*pcanvas.width,
-y:Math.random()*pcanvas.height,
-r:Math.random()*2,
-dx:(Math.random()-.5)*0.4,
-dy:(Math.random()-.5)*0.4
-})
-}
-
-function animateParticles(){
-
-pctx.clearRect(0,0,pcanvas.width,pcanvas.height)
-
-pctx.fillStyle="rgba(156,255,46,.7)"
-
-particles.forEach(p=>{
-p.x+=p.dx
-p.y+=p.dy
-pctx.beginPath()
-pctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-pctx.fill()
-})
-
-requestAnimationFrame(animateParticles)
-}
-
-animateParticles()
-
 </script>
-
 </body>
 </html>

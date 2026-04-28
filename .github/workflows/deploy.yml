@@ -1,0 +1,58 @@
+name: Deploy static site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate HTML
+        run: npx --yes htmlhint@1.5.1 index.html
+
+      - name: Check formatting
+        run: npx --yes prettier@3.6.2 --check index.html README.md .github/workflows/*.yml
+
+      - name: Lint inline JavaScript
+        run: |
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>([\s\S]*)<\/script>/);if(!m){throw new Error('No inline script found')}fs.writeFileSync('.tmp-inline.js',m[1]);"
+          npx --yes eslint@9.39.1 --no-config-lookup --env browser --env es2022 --rule 'no-undef:error' --rule 'no-unused-vars:warn' .tmp-inline.js
+          node --check .tmp-inline.js
+          rm .tmp-inline.js
+
+  deploy:
+    needs: quality
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
