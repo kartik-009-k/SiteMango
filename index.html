@@ -26,19 +26,28 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:"Inter","SF Pro Display","Segoe UI",sans-serif;}
 html,body{overflow-x:hidden;scroll-behavior:smooth;background:#0e0e11;color:var(--text);}
-body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(255,179,64,.38), transparent 36%),
-    radial-gradient(circle at 82% 12%, rgba(255,255,255,.55), transparent 46%),
-    linear-gradient(145deg,#060606 0%, #1d1d1d 24%, #f4f4f4 62%, #ffbe57 100%);
+body{min-height:100vh;background:#0e0e11;}
+
+.mesh-bg{
+  position:fixed;
+  inset:-20%;
+  z-index:5;
+  pointer-events:none;
+  animation:mesh-drift 30s ease-in-out infinite alternate;
+}
+.mesh-bg svg{width:140%;height:140%;}
+@keyframes mesh-drift{
+  0%{transform:translate3d(0,0,0) scale(1);}
+  50%{transform:translate3d(-2%,-1%,0) scale(1.05);}
+  100%{transform:translate3d(2%,1%,0) scale(1.08);}
 }
 
 #scrollProgress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#ffe26a,#ff9500);box-shadow:0 0 16px rgba(255,186,36,.8);z-index:200;}
 .ambient-orb{position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle at 30% 30%, rgba(255,226,106,.32), rgba(255,149,0,.1) 56%, transparent 72%);filter:blur(8px);transform:translate(-50%,-50%);}
 
 .nav-wrap{position:sticky;top:14px;z-index:120;display:flex;justify-content:center;padding:10px;}
-.nav{width:min(1180px,95vw);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(20px);box-shadow:0 15px 30px rgba(0,0,0,.26);}
+.nav{width:min(1180px,95vw);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(20px);box-shadow:0 15px 30px rgba(0,0,0,.26);transition:transform .25s ease,backdrop-filter .25s ease;}
+body.nav-compact .nav{transform:scale(.9);backdrop-filter:blur(26px);}
 .brand{font-weight:800;letter-spacing:.5px;}
 .brand span{color:var(--mango);}
 .nav-links{list-style:none;display:flex;gap:10px;}
@@ -53,11 +62,31 @@ main{width:min(1200px,94vw);margin:0 auto;padding-bottom:120px;}
 .motion-glass.show{opacity:1;transform:translateY(0) scale(1) rotateX(0deg);}
 
 .hero{padding:2rem;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;}
-.hero h1{font-size:clamp(2rem,5vw,4.9rem);line-height:1.02;margin-bottom:12px;text-shadow:0 14px 38px rgba(0,0,0,.45);}
-.hero h1 .glow{background:linear-gradient(120deg,#fff2ba,#ffd86c,#ffb225);-webkit-background-clip:text;background-clip:text;color:transparent;}
-.typewriter-wrap{display:inline-flex;gap:8px;margin:12px 0 18px;padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.22);}
-.typewriter-wrap strong{color:#ffd86b;}
-#typewriter{min-width:30ch;border-right:2px solid var(--mango);padding-right:6px;white-space:nowrap;overflow:hidden;}
+.hero{position:relative;z-index:10;}
+.hyper-hero{min-height:180vh;contain:layout style;}
+.hyper-hero-inner{position:sticky;top:0;height:100vh;display:grid;align-items:center;}
+.hero-type{
+  font-size:clamp(2rem,5vw,5rem);
+  line-height:1.05;
+  text-shadow:0 0 20px rgba(255,214,10,.3);
+  transform:scale(var(--hero-scale,1)) translateZ(0);
+  opacity:var(--hero-opacity,1);
+  filter:blur(var(--hero-blur,0px));
+  transition:opacity .12s linear,transform .12s linear,filter .12s linear;
+  z-index:10;
+}
+.hero-prefix{font-weight:800;}
+.hero-suffix{display:block;}
+#typewriter{
+  min-width:22ch;
+  white-space:nowrap;
+  overflow:hidden;
+  border-right:2px solid #ffd60a;
+  box-shadow:2px 0 12px rgba(255,214,10,.65);
+  animation:cursorPulse 1s steps(1,end) infinite;
+  transform:translateZ(0);
+}
+@keyframes cursorPulse{50%{border-color:transparent;box-shadow:none;}}
 .hero p{line-height:1.7;color:#f6ebd1;max-width:58ch;}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
 .btn-main,.btn-ghost{padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:700;}
@@ -133,6 +162,16 @@ textarea{min-height:120px;resize:none;}
 </style>
 </head>
 <body>
+<div class="mesh-bg" aria-hidden="true">
+  <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="blur80"><feGaussianBlur stdDeviation="80" /></filter>
+    </defs>
+    <circle cx="290" cy="180" r="260" fill="#FFD60A" filter="url(#blur80)" />
+    <circle cx="1020" cy="220" r="300" fill="#FF9500" filter="url(#blur80)" />
+    <circle cx="710" cy="720" r="360" fill="#1C1C1E" filter="url(#blur80)" />
+  </svg>
+</div>
 <div id="scrollProgress"></div>
 <div class="ambient-orb" id="ambientOrb"></div>
 <div class="nav-wrap">
@@ -149,29 +188,30 @@ textarea{min-height:120px;resize:none;}
 </div>
 
 <main>
-  <section class="section" id="hero">
-    <div class="section-head">01 · The Core Signal</div>
-    <article class="hero glass motion-glass">
-      <div>
-        <h1><span class="glow">Phenomenal</span> digital surfaces for elite brands.</h1>
-        <div class="typewriter-wrap"><strong>Deep Dev:</strong><span id="typewriter"></span></div>
-        <p>SiteMango designs and engineers flagship web ecosystems where performance, interaction fidelity, and narrative precision become one seamless digital surface.</p>
-        <div class="hero-actions">
-          <a class="btn-main" href="#intake">Start Flagship Build</a>
-          <a class="btn-ghost" href="#lab">View Live Examples</a>
+  <section class="section hyper-hero" id="hero">
+    <div class="hyper-hero-inner">
+      <div class="section-head">01 · The Hyper-Hero</div>
+      <article class="hero glass motion-glass" id="heroGlass">
+        <div>
+          <h1 class="hero-type"><span class="hero-prefix">We </span><span id="typewriter"></span><span class="hero-suffix"> for the next generation.</span></h1>
+          <p>SiteMango designs and engineers flagship web ecosystems where performance, interaction fidelity, and narrative precision become one seamless digital surface.</p>
+          <div class="hero-actions">
+            <a class="btn-main" href="#intake">Start Flagship Build</a>
+            <a class="btn-ghost" href="#lab">View Live Examples</a>
+          </div>
+          <div class="trust-strip">
+            <span class="trust-pill">Perf Budget Driven</span>
+            <span class="trust-pill">Conversion Architecture</span>
+            <span class="trust-pill">Production-Grade Motion</span>
+          </div>
         </div>
-        <div class="trust-strip">
-          <span class="trust-pill">Perf Budget Driven</span>
-          <span class="trust-pill">Conversion Architecture</span>
-          <span class="trust-pill">Production-Grade Motion</span>
+        <div class="mini-grid">
+          <div class="mini">LCP targeting under 1.5s with production-grade optimization.</div>
+          <div class="mini">Design systems built for scale and maintainability.</div>
+          <div class="mini">Motion language aligned to conversion behavior.</div>
         </div>
-      </div>
-      <div class="mini-grid">
-        <div class="mini">LCP targeting under 1.5s with production-grade optimization.</div>
-        <div class="mini">Design systems built for scale and maintainability.</div>
-        <div class="mini">Motion language aligned to conversion behavior.</div>
-      </div>
-    </article>
+      </article>
+    </div>
   </section>
 
   <section class="section" id="features">
@@ -248,11 +288,12 @@ textarea{min-height:120px;resize:none;}
 const sheetEndpoint="https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_ID/exec"
 const formCooldownMs=60_000
 const typeLines=[
-  "We build digital clarity for the next generation.",
-  "We craft glass-smooth interfaces for elite brands.",
-  "We engineer high-performance systems for global scale.",
-  "We transform complex ideas into visual juice.",
-  "We architect the future of the transparent web."
+  "build digital clarity",
+  "craft glass-smooth interfaces",
+  "engineer high-performance systems",
+  "transform complex ideas into visual juice",
+  "architect the future of the transparent web",
+  "squeeze more value from every pixel"
 ]
 
 const examples=[
@@ -276,12 +317,14 @@ const examples=[
 
 const typewriterEl=document.getElementById("typewriter")
 let ti=0,tj=0,isTyping=true
+let typewriterPaused=false
 function typeLoop(){
+  if(typewriterPaused){setTimeout(typeLoop,140);return}
   const line=typeLines[ti]
   tj=isTyping?Math.min(tj+1,line.length):Math.max(tj-1,0)
   typewriterEl.textContent=line.slice(0,tj)
-  let delay=isTyping?44:28
-  if(isTyping&&tj===line.length){isTyping=false;delay=1250}
+  let delay=isTyping?80:40
+  if(isTyping&&tj===line.length){isTyping=false;delay=2500}
   if(!isTyping&&tj===0){isTyping=true;ti=(ti+1)%typeLines.length;delay=280}
   setTimeout(typeLoop,delay)
 }
@@ -293,6 +336,12 @@ window.addEventListener("scroll",()=>{
   const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight
   const p=sh>0?(st/sh*100):0
   progressEl.style.width=`${p}%`
+  document.body.classList.toggle("nav-compact",st>24)
+
+  const heroProgress=Math.min(Math.max(st/500,0),1)
+  document.documentElement.style.setProperty("--hero-scale",String(1-heroProgress*0.15))
+  document.documentElement.style.setProperty("--hero-opacity",String(1-heroProgress))
+  document.documentElement.style.setProperty("--hero-blur",`${(heroProgress*6).toFixed(2)}px`)
 },{passive:true})
 
 const orb=document.getElementById("ambientOrb")
@@ -307,6 +356,15 @@ const revealObserver=new IntersectionObserver(entries=>{
   })
 },{threshold:.18})
 document.querySelectorAll(".motion-glass").forEach(el=>revealObserver.observe(el))
+
+const heroVisibilityObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.target.id==="hero"){
+      typewriterPaused=!entry.isIntersecting
+    }
+  })
+},{threshold:.08})
+heroVisibilityObserver.observe(document.getElementById("hero"))
 
 const testimonyEls=[...document.querySelectorAll(".testimony")]
 let activeTestimony=0
